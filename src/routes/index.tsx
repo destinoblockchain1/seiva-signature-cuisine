@@ -288,8 +288,8 @@ function Footer({ lang }: { lang: Lang }) {
         <div>
           <Logo
             size="md"
+            align="start"
             subtext={lang === "pt" ? "SEIVA • COZINHA AUTORAL" : "SEIVA • HIGH GASTRONOMY"}
-            className="items-start"
           />
           <p className="eyebrow mt-4 text-muted-foreground">{t(c.tag, lang)}</p>
         </div>

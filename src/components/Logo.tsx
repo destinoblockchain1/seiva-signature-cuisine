@@ -1,6 +1,7 @@
 type Props = {
   subtext?: string;
   size?: "sm" | "md" | "lg";
+  align?: "start" | "center";
   className?: string;
 };
 
@@ -37,10 +38,11 @@ export function TriadIcon({ size = 18, className = "" }: { size?: number; classN
   );
 }
 
-export function Logo({ subtext = "SEIVA • HIGH GASTRONOMY", size = "md", className = "" }: Props) {
+export function Logo({ subtext = "SEIVA • HIGH GASTRONOMY", size = "md", align = "center", className = "" }: Props) {
   const s = sizes[size];
+  const alignCls = align === "center" ? "items-center" : "items-start";
   return (
-    <div className={`flex flex-col items-center ${className}`}>
+    <div className={`flex flex-col ${alignCls} ${className}`}>
       <div className={`flex items-center ${s.gap}`}>
         <TriadIcon size={s.icon} className="text-current opacity-90" />
         <span className={`font-serif ${s.word} ${s.track} leading-none`}>SEIVA</span>
