@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import chefsImg from "@/assets/chefs-collective.jpg";
 import { copy, type Lang } from "@/lib/i18n";
+import { Logo, TriadIcon } from "@/components/Logo";
 
 export const Route = createFileRoute("/")({
   component: Landing,
@@ -43,7 +44,10 @@ function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
   return (
     <header className="fixed top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-5 md:px-12">
-        <a href="#top" className="editorial-display text-xl tracking-[0.4em] text-foreground">SEIVA</a>
+        <a href="#top" className="flex items-center gap-3 text-foreground">
+          <TriadIcon size={20} />
+          <span className="font-serif text-xl tracking-[0.5em] leading-none">SEIVA</span>
+        </a>
         <nav className="hidden items-center gap-10 md:flex">
           {link("#manifesto", t(c.manifesto, lang))}
           {link("#chefs", t(c.chefs, lang))}
@@ -282,8 +286,12 @@ function Footer({ lang }: { lang: Lang }) {
     <footer className="border-t border-border px-6 py-16 md:px-12">
       <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-8 md:flex-row md:items-center">
         <div>
-          <p className="editorial-display text-3xl tracking-[0.4em]">SEIVA</p>
-          <p className="eyebrow mt-3 text-muted-foreground">{t(c.tag, lang)}</p>
+          <Logo
+            size="md"
+            align="start"
+            subtext={lang === "pt" ? "SEIVA • COZINHA AUTORAL" : "SEIVA • HIGH GASTRONOMY"}
+          />
+          <p className="eyebrow mt-4 text-muted-foreground">{t(c.tag, lang)}</p>
         </div>
         <div className="text-right">
           <p className="eyebrow text-muted-foreground">{t(c.cities, lang)}</p>
