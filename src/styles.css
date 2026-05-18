@@ -33,26 +33,28 @@
 
 :root {
   --radius: 0rem;
-  /* Editorial off-white / graphite palette */
-  --background: oklch(0.972 0.006 80);          /* warm off-white */
-  --foreground: oklch(0.18 0.005 60);           /* deep graphite */
-  --card: oklch(0.972 0.006 80);
-  --card-foreground: oklch(0.18 0.005 60);
-  --popover: oklch(0.972 0.006 80);
-  --popover-foreground: oklch(0.18 0.005 60);
-  --primary: oklch(0.18 0.005 60);
-  --primary-foreground: oklch(0.972 0.006 80);
-  --secondary: oklch(0.93 0.008 75);
-  --secondary-foreground: oklch(0.18 0.005 60);
-  --muted: oklch(0.93 0.008 75);
-  --muted-foreground: oklch(0.42 0.008 60);
-  --accent: oklch(0.55 0.06 55);                /* warm bronze accent */
-  --accent-foreground: oklch(0.972 0.006 80);
+  /* Seiva — Organic Luxury Palette
+   * Parchment #F9F6F0 · Deep Forest Moss #1C2B22 · Matte Charcoal #262626 · Earthy Ochre #D1C7BD
+   */
+  --background: oklch(0.965 0.008 85);          /* Parchment / Off-White */
+  --foreground: oklch(0.235 0.018 155);         /* Deep Forest Moss */
+  --card: oklch(0.965 0.008 85);
+  --card-foreground: oklch(0.235 0.018 155);
+  --popover: oklch(0.965 0.008 85);
+  --popover-foreground: oklch(0.235 0.018 155);
+  --primary: oklch(0.235 0.018 155);            /* Deep Forest Moss */
+  --primary-foreground: oklch(0.965 0.008 85);
+  --secondary: oklch(0.835 0.014 75);           /* Earthy Ochre / Raw Linen */
+  --secondary-foreground: oklch(0.235 0.018 155);
+  --muted: oklch(0.92 0.01 80);
+  --muted-foreground: oklch(0.38 0.012 130);
+  --accent: oklch(0.835 0.014 75);              /* Earthy Ochre accent */
+  --accent-foreground: oklch(0.235 0.018 155);
   --destructive: oklch(0.55 0.18 25);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.85 0.008 70);
-  --input: oklch(0.85 0.008 70);
-  --ring: oklch(0.55 0.06 55);
+  --border: oklch(0.82 0.012 75);
+  --input: oklch(0.82 0.012 75);
+  --ring: oklch(0.235 0.018 155);
 }
 
 @layer base {
