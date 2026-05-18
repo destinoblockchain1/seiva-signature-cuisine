@@ -286,8 +286,12 @@ function Footer({ lang }: { lang: Lang }) {
     <footer className="border-t border-border px-6 py-16 md:px-12">
       <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-8 md:flex-row md:items-center">
         <div>
-          <p className="editorial-display text-3xl tracking-[0.4em]">SEIVA</p>
-          <p className="eyebrow mt-3 text-muted-foreground">{t(c.tag, lang)}</p>
+          <Logo
+            size="md"
+            subtext={lang === "pt" ? "SEIVA • COZINHA AUTORAL" : "SEIVA • HIGH GASTRONOMY"}
+            className="items-start"
+          />
+          <p className="eyebrow mt-4 text-muted-foreground">{t(c.tag, lang)}</p>
         </div>
         <div className="text-right">
           <p className="eyebrow text-muted-foreground">{t(c.cities, lang)}</p>
