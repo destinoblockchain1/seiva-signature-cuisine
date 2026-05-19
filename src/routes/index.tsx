@@ -138,24 +138,24 @@ function Chefs({ lang }: { lang: Lang }) {
               src={chefsImg}
               alt="The three chefs of SEIVA: Bernardo Simões, Juliana Redoi, Tobia Messa"
               className="aspect-[4/5] w-full object-cover md:aspect-[16/9]"
-              style={{ filter: "grayscale(100%) contrast(1.08) brightness(0.96)" }}
+              style={{ filter: "grayscale(50%) contrast(1.04) brightness(0.98)" }}
             />
-            {/* Editorial duotone wash — Deep Forest Moss tint for quiet-luxury cohesion */}
+            {/* Editorial duotone wash — Deep Forest Moss tint (halved) */}
             <div
               aria-hidden
               className="pointer-events-none absolute inset-0 mix-blend-multiply"
-              style={{ background: "linear-gradient(180deg, color-mix(in oklab, var(--foreground) 18%, transparent) 0%, color-mix(in oklab, var(--foreground) 28%, transparent) 100%)" }}
+              style={{ background: "linear-gradient(180deg, color-mix(in oklab, var(--foreground) 9%, transparent) 0%, color-mix(in oklab, var(--foreground) 14%, transparent) 100%)" }}
             />
             <div
               aria-hidden
               className="pointer-events-none absolute inset-0 mix-blend-soft-light"
-              style={{ background: "color-mix(in oklab, var(--secondary) 35%, transparent)" }}
+              style={{ background: "color-mix(in oklab, var(--secondary) 18%, transparent)" }}
             />
-            {/* Subtle bottom vignette for editorial framing */}
+            {/* Subtle bottom vignette for editorial framing (halved) */}
             <div
               aria-hidden
               className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3"
-              style={{ background: "linear-gradient(180deg, transparent, color-mix(in oklab, var(--foreground) 25%, transparent))" }}
+              style={{ background: "linear-gradient(180deg, transparent, color-mix(in oklab, var(--foreground) 12%, transparent))" }}
             />
           </div>
           <figcaption className="eyebrow mt-4 text-muted-foreground">
