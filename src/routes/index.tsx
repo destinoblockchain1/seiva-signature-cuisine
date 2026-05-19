@@ -133,29 +133,11 @@ function Chefs({ lang }: { lang: Lang }) {
         </div>
 
         <figure className="mt-20">
-          <div className="relative overflow-hidden">
+          <div className="relative">
             <img
               src={chefsImg}
               alt="The three chefs of SEIVA: Bernardo Simões, Juliana Redoi, Tobia Messa"
-              className="aspect-[4/3] w-full object-cover md:aspect-[16/9]"
-              style={{ filter: "grayscale(35%) contrast(1.03) brightness(0.99)" }}
-            />
-            {/* Soft duotone wash — Deep Forest Moss tint (≤35%) */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 mix-blend-multiply"
-              style={{ background: "linear-gradient(180deg, color-mix(in oklab, var(--foreground) 6%, transparent) 0%, color-mix(in oklab, var(--foreground) 10%, transparent) 100%)" }}
-            />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 mix-blend-soft-light"
-              style={{ background: "color-mix(in oklab, var(--secondary) 12%, transparent)" }}
-            />
-            {/* Subtle bottom vignette */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3"
-              style={{ background: "linear-gradient(180deg, transparent, color-mix(in oklab, var(--foreground) 8%, transparent))" }}
+              className="block h-auto w-full"
             />
           </div>
           <figcaption className="eyebrow mt-4 text-muted-foreground">
