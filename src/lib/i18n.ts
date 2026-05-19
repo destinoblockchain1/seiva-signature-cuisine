@@ -11,7 +11,7 @@ export const copy = {
   hero: {
     eyebrow: { en: "International Culinary Collective — Brazil · Italy · USA", pt: "Coletivo Culinário Internacional — Brasil · Itália · EUA" },
     headline: {
-      en: "High Gastronomy,\nTailor-Made.",
+      en: "Signature Cuisine,\nTailor-Made.",
       pt: "Alta Gastronomia,\nSob Medida.",
     },
     sub: {
@@ -44,7 +44,7 @@ export const copy = {
         "Respeitamos o produtor. Honramos a micro-estação. Somos obcecados pela temperatura, pela textura, pela linhagem do vinho e pela geometria do prato. Mas, acima de tudo, respeitamos a confiança depositada em nossas mãos. Quando você se senta a uma mesa SEIVA, está provando uma jornada global, executada em perfeita harmonia.",
       ],
     },
-    signoff: { en: "SEIVA. High Gastronomy, Tailor-Made.", pt: "SEIVA. Alta Gastronomia, Sob Medida." },
+    signoff: { en: "SEIVA. Signature Cuisine, Tailor-Made.", pt: "SEIVA. Alta Gastronomia, Sob Medida." },
   },
   chefs: {
     eyebrow: { en: "The Collective", pt: "O Coletivo" },
@@ -135,7 +135,7 @@ export const copy = {
     success: { en: "Thank you. A member of our atelier will respond within forty-eight hours.", pt: "Obrigado. Um membro do nosso ateliê responderá em até quarenta e oito horas." },
   },
   footer: {
-    tag: { en: "High Gastronomy, Tailor-Made.", pt: "Alta Gastronomia, Sob Medida." },
+    tag: { en: "Signature Cuisine, Tailor-Made.", pt: "Alta Gastronomia, Sob Medida." },
     cities: { en: "Florianópolis · Rio de Janeiro · Boston", pt: "Florianópolis · Rio de Janeiro · Boston" },
     rights: { en: "All rights reserved.", pt: "Todos os direitos reservados." },
   },

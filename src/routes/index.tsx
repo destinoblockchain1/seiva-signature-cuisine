@@ -8,9 +8,9 @@ export const Route = createFileRoute("/")({
   component: Landing,
   head: () => ({
     meta: [
-      { title: "SEIVA — High Gastronomy, Tailor-Made" },
+      { title: "SEIVA — Signature Cuisine, Tailor-Made" },
       { name: "description", content: "An international collective of three chefs. Private dinners, brand activations and exclusive celebrations across Brazil, Italy and the USA." },
-      { property: "og:title", content: "SEIVA — High Gastronomy, Tailor-Made" },
+      { property: "og:title", content: "SEIVA — Signature Cuisine, Tailor-Made" },
       { property: "og:description", content: "A horizontal collective of three chefs crafting bespoke culinary experiences for iconic brands and VIP hosts." },
     ],
   }),
@@ -295,7 +295,7 @@ function Footer({ lang }: { lang: Lang }) {
           <Logo
             size="md"
             align="start"
-            subtext={lang === "pt" ? "SEIVA • COZINHA AUTORAL" : "SEIVA • HIGH GASTRONOMY"}
+            subtext={lang === "pt" ? "SEIVA • COZINHA AUTORAL" : "SEIVA • SIGNATURE CUISINE"}
           />
           <p className="eyebrow mt-4 text-muted-foreground">{t(c.tag, lang)}</p>
         </div>
