@@ -38,7 +38,7 @@ export function TriadIcon({ size = 18, className = "" }: { size?: number; classN
   );
 }
 
-export function Logo({ subtext = "SEIVA • HIGH GASTRONOMY", size = "md", align = "center", className = "" }: Props) {
+export function Logo({ subtext = "SEIVA • SIGNATURE CUISINE", size = "md", align = "center", className = "" }: Props) {
   const s = sizes[size];
   const alignCls = align === "center" ? "items-center" : "items-start";
   return (
