@@ -156,7 +156,7 @@ function Chefs({ lang }: { lang: Lang }) {
                   className="h-full w-full object-cover grayscale contrast-125 transition-all duration-1000 ease-in-out transform group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
                 />
               </div>
-              <p className="eyebrow text-muted-foreground">{t(chef.origin, lang)}</p>
+              <p className="eyebrow text-muted-foreground my-0">{t(chef.origin, lang)}</p>
               <h3 className="editorial-display mt-4 text-3xl md:text-4xl">{chef.name}</h3>
               <p className="mt-6 text-sm font-light leading-[1.75] text-foreground/80 md:text-base">{t(chef.bio, lang)}</p>
             </article>
