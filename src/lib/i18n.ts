@@ -57,7 +57,7 @@ export const copy = {
       {
         name: "Bernardo Simões",
         origin: { en: "Brazil / United States", pt: "Brasil / Estados Unidos" },
-        photo: "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=900&h=1125&fit=crop&crop=faces",
+        photo: "/src/assets/chef-bernardo.png",
         bio: {
           en: "Forged in the high-performance kitchens of Boston, Bernardo served as Chef de Cuisine at Eataly Boston before bringing his expertise in culinary logistics and sustainable gastronomy into the collective. A Slow Food advocate, he ensures every SEIVA service moves with precision — from the source to the final plate.",
           pt: "Forjado nas cozinhas de alta performance de Boston, Bernardo foi Chef de Cuisine do Eataly Boston antes de trazer sua expertise em logística culinária e gastronomia sustentável para o coletivo. Defensor do Slow Food, garante que cada serviço SEIVA aconteça com precisão — da origem ao prato final.",
@@ -65,7 +65,7 @@ export const copy = {
       },
       {
         name: "Tobia Messa",
-        origin: { en: "", pt: "" },
+        origin: { en: "BRAZIL - FLORIANÓPOLIS", pt: "BRASIL - FLORIANÓPOLIS" },
         photo: "https://images.unsplash.com/photo-1583394293214-28ded15ee548?w=900&h=1125&fit=crop&crop=faces",
         bio: {
           en: "Born in Piedmont and established in Rio de Janeiro, Tobia carries the discipline of classical Italian tradition with the pedigree of Terra Madre Turin. His work is a study in rigor — pasta, fire, fermentation and time — translated into contemporary tasting menus that honor lineage above trend.",
