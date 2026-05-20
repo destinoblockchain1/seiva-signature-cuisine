@@ -57,6 +57,7 @@ export const copy = {
       {
         name: "Bernardo Simões",
         origin: { en: "Brazil / United States", pt: "Brasil / Estados Unidos" },
+        photo: "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=900&h=1125&fit=crop&crop=faces",
         bio: {
           en: "Forged in the high-performance kitchens of Boston, Bernardo served as Chef de Cuisine at Eataly Boston before bringing his expertise in culinary logistics and sustainable gastronomy into the collective. A Slow Food advocate, he ensures every SEIVA service moves with precision — from the source to the final plate.",
           pt: "Forjado nas cozinhas de alta performance de Boston, Bernardo foi Chef de Cuisine do Eataly Boston antes de trazer sua expertise em logística culinária e gastronomia sustentável para o coletivo. Defensor do Slow Food, garante que cada serviço SEIVA aconteça com precisão — da origem ao prato final.",
@@ -65,6 +66,7 @@ export const copy = {
       {
         name: "Tobia Messa",
         origin: { en: "Italy / Rio de Janeiro", pt: "Itália / Rio de Janeiro" },
+        photo: "https://images.unsplash.com/photo-1583394293214-28ded15ee548?w=900&h=1125&fit=crop&crop=faces",
         bio: {
           en: "Born in Piedmont and established in Rio de Janeiro, Tobia carries the discipline of classical Italian tradition with the pedigree of Terra Madre Turin. His work is a study in rigor — pasta, fire, fermentation and time — translated into contemporary tasting menus that honor lineage above trend.",
           pt: "Nascido no Piemonte e radicado no Rio de Janeiro, Tobia carrega a disciplina da tradição clássica italiana com o pedigree do Terra Madre de Turim. Seu trabalho é um estudo de rigor — massa, fogo, fermentação e tempo — traduzido em menus degustação contemporâneos que honram a linhagem acima da tendência.",
@@ -73,6 +75,7 @@ export const copy = {
       {
         name: "Juliana Redoi",
         origin: { en: "Brazil — Florianópolis", pt: "Brasil — Florianópolis" },
+        photo: "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?w=900&h=1125&fit=crop&crop=faces",
         bio: {
           en: "Established in Florianópolis, Juliana is a specialist in artisanal, authorial gastronomy, devoted to local sourcing and seasonal freshness. Her cuisine pulls directly from the Atlantic, from small producers and from the micro-seasons of the south — translating place into plate with quiet precision.",
           pt: "Radicada em Florianópolis, Juliana é especialista em gastronomia autoral e artesanal, dedicada ao sourcing local e à frescura sazonal. Sua cozinha bebe diretamente do Atlântico, dos pequenos produtores e das micro-estações do Sul — traduzindo o lugar em prato com precisão silenciosa.",
