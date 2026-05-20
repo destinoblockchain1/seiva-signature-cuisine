@@ -148,6 +148,14 @@ function Chefs({ lang }: { lang: Lang }) {
         <div className="mt-20 grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-10">
           {c.list.map((chef) => (
             <article key={chef.name} className="border-t border-border pt-8">
+              <div className="group relative mb-8 aspect-[4/5] w-full overflow-hidden bg-secondary">
+                <img
+                  src={chef.photo}
+                  alt={chef.name}
+                  loading="lazy"
+                  className="h-full w-full object-cover grayscale contrast-125 transition-all duration-1000 ease-in-out transform group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
+                />
+              </div>
               <p className="eyebrow text-muted-foreground">{t(chef.origin, lang)}</p>
               <h3 className="editorial-display mt-4 text-3xl md:text-4xl">{chef.name}</h3>
               <p className="mt-6 text-sm font-light leading-[1.75] text-foreground/80 md:text-base">{t(chef.bio, lang)}</p>
