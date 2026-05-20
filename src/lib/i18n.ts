@@ -65,7 +65,7 @@ export const copy = {
       },
       {
         name: "Tobia Messa",
-        origin: { en: "Italy / Rio de Janeiro", pt: "Itália / Rio de Janeiro" },
+        origin: { en: "", pt: "" },
         photo: "https://images.unsplash.com/photo-1583394293214-28ded15ee548?w=900&h=1125&fit=crop&crop=faces",
         bio: {
           en: "Born in Piedmont and established in Rio de Janeiro, Tobia carries the discipline of classical Italian tradition with the pedigree of Terra Madre Turin. His work is a study in rigor — pasta, fire, fermentation and time — translated into contemporary tasting menus that honor lineage above trend.",
