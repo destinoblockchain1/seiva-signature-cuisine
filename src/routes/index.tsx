@@ -133,11 +133,11 @@ function Chefs({ lang }: { lang: Lang }) {
         </div>
 
         <figure className="mt-20">
-          <div className="relative">
+          <div className="group relative overflow-hidden">
             <img
               src={chefsImg}
               alt="The three chefs of SEIVA: Bernardo Simões, Juliana Redoi, Tobia Messa"
-              className="block h-auto w-full"
+              className="block h-auto w-full grayscale contrast-125 transition-all duration-1000 ease-in-out transform group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
             />
           </div>
           <figcaption className="eyebrow mt-4 text-muted-foreground">
