@@ -61,7 +61,7 @@ export const copy = {
       {
         name: "Bernardo Simões",
         origin: { en: "Brazil / United States", pt: "Brasil / Estados Unidos" },
-        photo: "/src/assets/chef-bernardo.png",
+        photo: chefBernardo,
         bio: {
           en: "Forged in the high-performance kitchens of Boston, Bernardo served as Chef de Cuisine at Eataly Boston before bringing his expertise in culinary logistics and sustainable gastronomy into the collective. A Slow Food advocate, he ensures every SEIVA service moves with precision — from the source to the final plate.",
           pt: "Forjado nas cozinhas de alta performance de Boston, Bernardo foi Chef de Cuisine do Eataly Boston antes de trazer sua expertise em logística culinária e gastronomia sustentável para o coletivo. Defensor do Slow Food, garante que cada serviço SEIVA aconteça com precisão — da origem ao prato final.",
