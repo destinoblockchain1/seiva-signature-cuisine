@@ -70,7 +70,7 @@ export const copy = {
       {
         name: "Juliana Redoi",
         origin: { en: "Brazil — Florianópolis", pt: "Brasil — Florianópolis" },
-        photo: "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?w=900&h=1125&fit=crop&crop=faces",
+        photo: chefJuliana,
         bio: {
           en: "Established in Florianópolis, Juliana is a specialist in artisanal, authorial gastronomy, devoted to local sourcing and seasonal freshness. Her cuisine pulls directly from the Atlantic, from small producers and from the micro-seasons of the south — translating place into plate with quiet precision.",
           pt: "Radicada em Florianópolis, Juliana é especialista em gastronomia autoral e artesanal, dedicada ao sourcing local e à frescura sazonal. Sua cozinha bebe diretamente do Atlântico, dos pequenos produtores e das micro-estações do Sul — traduzindo o lugar em prato com precisão silenciosa.",
