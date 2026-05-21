@@ -1,3 +1,7 @@
+import chefBernardo from "@/assets/chef-bernardo-crop.jpg";
+import chefJuliana from "@/assets/chef-juliana-crop.jpg";
+import chefTobia from "@/assets/chef-tobia-crop.jpg";
+
 export type Lang = "en" | "pt";
 
 export const copy = {
