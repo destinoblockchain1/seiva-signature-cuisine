@@ -137,7 +137,7 @@ function Chefs({ lang }: { lang: Lang }) {
             <img
               src={chefsImg}
               alt="The three chefs of SEIVA: Bernardo Simões, Juliana Redoi, Tobia Messa"
-              className="block h-auto w-full grayscale contrast-125 transition-all duration-1000 ease-in-out transform group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
+              className="block h-auto w-full grayscale contrast-125 transition-all duration-700 ease-out transform group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
             />
           </div>
           <figcaption className="eyebrow mt-4 text-muted-foreground">
@@ -153,7 +153,7 @@ function Chefs({ lang }: { lang: Lang }) {
                   src={chef.photo}
                   alt={chef.name}
                   loading="lazy"
-                  className="h-full w-full object-cover grayscale contrast-125 transition-all duration-1000 ease-in-out transform group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
+                  className="h-full w-full object-cover grayscale contrast-125 transition-all duration-700 ease-out transform group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
                 />
               </div>
               <p className="eyebrow text-muted-foreground my-0 min-h-[1.25rem]">{t(chef.origin, lang)}</p>
