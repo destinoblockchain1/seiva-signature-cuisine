@@ -190,8 +190,41 @@ function CaseStudy({ lang }: { lang: Lang }) {
             </div>
           ))}
         </div>
+
+        <CaseStudyGallery lang={lang} />
       </div>
     </section>
+  );
+}
+
+function CaseStudyGallery({ lang }: { lang: Lang }) {
+  const images = Array.from({ length: 10 }, (_, i) => ({
+    src: `https://picsum.photos/seed/matchpoint-${i + 1}/900/1200`,
+    alt: `Match Point Mansion Rio Open — ${i + 1}`,
+  }));
+  return (
+    <div className="mt-24">
+      <p className="eyebrow text-muted-foreground">
+        {lang === "en" ? "Gallery — Match Point Mansion, Rio Open" : "Galeria — Match Point Mansion, Rio Open"}
+      </p>
+      <div className="mt-8 -mx-6 overflow-x-auto md:-mx-12">
+        <div className="flex snap-x snap-mandatory gap-4 px-6 pb-4 md:gap-6 md:px-12">
+          {images.map((img, i) => (
+            <figure
+              key={i}
+              className="group relative aspect-[3/4] w-[78vw] shrink-0 snap-start overflow-hidden bg-secondary sm:w-[48vw] md:w-[32vw] lg:w-[26vw]"
+            >
+              <img
+                src={img.src}
+                alt={img.alt}
+                loading="lazy"
+                className="h-full w-full object-cover grayscale contrast-125 transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
+              />
+            </figure>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
