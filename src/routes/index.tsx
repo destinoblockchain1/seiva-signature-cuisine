@@ -217,7 +217,7 @@ function CaseStudyGallery({ lang }: { lang: Lang }) {
       >
         <CarouselContent className="px-6 md:px-12">
           {images.map((img, i) => (
-            <CarouselItem key={i} className="basis-[78%] sm:basis-1/2 md:basis-1/3 lg:basis-[26%]">
+            <CarouselItem key={i} className="basis-[90%] md:basis-2/3 lg:basis-1/2">
               <figure className="group relative aspect-[3/4] w-full overflow-hidden bg-secondary">
                 <img
                   src={img.src}
