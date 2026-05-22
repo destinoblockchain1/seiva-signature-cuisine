@@ -95,7 +95,7 @@ export const copy = {
       pt: "Um espaço de hospitalidade exclusivo no coração do ATP Rio Open. A SEIVA assinou o programa culinário inteiro — uma demonstração de operar em escala sem abrir mão do requinte.",
     },
     stats: [
-      { n: "9 Days / 30 Menus", l: { en: "Executed with perfection", pt: "Executados com perfeição" } },
+      { n: "9 / 30", l: { en: "Executed with perfection", pt: "Executados com perfeição" } },
       { n: "3.500+", l: { en: "Meals served flawlessly", pt: "Refeições servidas com excelência" } },
       { n: "Iconic", l: { en: "5 Course wine-paired diners for BMW & La Roche-Posay", pt: "Jantares harmonizados de 5 etapas para BMW e La Roche-Posay" } },
     ],
