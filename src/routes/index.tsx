@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useState, useRef, type FormEvent } from "react";
+import Autoplay from "embla-carousel-autoplay";
 import chefsImg from "@/assets/chefs-collective.jpg";
 import { copy, type Lang } from "@/lib/i18n";
 import { Logo, TriadIcon } from "@/components/Logo";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 
 export const Route = createFileRoute("/")({
   component: Landing,
@@ -202,28 +204,32 @@ function CaseStudyGallery({ lang }: { lang: Lang }) {
     src: `https://picsum.photos/seed/matchpoint-${i + 1}/900/1200`,
     alt: `Match Point Mansion Rio Open — ${i + 1}`,
   }));
+  const autoplay = useRef(Autoplay({ delay: 3500, stopOnInteraction: false, stopOnMouseEnter: true }));
   return (
     <div className="mt-24">
       <p className="eyebrow text-muted-foreground">
         {lang === "en" ? "Gallery — Match Point Mansion, Rio Open" : "Galeria — Match Point Mansion, Rio Open"}
       </p>
-      <div className="mt-8 -mx-6 overflow-x-auto md:-mx-12">
-        <div className="flex snap-x snap-mandatory gap-4 px-6 pb-4 md:gap-6 md:px-12">
+      <Carousel
+        opts={{ loop: true, align: "start" }}
+        plugins={[autoplay.current]}
+        className="mt-8 -mx-6 md:-mx-12"
+      >
+        <CarouselContent className="px-6 md:px-12">
           {images.map((img, i) => (
-            <figure
-              key={i}
-              className="group relative aspect-[3/4] w-[78vw] shrink-0 snap-start overflow-hidden bg-secondary sm:w-[48vw] md:w-[32vw] lg:w-[26vw]"
-            >
-              <img
-                src={img.src}
-                alt={img.alt}
-                loading="lazy"
-                className="h-full w-full object-cover grayscale contrast-125 transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
-              />
-            </figure>
+            <CarouselItem key={i} className="basis-[78%] sm:basis-1/2 md:basis-1/3 lg:basis-[26%]">
+              <figure className="group relative aspect-[3/4] w-full overflow-hidden bg-secondary">
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  loading="lazy"
+                  className="h-full w-full object-cover grayscale contrast-125 transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
+                />
+              </figure>
+            </CarouselItem>
           ))}
-        </div>
-      </div>
+        </CarouselContent>
+      </Carousel>
     </div>
   );
 }
