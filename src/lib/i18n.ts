@@ -63,8 +63,8 @@ export const copy = {
         origin: { en: "Brazil / United States", pt: "Brasil / Estados Unidos" },
         photo: chefBernardo,
         bio: {
-          en: "Forged in the high-performance kitchens of Boston, Bernardo served as Chef de Cuisine at Eataly Boston before bringing his expertise in culinary logistics and sustainable gastronomy into the collective. A Slow Food advocate, he ensures every SEIVA service moves with precision — from the source to the final plate.",
-          pt: "Forjado nas cozinhas de alta performance de Boston, Bernardo foi Chef de Cuisine do Eataly Boston antes de trazer sua expertise em logística culinária e gastronomia sustentável para o coletivo. Defensor do Slow Food, garante que cada serviço SEIVA aconteça com precisão — da origem ao prato final.",
+          en: "With two decades of international mastery and having served as Slow Food Allied Chef, and Brazil Chef Delegate at Terra Madre (Turin, Italy) for more than 16 years, Bernardo is one of the three brains that orchestrates SEIVA’s high-volume operations. Former Chef de Cuisine at Eataly Boston, and Executive Chef for numerous projects in the United States and Brazil, his strong team leadership and creativity flawlessly execute exclusive dining experiences. His work is marked by a fierce dedication to farm-to-table purity and a local food culture that genuinely dialogues with the territories.",
+          pt: "Com duas décadas de maestria internacional e tendo atuado como Chef Aliado Slow Food e Chef Delegado do Brasil no Terra Madre (Turim, Itália) por mais de 16 anos, Bernardo é uma das três mentes que orquestram as operações de alto volume da SEIVA. Ex-Chef de Cuisine no Eataly Boston e Chef Executivo de inúmeros projetos nos Estados Unidos e no Brasil, sua liderança de equipe e criatividade executam com perfeição experiências gastronômicas exclusivas. Seu trabalho é marcado por uma dedicação ferrenha à pureza do farm-to-table e a uma cultura alimentar local que dialoga genuinamente com os territórios.",
         },
       },
       {
