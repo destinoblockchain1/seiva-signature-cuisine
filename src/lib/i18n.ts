@@ -72,8 +72,8 @@ export const copy = {
         origin: { en: "Brazil — Florianópolis", pt: "Brasil — Florianópolis" },
         photo: chefJuliana,
         bio: {
-          en: "Established in Florianópolis, Juliana is a specialist in artisanal, authorial gastronomy, devoted to local sourcing and seasonal freshness. Her cuisine pulls directly from the Atlantic, from small producers and from the micro-seasons of the south — translating place into plate with quiet precision.",
-          pt: "Radicada em Florianópolis, Juliana é especialista em gastronomia autoral e artesanal, dedicada ao sourcing local e à frescura sazonal. Sua cozinha bebe diretamente do Atlântico, dos pequenos produtores e das micro-estações do Sul — traduzindo o lugar em prato com precisão silenciosa.",
+          en: "A brilliant young chef from Rio Grande do Sul established in Florianópolis, Juliana is one of the three masterminds orchestrating SEIVA’s high-volume operations. She is a specialist in artisanal, authorial gastronomy, devoted to local sourcing and seasonal freshness. Her cuisine pulls directly from the Atlantic and the micro-seasons of the south, flawlessly executing exclusive dining experiences and translating place into plate with a unique style and finesse on plating.",
+          pt: "Uma brilhante jovem chef gaúcha radicada em Florianópolis, Juliana é uma das três mentes que orquestram as operações de alto volume da SEIVA. Especialista em gastronomia autoral e artesanal, dedica-se ao sourcing local e à frescura sazonal. Sua cozinha bebe diretamente do Atlântico e das micro-estações do Sul, executando com perfeição experiências gastronômicas exclusivas e traduzindo o lugar em prato com estilo único e refinamento no empratamento.",
         },
       },
       {
