@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useState, useRef, type FormEvent } from "react";
+import Autoplay from "embla-carousel-autoplay";
 import chefsImg from "@/assets/chefs-collective.jpg";
 import { copy, type Lang } from "@/lib/i18n";
 import { Logo, TriadIcon } from "@/components/Logo";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 
 export const Route = createFileRoute("/")({
   component: Landing,
