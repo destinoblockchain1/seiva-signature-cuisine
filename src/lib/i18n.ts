@@ -95,9 +95,8 @@ export const copy = {
       pt: "Um espaço de hospitalidade exclusivo no coração do ATP Rio Open. A SEIVA assinou o programa culinário inteiro — uma demonstração de operar em escala sem abrir mão do requinte.",
     },
     stats: [
-      { n: "3,500+", l: { en: "Meals served flawlessly", pt: "Refeições servidas com excelência" } },
-      { n: "Course", l: { en: "Iconic 5 Course wine-paired diners for BMW & La Roche-Posay", pt: "Jantares de gala icônicos de 5 etapas para BMW e La Roche-Posay" } },
-      { n: "2", l: { en: "Iconic brand activations — BMW & La Roche-Posay", pt: "Ativações de marcas icônicas — BMW & La Roche-Posay" } },
+      { n: "3.500+", l: { en: "Meals served flawlessly", pt: "Refeições servidas com excelência" } },
+      { n: "Iconic", l: { en: "5 Course wine-paired diners for BMW & La Roche-Posay", pt: "Jantares de gala icônicos de 5 etapas para BMW e La Roche-Posay" } },
     ],
   },
   experiences: {
