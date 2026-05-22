@@ -81,8 +81,8 @@ export const copy = {
         origin: { en: "Italy / Rio de Janeiro", pt: "Itália / Rio de Janeiro" },
         photo: chefTobia,
         bio: {
-          en: "Born in Piedmont and established in Rio de Janeiro, Tobia carries the discipline of classical Italian tradition with the pedigree of Terra Madre Turin. His work is a study in rigor — pasta, fire, fermentation and time — translated into contemporary tasting menus that honor lineage above trend.",
-          pt: "Nascido no Piemonte e radicado no Rio de Janeiro, Tobia carrega a disciplina da tradição clássica italiana com o pedigree do Terra Madre de Turim. Seu trabalho é um estudo de rigor — massa, fogo, fermentação e tempo — traduzido em menus degustação contemporâneos que honram a linhagem acima da tendência.",
+          en: "Hailing from Piedmont, Italy, Chef Tobia Messa achieved great success in Rio de Janeiro with his magazine-acclaimed restaurant Flor do Céu. Recognized by Forbes as a premier young culinary talent in Brazil, he is one of the three masterminds orchestrating SEIVA’s high-volume operations. Tobia frequently represents the Italian Embassy, flawlessly executing exclusive, farm-to-table high-level dining experiences.",
+          pt: "Vindo do Piemonte, Itália, o Chef Tobia Messa alcançou grande sucesso no Rio de Janeiro com seu restaurante Flor do Céu, aclamado por revistas especializadas. Reconhecido pela Forbes como um dos principais jovens talentos culinários do Brasil, ele é um dos três mentores que orquestram as operações de alto volume da SEIVA. Tobia frequentemente representa a Embaixada da Itália, executando com perfeição experiências exclusivas de alta gastronomia farm-to-table.",
         },
       },
     ],
