@@ -96,7 +96,7 @@ export const copy = {
     },
     stats: [
       { n: "3,500+", l: { en: "Meals served flawlessly", pt: "Refeições servidas com excelência" } },
-      { n: "5", l: { en: "Course wine-paired galas", pt: "Etapas em jantares de gala harmonizados" } },
+      { n: "5", l: { en: "Iconic 5 Course wine-paired diners for BMW & La Roche-Posay", pt: "Jantares de gala icônicos de 5 etapas para BMW e La Roche-Posay" } },
       { n: "2", l: { en: "Iconic brand activations — BMW & La Roche-Posay", pt: "Ativações de marcas icônicas — BMW & La Roche-Posay" } },
     ],
   },
