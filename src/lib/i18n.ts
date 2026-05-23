@@ -143,7 +143,7 @@ export const copy = {
   },
   footer: {
     tag: { en: "Signature Cuisine, Tailor-Made.", pt: "Alta Gastronomia, Sob Medida." },
-    cities: { en: "Florianópolis · Rio de Janeiro · Boston", pt: "Florianópolis · Rio de Janeiro · Boston" },
+    cities: { en: "FLORIANÓPOLIS · RIO DE JANEIRO · MIAMI", pt: "FLORIANÓPOLIS · RIO DE JANEIRO · MIAMI" },
     rights: { en: "All rights reserved.", pt: "Todos os direitos reservados." },
   },
 };
