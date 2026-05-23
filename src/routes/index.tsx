@@ -2,6 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useRef, type FormEvent } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import chefsImg from "@/assets/chefs-collective.jpg";
+import matchpoint1 from "@/assets/matchpoint-1.jpg";
+import matchpoint2 from "@/assets/matchpoint-2.jpg";
+import matchpoint3 from "@/assets/matchpoint-3.jpg";
+import matchpoint4 from "@/assets/matchpoint-4.jpg";
 import { copy, type Lang } from "@/lib/i18n";
 import { Logo, TriadIcon } from "@/components/Logo";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
@@ -200,10 +204,15 @@ function CaseStudy({ lang }: { lang: Lang }) {
 }
 
 function CaseStudyGallery({ lang }: { lang: Lang }) {
-  const images = Array.from({ length: 10 }, (_, i) => ({
-    src: `https://picsum.photos/seed/matchpoint-${i + 1}/900/1200`,
-    alt: `Match Point Mansion Rio Open — ${i + 1}`,
-  }));
+  const images: Array<{ src: string | null; alt: string }> = [
+    { src: matchpoint1, alt: "Match Point Mansion Rio Open — tablescape on court" },
+    { src: matchpoint2, alt: "Match Point Mansion Rio Open — oyster amuse-bouche" },
+    { src: matchpoint3, alt: "Match Point Mansion Rio Open — sesame-crusted tuna" },
+    { src: matchpoint4, alt: "Match Point Mansion Rio Open — plated course with racquet" },
+    { src: null, alt: "Placeholder — add image" },
+    { src: null, alt: "Placeholder — add image" },
+    { src: null, alt: "Placeholder — add image" },
+  ];
   const autoplay = useRef(Autoplay({ delay: 3500, stopOnInteraction: false, stopOnMouseEnter: true }));
   return (
     <div className="mt-24">
@@ -219,12 +228,18 @@ function CaseStudyGallery({ lang }: { lang: Lang }) {
           {images.map((img, i) => (
             <CarouselItem key={i} className="basis-[90%] md:basis-2/3 lg:basis-1/2">
               <figure className="group relative aspect-[3/4] w-full overflow-hidden bg-secondary">
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  loading="lazy"
-                  className="h-full w-full object-cover grayscale contrast-125 transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
-                />
+                {img.src ? (
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    loading="lazy"
+                    className="h-full w-full object-cover grayscale contrast-125 transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center border border-dashed border-border/60 bg-secondary/60">
+                    <span className="eyebrow text-muted-foreground">{lang === "en" ? "Image slot" : "Espaço para imagem"}</span>
+                  </div>
+                )}
               </figure>
             </CarouselItem>
           ))}
