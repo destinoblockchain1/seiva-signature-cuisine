@@ -64,7 +64,7 @@ export const copy = {
         photo: chefBernardo,
         bio: {
           en: "With two decades of international mastery and having served as Slow Food Allied Chef, and Brazil Chef Delegate at Terra Madre (Turin, Italy) for more than 16 years, Bernardo is one of the three brains that orchestrates SEIVA’s high-volume operations. Former Chef de Cuisine at Eataly Boston, and Executive Chef for numerous projects in the United States and Brazil, his strong team leadership and creativity flawlessly execute exclusive dining experiences. His work is marked by a fierce dedication to farm-to-table purity and a local food culture that genuinely dialogues with the territories.",
-          pt: "Com duas décadas de maestria internacional e tendo atuado como Chef Aliado Slow Food e Chef Delegado do Brasil no Terra Madre (Turim, Itália) por mais de 16 anos, Bernardo é uma das três mentes que orquestram as operações de alto volume da SEIVA. Ex-Chef de Cuisine no Eataly Boston e Chef Executivo de inúmeros projetos nos Estados Unidos e no Brasil, sua liderança de equipe e criatividade executam com perfeição experiências gastronômicas exclusivas. Seu trabalho é marcado por uma dedicação ferrenha à pureza do farm-to-table e a uma cultura alimentar local que dialoga genuinamente com os territórios.",
+          pt: "Com duas décadas de excelência internacional e tendo atuado como Slow Food Brazil Chef Delegate no Terra Madre (Turim, Itália) por mais de 16 anos, Bernardo é uma das três mentes que orquestra as operações de alto volume da SEIVA. Ex-Chef de Cuisine do Eataly Boston, e Chef Executivo de inúmeros projetos nos Estados Unidos e no Brasil, a sua forte liderança de equipa e criatividade executam impecavelmente experiências gastronómicas exclusivas. O seu trabalho é marcado por uma dedicação feroz à pureza do ingrediente (farm-to-table) e a uma cultura alimentar local que dialoga genuinamente com os territórios.",
         },
       },
       {
@@ -82,7 +82,7 @@ export const copy = {
         photo: chefTobia,
         bio: {
           en: "Hailing from Piedmont, Italy, Chef Tobia Messa achieved great success in Rio de Janeiro with his magazine-acclaimed restaurant Flor do Céu. Recognized by Forbes as a premier young culinary talent in Brazil, he is one of the three masterminds orchestrating SEIVA’s high-volume operations. Tobia frequently represents the Italian Embassy, flawlessly executing exclusive, farm-to-table high-level dining experiences.",
-          pt: "Vindo do Piemonte, Itália, o Chef Tobia Messa alcançou grande sucesso no Rio de Janeiro com seu restaurante Flor do Céu, aclamado por revistas especializadas. Reconhecido pela Forbes como um dos principais jovens talentos culinários do Brasil, ele é um dos três mentores que orquestram as operações de alto volume da SEIVA. Tobia frequentemente representa a Embaixada da Itália, executando com perfeição experiências exclusivas de alta gastronomia farm-to-table.",
+          pt: "Vindo do Piemonte, Itália, o Chef Tobia Messa alcançou grande sucesso no Rio de Janeiro com o seu restaurante Flor do Céu, aclamado por grandes revistas. Reconhecido pela Forbes como um dos principais jovens talentos culinários do Brasil, ele é uma das três mentes que orquestram as operações de alto volume da SEIVA. Tobia representa frequentemente a Embaixada da Itália, executando impecavelmente experiências gastronômicas exclusivas e de alto padrão, sempre guiado pela pureza do farm-to-table.",
         },
       },
     ],
@@ -143,7 +143,7 @@ export const copy = {
   },
   footer: {
     tag: { en: "Signature Cuisine, Tailor-Made.", pt: "Alta Gastronomia, Sob Medida." },
-    cities: { en: "FLORIANÓPOLIS · RIO DE JANEIRO · MIAMI", pt: "FLORIANÓPOLIS · RIO DE JANEIRO · MIAMI" },
+    cities: { en: "FLORIDA · RIO DE JANEIRO · SANTA CATARINA", pt: "FLORIDA · RIO DE JANEIRO · SANTA CATARINA" },
     rights: { en: "All rights reserved.", pt: "Todos os direitos reservados." },
   },
 };
