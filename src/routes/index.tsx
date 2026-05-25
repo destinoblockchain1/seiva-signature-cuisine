@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
 import { useState, useRef, useEffect, type FormEvent } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import chefsImg from "@/assets/chefs-collective.jpg";
@@ -371,13 +372,97 @@ function Experiences({ lang }: { lang: Lang }) {
   );
 }
 
+const sendInquiryEmail = createServerFn({ method: "POST" })
+  .validator((data: {
+    name: string;
+    company: string;
+    email: string;
+    date: string;
+    location: string;
+    guests: string;
+    vision: string;
+  }) => data)
+  .handler(async ({ data }) => {
+    const resendApiKey = process.env.RESEND || process.env.RESEND_API_KEY;
+    if (!resendApiKey) {
+      console.error("Resend API Key is missing!");
+      throw new Error("Resend API Key is not configured on the server.");
+    }
+
+    const toEmail = process.env.NOTIFICATION_EMAIL || "delivered@resend.dev";
+    const fromEmail = process.env.SENDER_EMAIL || "SEIVA <onboarding@resend.dev>";
+
+    const htmlContent = `
+      <h2>Novo Inquiry de SEIVA</h2>
+      <p><strong>Nome Completo:</strong> ${data.name}</p>
+      <p><strong>Email:</strong> ${data.email}</p>
+      <p><strong>Empresa / Anfitrião:</strong> ${data.company || "Não informado"}</p>
+      <p><strong>Data do Evento:</strong> ${data.date || "Não informada"}</p>
+      <p><strong>Localização:</strong> ${data.location || "Não informada"}</p>
+      <p><strong>Número de Convidados:</strong> ${data.guests || "Não informado"}</p>
+      <br />
+      <p><strong>Visão / Mensagem:</strong></p>
+      <p style="white-space: pre-wrap; font-family: sans-serif; background-color: #f9f9f9; padding: 15px; border-radius: 4px; border-left: 4px solid #ccc;">${data.vision || "Não informada"}</p>
+    `;
+
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${resendApiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: fromEmail,
+        to: [toEmail],
+        subject: `Novo Inquiry de ${data.name}`,
+        html: htmlContent,
+      }),
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error("Resend API Error:", errText);
+      throw new Error(`Failed to send email: ${errText}`);
+    }
+
+    return { success: true };
+  });
+
 function Inquire({ lang }: { lang: Lang }) {
   const c = copy.inquire;
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSubmitting(true);
+    setError(null);
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get("name") as string,
+      company: formData.get("company") as string,
+      email: formData.get("email") as string,
+      date: formData.get("date") as string,
+      location: formData.get("location") as string,
+      guests: formData.get("guests") as string,
+      vision: formData.get("vision") as string,
+    };
+
+    try {
+      await sendInquiryEmail({ data });
+      setSubmitted(true);
+    } catch (err: any) {
+      console.error("Error sending inquiry:", err);
+      setError(
+        lang === "pt"
+          ? "Ocorreu um erro ao enviar o formulário. Por favor, tente novamente."
+          : "An error occurred while sending the form. Please try again."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const inputCls = "w-full border-0 border-b border-border bg-transparent py-4 text-base font-light text-foreground placeholder:text-muted-foreground/60 focus:border-foreground focus:outline-none focus:ring-0";
@@ -403,25 +488,30 @@ function Inquire({ lang }: { lang: Lang }) {
               </p>
             ) : (
               <form onSubmit={onSubmit} className="grid grid-cols-1 gap-x-10 gap-y-2 md:grid-cols-2">
-                <Field label={t(c.fields.name, lang)}><input required type="text" className={inputCls} /></Field>
-                <Field label={t(c.fields.company, lang)}><input type="text" className={inputCls} /></Field>
-                <Field label={t(c.fields.email, lang)}><input required type="email" className={inputCls} /></Field>
-                <Field label={t(c.fields.date, lang)}><input type="date" className={inputCls} /></Field>
+                <Field label={t(c.fields.name, lang)}><input required name="name" type="text" className={inputCls} /></Field>
+                <Field label={t(c.fields.company, lang)}><input name="company" type="text" className={inputCls} /></Field>
+                <Field label={t(c.fields.email, lang)}><input required name="email" type="email" className={inputCls} /></Field>
+                <Field label={t(c.fields.date, lang)}><input name="date" type="date" className={inputCls} /></Field>
                 <Field label={t(c.fields.location, lang)}>
-                  <select className={inputCls} defaultValue="">
+                  <select name="location" className={inputCls} defaultValue="">
                     <option value="" disabled>—</option>
                     {t(c.fields.locationOptions, lang).map((o: string) => <option key={o}>{o}</option>)}
                   </select>
                 </Field>
-                <Field label={t(c.fields.guests, lang)}><input type="number" min={1} className={inputCls} /></Field>
+                <Field label={t(c.fields.guests, lang)}><input name="guests" type="number" min={1} className={inputCls} /></Field>
                 <div className="md:col-span-2">
                   <Field label={t(c.fields.vision, lang)}>
-                    <textarea rows={5} className={inputCls + " resize-none"} />
+                    <textarea name="vision" rows={5} className={inputCls + " resize-none"} />
                   </Field>
                 </div>
+                {error && (
+                  <div className="mt-4 md:col-span-2 text-red-500 text-sm">
+                    {error}
+                  </div>
+                )}
                 <div className="mt-10 md:col-span-2">
-                  <button type="submit" className="eyebrow border-b border-foreground pb-2 text-foreground transition-opacity hover:opacity-60">
-                    {t(c.submit, lang)} →
+                  <button type="submit" disabled={submitting} className="eyebrow border-b border-foreground pb-2 text-foreground transition-opacity hover:opacity-60 disabled:opacity-40">
+                    {submitting ? (lang === "pt" ? "Enviando..." : "Sending...") : (t(c.submit, lang) + " →")}
                   </button>
                 </div>
               </form>
