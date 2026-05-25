@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useRef, type FormEvent } from "react";
+import { useState, useRef, useEffect, type FormEvent } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import chefsImg from "@/assets/chefs-collective.jpg";
 import matchpoint1 from "@/assets/matchpoint-1.jpg";
@@ -11,7 +11,7 @@ import matchpoint6 from "@/assets/matchpoint-6.jpg";
 import matchpoint7 from "@/assets/matchpoint-7.jpg";
 import { copy, type Lang } from "@/lib/i18n";
 import { Logo, TriadIcon } from "@/components/Logo";
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 
 export const Route = createFileRoute("/")({
   component: Landing,
@@ -126,6 +126,71 @@ function Manifesto({ lang }: { lang: Lang }) {
   );
 }
 
+function ScrollColoredImage({
+  src,
+  alt,
+  className = "",
+  aspectClass = "",
+  loading = "lazy",
+  objectCover = true,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  aspectClass?: string;
+  loading?: "lazy" | "eager";
+  objectCover?: boolean;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile) {
+      setInView(false);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+      },
+      {
+        threshold: 0.6,
+      }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isMobile]);
+
+  const imageClass = `${objectCover ? "h-full w-full object-cover" : ""} transition-all duration-700 ease-out transform ${
+    isMobile
+      ? inView
+        ? "grayscale-0 contrast-100 scale-105"
+        : "grayscale contrast-125"
+      : "grayscale contrast-125 group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
+  } ${className}`;
+
+  return (
+    <div ref={containerRef} className={`group relative overflow-hidden ${aspectClass}`}>
+      <img src={src} alt={alt} loading={loading} className={imageClass} />
+    </div>
+  );
+}
+
 function Chefs({ lang }: { lang: Lang }) {
   const c = copy.chefs;
   return (
@@ -142,13 +207,12 @@ function Chefs({ lang }: { lang: Lang }) {
         </div>
 
         <figure className="mt-20">
-          <div className="group relative overflow-hidden">
-            <img
-              src={chefsImg}
-              alt="The three chefs of SEIVA: Bernardo Simões, Juliana Redoi, Tobia Messa"
-              className="block h-auto w-full grayscale contrast-125 transition-all duration-700 ease-out transform group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
-            />
-          </div>
+          <ScrollColoredImage
+            src={chefsImg}
+            alt="The three chefs of SEIVA: Bernardo Simões, Juliana Redoi, Tobia Messa"
+            className="block h-auto w-full"
+            objectCover={false}
+          />
           <figcaption className="eyebrow mt-4 text-muted-foreground">
             {lang === "en" ? "Left to right — Bernardo Simões, Juliana Redoi, Tobia Messa" : "Da esquerda à direita — Bernardo Simões, Juliana Redoi, Tobia Messa"}
           </figcaption>
@@ -157,14 +221,12 @@ function Chefs({ lang }: { lang: Lang }) {
         <div className="mt-20 grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-10">
           {c.list.map((chef) => (
             <article key={chef.name} className="border-t border-border pt-8">
-              <div className="group relative mb-8 aspect-[4/5] w-full overflow-hidden bg-secondary">
-                <img
-                  src={chef.photo}
-                  alt={chef.name}
-                  loading="lazy"
-                  className="h-full w-full object-cover grayscale contrast-125 transition-all duration-700 ease-out transform group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
-                />
-              </div>
+              <ScrollColoredImage
+                src={chef.photo}
+                alt={chef.name}
+                aspectClass="mb-8 aspect-[4/5] w-full bg-secondary"
+                loading="lazy"
+              />
               <p className="eyebrow text-muted-foreground my-0 min-h-[1.25rem]">{t(chef.origin, lang)}</p>
               <h3 className="editorial-display mt-4 text-3xl md:text-4xl">{chef.name}</h3>
               <p className="mt-6 text-sm font-light leading-[1.75] text-foreground/80 md:text-base">{t(chef.bio, lang)}</p>
@@ -217,12 +279,41 @@ function CaseStudyGallery({ lang }: { lang: Lang }) {
     { src: matchpoint7, alt: "Match Point Mansion Rio Open — tortellini service" },
   ];
   const autoplay = useRef(Autoplay({ delay: 3500, stopOnInteraction: false, stopOnMouseEnter: true }));
+  const [api, setApi] = useState<CarouselApi>();
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (!api) return;
+
+    const onSelect = () => {
+      setSelectedIndex(api.selectedScrollSnap());
+    };
+
+    onSelect(); // Set initial selected index
+    api.on("select", onSelect);
+    api.on("reInit", onSelect);
+
+    return () => {
+      api.off("select", onSelect);
+      api.off("reInit", onSelect);
+    };
+  }, [api]);
+
   return (
     <div className="mt-24">
       <p className="eyebrow text-muted-foreground">
         {lang === "en" ? "Gallery — Match Point Mansion, Rio Open" : "Galeria — Match Point Mansion, Rio Open"}
       </p>
       <Carousel
+        setApi={setApi}
         opts={{ loop: true, align: "start" }}
         plugins={[autoplay.current]}
         className="mt-8 -mx-6 md:-mx-12"
@@ -235,7 +326,13 @@ function CaseStudyGallery({ lang }: { lang: Lang }) {
                   src={img.src}
                   alt={img.alt}
                   loading="lazy"
-                  className="h-full w-full object-cover grayscale contrast-125 transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
+                  className={`h-full w-full object-cover transition-all duration-700 ease-out transform ${
+                    isMobile
+                      ? i === selectedIndex
+                        ? "grayscale-0 contrast-100 scale-105"
+                        : "grayscale contrast-125"
+                      : "grayscale contrast-125 group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
+                  }`}
                 />
               </figure>
             </CarouselItem>
