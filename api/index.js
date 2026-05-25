@@ -23,7 +23,11 @@ export default async function (req, res) {
   
   let body = null;
   if (method !== 'GET' && method !== 'HEAD') {
-    body = Readable.toWeb(req);
+    const chunks = [];
+    for await (const chunk of req) {
+      chunks.push(chunk);
+    }
+    body = Buffer.concat(chunks);
   }
   
   const webRequest = new Request(url, {

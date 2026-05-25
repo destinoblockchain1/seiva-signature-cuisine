@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { useState, useRef, useEffect, type FormEvent } from "react";
+import { Toaster, toast } from "sonner";
 import Autoplay from "embla-carousel-autoplay";
 import chefsImg from "@/assets/chefs-collective.jpg";
 import matchpoint1 from "@/assets/matchpoint-1.jpg";
@@ -449,16 +450,33 @@ function Inquire({ lang }: { lang: Lang }) {
       vision: formData.get("vision") as string,
     };
 
+    if (!data.name || !data.email) {
+      const msg = lang === "pt" ? "Por favor, preencha todos os campos obrigatórios." : "Please fill in all required fields.";
+      setError(msg);
+      toast.error(msg);
+      setSubmitting(false);
+      return;
+    }
+
     try {
-      await sendInquiryEmail({ data });
-      setSubmitted(true);
+      const res = await sendInquiryEmail({ data });
+      if (res && res.success) {
+        setSubmitted(true);
+        toast.success(
+          lang === "pt"
+            ? "Formulário enviado com sucesso!"
+            : "Form submitted successfully!"
+        );
+      } else {
+        throw new Error("Invalid response from server");
+      }
     } catch (err: any) {
       console.error("Error sending inquiry:", err);
-      setError(
-        lang === "pt"
-          ? "Ocorreu um erro ao enviar o formulário. Por favor, tente novamente."
-          : "An error occurred while sending the form. Please try again."
-      );
+      const errMsg = lang === "pt"
+        ? "Erro ao enviar o formulário. Por favor, tente novamente."
+        : "An error occurred while sending the form. Please try again.";
+      setError(errMsg);
+      toast.error(errMsg);
     } finally {
       setSubmitting(false);
     }
@@ -468,6 +486,7 @@ function Inquire({ lang }: { lang: Lang }) {
 
   return (
     <section id="inquire" className="border-t border-border px-6 py-32 md:px-12 md:py-48">
+      <Toaster position="top-right" richColors />
       <div className="mx-auto max-w-[1400px]">
         <div className="grid grid-cols-12 gap-8">
           <div className="col-span-12 md:col-span-3">
