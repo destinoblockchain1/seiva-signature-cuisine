@@ -373,7 +373,7 @@ function Experiences({ lang }: { lang: Lang }) {
 }
 
 const sendInquiryEmail = createServerFn({ method: "POST" })
-  .validator((data: {
+  .handler(async ({ data }: { data: {
     name: string;
     company: string;
     email: string;
@@ -381,8 +381,7 @@ const sendInquiryEmail = createServerFn({ method: "POST" })
     location: string;
     guests: string;
     vision: string;
-  }) => data)
-  .handler(async ({ data }) => {
+  } }) => {
     const resendApiKey = process.env.RESEND || process.env.RESEND_API_KEY;
     if (!resendApiKey) {
       console.error("Resend API Key is missing!");
