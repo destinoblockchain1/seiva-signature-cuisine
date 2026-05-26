@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { useState, useRef, useEffect, type FormEvent } from "react";
 import { Toaster, toast } from "sonner";
+import { Resend } from "resend";
 import Autoplay from "embla-carousel-autoplay";
 import chefsImg from "@/assets/chefs-collective.jpg";
 import matchpoint1 from "@/assets/matchpoint-1.jpg";
@@ -374,7 +375,7 @@ function Experiences({ lang }: { lang: Lang }) {
 }
 
 const sendInquiryEmail = createServerFn({ method: "POST" })
-  .handler(async ({ data }: { data: {
+  .inputValidator((data: {
     name: string;
     company: string;
     email: string;
@@ -382,15 +383,16 @@ const sendInquiryEmail = createServerFn({ method: "POST" })
     location: string;
     guests: string;
     vision: string;
-  } }) => {
+  }) => data)
+  .handler(async ({ data }) => {
     const resendApiKey = process.env.RESEND || process.env.RESEND_API_KEY;
     if (!resendApiKey) {
       console.error("Resend API Key is missing!");
       throw new Error("Resend API Key is not configured on the server.");
     }
 
-    const toEmail = process.env.NOTIFICATION_EMAIL || "delivered@resend.dev";
-    const fromEmail = process.env.SENDER_EMAIL || "SEIVA <onboarding@resend.dev>";
+    const toEmail = process.env.NOTIFICATION_EMAIL || "seivaculinary@gmail.com";
+    const fromEmail = process.env.SENDER_EMAIL || "onboarding@resend.dev";
 
     const htmlContent = `
       <h2>Novo Inquiry de SEIVA</h2>
@@ -405,24 +407,18 @@ const sendInquiryEmail = createServerFn({ method: "POST" })
       <p style="white-space: pre-wrap; font-family: sans-serif; background-color: #f9f9f9; padding: 15px; border-radius: 4px; border-left: 4px solid #ccc;">${data.vision || "Não informada"}</p>
     `;
 
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${resendApiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: fromEmail,
-        to: [toEmail],
-        subject: `Novo Inquiry de ${data.name}`,
-        html: htmlContent,
-      }),
+    const resend = new Resend(resendApiKey);
+
+    const { data: resData, error } = await resend.emails.send({
+      from: fromEmail,
+      to: [toEmail],
+      subject: `Novo Inquiry de ${data.name}`,
+      html: htmlContent,
     });
 
-    if (!response.ok) {
-      const errText = await response.text();
-      console.error("Resend API Error:", errText);
-      throw new Error(`Failed to send email: ${errText}`);
+    if (error) {
+      console.error("Resend SDK Error:", error);
+      throw new Error(`Failed to send email: ${error.message}`);
     }
 
     return { success: true };
