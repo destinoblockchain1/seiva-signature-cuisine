@@ -20,10 +20,11 @@ export const Route = createFileRoute("/")({
   component: Landing,
   head: () => ({
     meta: [
-      { title: "SEIVA — Signature Cuisine, Tailor-Made" },
-      { name: "description", content: "An international collective of three chefs. Private dinners, brand activations and exclusive celebrations across Brazil, Italy and the USA." },
-      { property: "og:title", content: "SEIVA — Signature Cuisine, Tailor-Made" },
-      { property: "og:description", content: "A horizontal collective of three chefs crafting bespoke culinary experiences for iconic brands and VIP hosts." },
+      { title: "SEIVA | Luxury Private Chef & Bespoke Catering | Miami to Boca Raton" },
+      { name: "description", content: "Ultra-luxury culinary collective providing bespoke private dinners, executive catering, and high-end brand activations across South Florida (Miami to Boca Raton)." },
+      { property: "og:title", content: "SEIVA | Signature Cuisine, Tailor-Made" },
+      { property: "og:description", content: "An international collective of three chefs crafting bespoke culinary experiences for iconic brands and VIP hosts." },
+      { name: "google-site-verification", content: "-2FyTbPMNfbBPbzqcG1Xt_rkLdnpVPZn5HvdKarAAiE" },
     ],
   }),
 });
@@ -79,6 +80,12 @@ function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
 
 function Hero({ lang }: { lang: Lang }) {
   const c = copy.hero;
+  
+  const customHeadline = {
+    en: "Signature Cuisine,\nTailor-Made.",
+    pt: "Alta Gastronomia,\nSob Medida."
+  };
+
   return (
     <section id="top" className="relative flex min-h-screen items-end overflow-hidden px-6 pb-24 pt-40 md:px-12 md:pb-32">
       {/* Decorative serif glyph */}
@@ -86,7 +93,7 @@ function Hero({ lang }: { lang: Lang }) {
       <div className="relative mx-auto w-full max-w-[1400px]">
         <p className="eyebrow text-muted-foreground">{t(c.eyebrow, lang)}</p>
         <h1 className="editorial-display mt-10 whitespace-pre-line text-[14vw] md:text-[9.5rem]">
-          {t(c.headline, lang)}
+          {t(customHeadline, lang)}
         </h1>
         <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-12">
           <div className="md:col-span-5 md:col-start-7">
