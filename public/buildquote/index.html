@@ -1015,6 +1015,15 @@
             }, 800);
         }
 
+        function toggleSidebar() {
+            const sidebar = document.getElementById('editor-sidebar');
+            const floatingBtn = document.getElementById('sidebar-toggle-floating');
+            if (sidebar && floatingBtn) {
+                sidebar.classList.toggle('hidden');
+                floatingBtn.classList.toggle('hidden');
+            }
+        }
+
         function changeLanguage(langCode) {
             state.lang = langCode;
             
@@ -1675,16 +1684,6 @@ SEIVA Collective`;
             renderDocPreview();
         }
 
-        function deleteItem(idx) {
-            items.splice(idx, 1);
-            renderAll();
-        }
-
-        function deleteSubItem(parentIdx, subIdx) {
-            items[parentIdx].subItems.splice(subIdx, 1);
-            renderAll();
-        }
-
         function loadCloudLibraryList() {
             const listEl = document.getElementById('proposals-list');
             if (!listEl) return;
@@ -1762,6 +1761,19 @@ SEIVA Collective`;
             showToast("New Blank Proposal Draft Initiated.");
         }
 
+        function generateDefaultMeta() {
+            const currentYear = new Date().getFullYear();
+            const randomNum = Math.floor(100 + Math.random() * 900); // SV-2026-XXX
+            const ref = `SV-${currentYear}-${randomNum}`;
+            const today = new Date();
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+
+            let dateIssueStr = today.toLocaleDateString(state.lang === 'POR' ? 'pt-BR' : state.lang === 'ITA' ? 'it-IT' : 'en-US', options);
+            
+            document.getElementById('input-ref').value = ref;
+            document.getElementById('input-date-issue').value = dateIssueStr;
+        }
+
         function renderAll() {
             renderEditor();
             renderDocPreview();
@@ -1798,8 +1810,12 @@ SEIVA Collective`;
             document.getElementById('tab-builder').addEventListener('click', () => switchWorkspaceView('builder'));
             document.getElementById('btn-dashboard-new-proposal').addEventListener('click', createNewProposal);
 
-            document.getElementById('sidebar-collapse-btn').addEventListener('click', toggleSidebar);
-            document.getElementById('sidebar-toggle-floating').addEventListener('click', toggleSidebar);
+            const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
+            if (sidebarCollapseBtn) sidebarCollapseBtn.addEventListener('click', toggleSidebar);
+
+            const sidebarToggleFloating = document.getElementById('sidebar-toggle-floating');
+            if (sidebarToggleFloating) sidebarToggleFloating.addEventListener('click', toggleSidebar);
+
             document.getElementById('sidebar-primary-export-btn').addEventListener('click', exportDocumentToPDF);
             
             document.getElementById('ui-btn-add-item').addEventListener('click', () => {
@@ -1942,6 +1958,26 @@ SEIVA Collective`;
                 document.getElementById('admin-pin').value = '';
                 document.getElementById('app-content').classList.add('hidden');
                 document.getElementById('login-gateway').classList.remove('opacity-0', 'pointer-events-none');
+            });
+
+            document.getElementById('btn-whatsapp-dispatch').addEventListener('click', shareWhatsApp);
+            document.getElementById('btn-direct-email').addEventListener('click', (e) => {
+                e.preventDefault();
+                openMailClient();
+            });
+
+            document.getElementById('btn-copy-link').addEventListener('click', () => {
+                const input = document.getElementById('share-link-input');
+                input.select();
+                document.execCommand('copy');
+                showToast("Invite Link Copied.");
+            });
+
+            document.getElementById('btn-copy-email-draft').addEventListener('click', () => {
+                const textarea = document.getElementById('dispatch-email-text');
+                textarea.select();
+                document.execCommand('copy');
+                showToast("Email text copied.");
             });
         }
 
