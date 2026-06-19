@@ -35,7 +35,7 @@ export const copy = {
         "In nature, seiva is the quiet, vital force that flows beneath the surface. It carries the purest essence of the earth upward, sustaining life, fueling growth, and transforming raw elements into something magnificent. We chose this name because it is exactly what we do.",
         "SEIVA is a horizontal, international collective of three chefs. We are three distinct culinary lifelines that have crossed borders, cultures and oceans to merge into a single, uncompromising vision. We bring the rigorous, time-honored discipline of the Piedmontese hills in Italy; the vibrant, soulful precision of the litorals and hills of Southern Brazil; and the sharp, high-performance execution honed in the culinary capitals of the United States.",
         "We are not a traditional catering company. We do not mass-produce, and we do not compromise. We are a chef-driven culinary house built exclusively for those who view a gathering not just as an event, but as an art form.",
-        "For our private clients, we bring the intimacy of an authorial, Michelin-caliber restaurant directly into the sanctuary of your home. For our corporate partners, we translate your brand's prestige into a tailored sensory narrative — proving that we can execute with surgical, high-volume logistics for thousands without ever losing the delicate touch of a hand-placed micro-green.",
+        "For our private clients, we bring the intimacy of an authorial, Michelin-caliber restaurant directly into the sanctuary of your home. For our corporate partners, we translate your brand's prestige into a tailored sensory narrative, proving that we can execute with surgical, high-volume logistics for thousands without ever losing the delicate touch of a hand-placed micro-green.",
         "From exclusive wine-paired galas for iconic brands like BMW and La Roche-Posay to intimate milestone celebrations, we handle the pressure so you can inherit the peace.",
         "We respect the farmer. We honor the micro-season. We obsess over the temperature, the texture, the lineage of the wine, and the geometry of the plate. But above all, we respect the trust you place in our hands. When you sit at a SEIVA table, you are tasting a global journey, executed in flawless harmony.",
       ],
@@ -43,7 +43,7 @@ export const copy = {
         "Na natureza, a seiva é a força silenciosa e vital que flui sob a superfície. Ela conduz a essência mais pura da terra para cima, sustentando a vida, alimentando o crescimento e transformando elementos brutos em algo magnífico. Escolhemos este nome porque é exatamente o que fazemos.",
         "SEIVA é um coletivo horizontal e internacional de três chefs. Somos três linhas culinárias distintas que cruzaram fronteiras, culturas e oceanos para se unirem em uma visão única e intransigente. Trazemos a disciplina rigorosa e atemporal das colinas do Piemonte, na Itália; a precisão vibrante e cheia de alma do litoral e das serras do Sul do Brasil; e a execução afiada e de alta performance forjada nas capitais culinárias dos Estados Unidos.",
         "Não somos uma empresa tradicional de catering. Não produzimos em massa e não fazemos concessões. Somos uma casa culinária conduzida pelos chefs, construída exclusivamente para quem enxerga um encontro não como um evento, mas como uma forma de arte.",
-        "Para nossos clientes privados, levamos a intimidade de um restaurante autoral, em nível Michelin, diretamente para o santuário da sua casa. Para nossos parceiros corporativos, traduzimos o prestígio da sua marca em uma narrativa sensorial sob medida — provando que sabemos executar com logística cirúrgica e alto volume para milhares de convidados sem jamais perder o toque delicado de um microgreen colocado à mão.",
+        "Para nossos clientes privados, levamos a intimidade de um restaurante autoral, em nível Michelin, diretamente para o santuário da sua casa. Para nossos parceiros corporativos, traduzimos o prestígio da sua marca em uma narrativa sensorial sob medida, provando que sabemos executar com logística cirúrgica e alto volume para milhares de convidados sem jamais perder o toque delicado de um microgreen colocado à mão.",
         "De jantares de gala harmonizados para marcas icônicas como BMW e La Roche-Posay até celebrações íntimas de marcos pessoais, assumimos a pressão para que você herde a serenidade.",
         "Respeitamos o produtor. Honramos a micro-estação. Somos obcecados pela temperatura, pela textura, pela linhagem do vinho e pela geometria do prato. Mas, acima de tudo, respeitamos a confiança depositada em nossas mãos. Quando você se senta a uma mesa SEIVA, está provando uma jornada global, executada em perfeita harmonia.",
       ],
@@ -54,8 +54,8 @@ export const copy = {
     eyebrow: { en: "The Collective", pt: "O Coletivo" },
     title: { en: "Three Lineages.\nOne Table.", pt: "Três Linhagens.\nUma Mesa." },
     intro: {
-      en: "A strictly horizontal partnership. No single signature — a single, multiplied vision.",
-      pt: "Uma parceria estritamente horizontal. Nenhuma assinatura individual — uma única visão, multiplicada.",
+      en: "A strictly horizontal partnership. No single signature, a single, multiplied vision.",
+      pt: "Uma parceria estritamente horizontal. Nenhuma assinatura individual, uma única visão, multiplicada.",
     },
     list: [
       {
@@ -91,8 +91,8 @@ export const copy = {
     eyebrow: { en: "Case Study", pt: "Estudo de Caso" },
     title: { en: "Match Point Mansion\nRio Open", pt: "Match Point Mansion\nRio Open" },
     lede: {
-      en: "An exclusive hospitality venue at the heart of the ATP Rio Open. SEIVA composed the entire culinary program — a study in operating at scale without forfeiting refinement.",
-      pt: "Um espaço de hospitalidade exclusivo no coração do ATP Rio Open. A SEIVA assinou o programa culinário inteiro — uma demonstração de operar em escala sem abrir mão do requinte.",
+      en: "An exclusive hospitality venue at the heart of the ATP Rio Open. SEIVA composed the entire culinary program, a study in operating at scale without forfeiting refinement.",
+      pt: "Um espaço de hospitalidade exclusivo no coração do ATP Rio Open. A SEIVA assinou o programa culinário inteiro, uma demonstração de operar em escala sem abrir mão do requinte.",
     },
     stats: [
       { n: "9 / 30", l: { en: "9 Days, 30 Menus executed with perfection", pt: "9 Dias, 30 Menus executados com perfeição" } },
@@ -107,17 +107,17 @@ export const copy = {
       {
         n: "01",
         t: { en: "Private Dinner Experience", pt: "Jantar Privativo" },
-        d: { en: "Bespoke multi-course tasting menus for luxury residences and VIP hosts — an authorial restaurant transposed into the sanctuary of your home.", pt: "Menus degustação sob medida para residências de luxo e anfitriões VIP — um restaurante autoral transposto para o santuário da sua casa." },
+        d: { en: "Bespoke multi-course tasting menus for luxury residences and VIP hosts, an authorial restaurant transposed into the sanctuary of your home.", pt: "Menus degustação sob medida para residências de luxo e anfitriões VIP, um restaurante autoral transposto para o santuário da sua casa." },
       },
       {
         n: "02",
         t: { en: "Luxury Brand Activations", pt: "Ativações de Marcas de Luxo" },
-        d: { en: "Conceptual, high-end culinary experiences designed for elite corporate events and product launches — translating brand prestige into a sensory narrative.", pt: "Experiências culinárias conceituais e refinadas para eventos corporativos de elite e lançamentos — traduzindo o prestígio da marca em uma narrativa sensorial." },
+        d: { en: "Conceptual, high-end culinary experiences designed for elite corporate events and product launches, translating brand prestige into a sensory narrative.", pt: "Experiências culinárias conceituais e refinadas para eventos corporativos de elite e lançamentos, traduzindo o prestígio da marca em uma narrativa sensorial." },
       },
       {
         n: "03",
         t: { en: "Exclusive Celebrations", pt: "Celebrações Exclusivas" },
-        d: { en: "Unforgettable, refined culinary narratives for boutique weddings and high-society milestones — composed with the intimacy of a private commission.", pt: "Narrativas culinárias refinadas e inesquecíveis para casamentos boutique e marcos da alta sociedade — compostas com a intimidade de uma encomenda privada." },
+        d: { en: "Unforgettable, refined culinary narratives for boutique weddings and high-society milestones composed with the intimacy of a private commission.", pt: "Narrativas culinárias refinadas e inesquecíveis para casamentos boutique e marcos da alta sociedade compostas com a intimidade de uma encomenda privada." },
       },
     ],
   },
