@@ -1,4 +1,3 @@
-// old vercel.json
 {
   "version": 2,
   "outputDirectory": "dist/client",
