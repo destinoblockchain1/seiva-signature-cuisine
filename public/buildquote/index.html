@@ -947,9 +947,13 @@
             }
         };
 
-        // Custom flutting gold notification system
+        // --- DYNAMIC ITEMS HOLDER ---
+        let items = [];
+
+        // --- TOAST NOTIFICATIONS SYSTEM ---
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
+            if (!container) return;
             const toast = document.createElement('div');
             toast.className = `p-4 rounded-lg shadow-lg text-[10px] tracking-widest uppercase font-mono flex items-center gap-2 transform translate-y-2 opacity-0 transition-all duration-300 max-w-sm pointer-events-auto border ${
                 type === 'success' ? 'bg-zinc-950 border-gold text-gold' : 'bg-red-950/90 border-red-500 text-red-200'
@@ -963,51 +967,64 @@
             }, 3000);
         }
 
-        // Setup Proposal ID and Date of Issue
-        function generateDefaultMeta() {
-            const currentYear = new Date().getFullYear();
-            const randomNum = Math.floor(100 + Math.random() * 900); // SV-2026-XXX
-            const ref = `SV-${currentYear}-${randomNum}`;
-            const today = new Date();
-            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        // --- FORMAT MONEY VALUES ---
+        function formatCurrency(val, lang) {
+            let locale = 'en-US';
+            let currency = 'USD';
+            if (lang === 'POR') {
+                locale = 'pt-BR';
+                currency = 'BRL';
+            } else if (lang === 'ITA') {
+                locale = 'it-IT';
+                currency = 'EUR';
+            }
+            return new Intl.NumberFormat(locale, { style: 'currency', currency: currency }).format(val);
+        }
 
-            let dateIssueStr = today.toLocaleDateString(state.lang === 'POR' ? 'pt-BR' : state.lang === 'ITA' ? 'it-IT' : 'en-US', options);
+        // --- LOCAL STORAGE AUTOSAVE SIMULATION ---
+        function triggerAutosave() {
+            const statusEl = document.getElementById('autosave-status');
+            if (statusEl) statusEl.textContent = "Autosaving...";
             
-            document.getElementById('input-ref').value = ref;
-            document.getElementById('input-date-issue').value = dateIssueStr;
-        }
-
-        // Tab routing workflow
-        function switchWorkspaceView(viewName) {
-            state.tab = viewName;
-            const tabs = {
-                dashboard: { btn: 'tab-dashboard', container: 'view-dashboard' },
-                crm: { btn: 'tab-crm', container: 'view-crm' },
-                builder: { btn: 'tab-builder', container: 'view-builder' }
-            };
-
-            Object.keys(tabs).forEach(k => {
-                const config = tabs[k];
-                const btn = document.getElementById(config.btn);
-                const view = document.getElementById(config.container);
-                if (k === viewName) {
-                    btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all bg-gold text-dark shadow";
-                    view.classList.remove('hidden');
-                    if (k === 'dashboard') loadCloudLibraryList();
-                } else {
-                    btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all text-zinc-400 hover:text-cream bg-zinc-950 hover:bg-zinc-900/50";
-                    view.classList.add('hidden');
+            // Save state payload safely to localStorage to persist over refreshes
+            const payload = {
+                items: items,
+                meta: {
+                    ref: document.getElementById('input-ref').value,
+                    dateIssue: document.getElementById('input-date-issue').value,
+                    dateValid: document.getElementById('input-date-valid').value,
+                    client: document.getElementById('input-client').value,
+                    company: document.getElementById('input-company').value,
+                    event: document.getElementById('input-event').value,
+                    eventDate: document.getElementById('input-event-date').value,
+                    location: document.getElementById('input-location').value,
+                    guests: document.getElementById('input-guests').value,
+                    format: document.getElementById('input-format').value,
+                    concept: document.getElementById('input-concept').value,
+                    presenter: document.getElementById('input-presenter').value,
+                    title: document.getElementById('input-title').value
                 }
-            });
+            };
+            localStorage.setItem('seiva_draft_payload', JSON.stringify(payload));
+            
+            setTimeout(() => {
+                if (statusEl) {
+                    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    statusEl.textContent = `Autosaved at ${time}`;
+                }
+            }, 800);
         }
 
-        // Global Translators UI update
         function changeLanguage(langCode) {
             state.lang = langCode;
             
             ['ENG', 'POR', 'ITA'].forEach(l => {
                 const btn = document.getElementById(`lang-btn-${l}`);
-                if (btn) btn.className = l === langCode ? "px-2.5 py-1 rounded transition-all text-dark bg-gold font-bold shadow" : "px-2.5 py-1 rounded transition-all text-zinc-400 hover:text-cream bg-zinc-950";
+                if (btn) {
+                    btn.className = l === langCode 
+                        ? "px-2.5 py-1 rounded transition-all text-dark bg-gold font-bold shadow text-[10px]" 
+                        : "px-2.5 py-1 rounded transition-all text-zinc-400 hover:text-cream bg-zinc-950 text-[10px]";
+                }
             });
 
             applyUILabelTranslations();
@@ -1017,7 +1034,59 @@
             renderCRMTable();
         }
 
-        // Metadatas automatic sync to preview (Responsive fluid layout)
+        function applyUILabelTranslations() {
+            const labelsObj = translations[state.lang].labels;
+            const updateText = (id, text) => {
+                const el = document.getElementById(id);
+                if (el && text) el.textContent = text;
+            };
+
+            updateText('dash-title', translations[state.lang].dashboard.title);
+            updateText('dash-subtitle', translations[state.lang].dashboard.subtitle);
+            updateText('card-label-closed-revenue', translations[state.lang].dashboard.closedRevenue);
+            updateText('card-label-active-pipeline', translations[state.lang].dashboard.activePipeline);
+            updateText('card-label-active-proposals', translations[state.lang].dashboard.activeProposals);
+            updateText('card-label-conversion-rate', translations[state.lang].dashboard.conversionRate);
+            updateText('card-sub-approved', translations[state.lang].dashboard.fromApproved);
+            updateText('card-sub-pending', translations[state.lang].dashboard.draftSent);
+            updateText('card-sub-total', translations[state.lang].dashboard.totalLogged);
+            updateText('card-sub-closed', translations[state.lang].dashboard.closedVsPipeline);
+            updateText('lib-title', translations[state.lang].dashboard.libTitle);
+            updateText('event-closure-ledger-title', translations[state.lang].dashboard.ledgerTitle);
+
+            updateText('ui-sidebar-title', labelsObj.sidebarTitle);
+            updateText('ui-sect-doc-info', labelsObj.sectDocInfo);
+            updateText('ui-sect-client-info', labelsObj.sectClientInfo);
+            updateText('ui-sect-event-params', labelsObj.sectEventParams);
+            updateText('ui-sect-creative-concept', labelsObj.sectCreativeConcept);
+            updateText('ui-sect-line-items', labelsObj.sectLineItems);
+            updateText('ui-sect-signature', labelsObj.sectSignature);
+            updateText('ui-btn-add-item', labelsObj.btnAddItem);
+            updateText('doc-title-main', labelsObj.titleMain);
+            updateText('doc-label-prepared-for', labelsObj.labelPreparedFor);
+            updateText('doc-label-issue-date', labelsObj.labelIssueDate);
+            updateText('doc-label-valid-until', labelsObj.labelValidUntil);
+            updateText('doc-label-event', labelsObj.labelEvent);
+            updateText('doc-label-event-date', labelsObj.labelEventDate);
+            updateText('doc-label-location', labelsObj.labelLocation);
+            updateText('doc-label-guests', labelsObj.labelGuests);
+            updateText('doc-label-format', labelsObj.labelFormat);
+            updateText('doc-label-concept', labelsObj.labelConcept);
+            updateText('doc-label-investment-breakdown', labelsObj.labelInvestmentBreakdown);
+            updateText('doc-label-th-desc', labelsObj.labelThDesc);
+            updateText('doc-label-th-qty', labelsObj.labelThQty);
+            updateText('doc-label-th-rate', labelsObj.labelThRate);
+            updateText('doc-label-th-total', labelsObj.labelThTotal);
+            updateText('doc-label-subtotal', labelsObj.labelSubtotal);
+            updateText('doc-label-taxes', labelsObj.labelTaxes);
+            updateText('doc-label-total-per-guest', labelsObj.labelTotalPerGuest);
+            updateText('doc-label-total', labelsObj.labelTotal);
+            updateText('doc-label-next-steps', labelsObj.labelNextSteps);
+            updateText('doc-next-steps-text', labelsObj.labelNextStepsText);
+            updateText('doc-btn-approve', labelsObj.btnApprove);
+            updateText('doc-payment-msg-text', labelsObj.paymentMsgText);
+        }
+
         function updateMetadata() {
             document.getElementById('doc-ref').textContent = document.getElementById('input-ref').value || '—';
             document.getElementById('doc-date-issue').textContent = document.getElementById('input-date-issue').value || '—';
@@ -1037,7 +1106,6 @@
             calculateAndRenderTotals();
         }
 
-        // Calculation algorithms
         function calculateAndRenderTotals() {
             let subtotal = 0;
             items.forEach(item => {
@@ -1064,7 +1132,6 @@
             recomputeAnalyticsDashboard();
         }
 
-        // Sync local ledger and items into dashboard
         function recomputeAnalyticsDashboard() {
             let approvedSum = 0;
             let pipelineSum = 0;
@@ -1085,7 +1152,6 @@
                 }
             });
 
-            // Append mock closed closures into the stats
             state.ledger.forEach(l => {
                 approvedSum += l.revenue;
                 approvedCount++;
@@ -1106,7 +1172,6 @@
             return it && it.hasPrice;
         }
 
-        // Render segment chart for event expenses
         function renderSegmentBars() {
             const totals = { Products: 0, Equipments: 0, Furniture: 0, Staff: 0, Logistics: 0 };
             state.ledger.forEach(l => {
@@ -1119,6 +1184,7 @@
 
             const overall = Object.values(totals).reduce((a, b) => a + b, 0) || 1;
             const container = document.getElementById('segment-bars-container');
+            if (!container) return;
             container.innerHTML = '';
 
             const segmentColors = {
@@ -1146,9 +1212,9 @@
             });
         }
 
-        // Render Ledger Tables
         function renderLedgerTable() {
             const tbody = document.getElementById('event-ledger-rows');
+            if (!tbody) return;
             tbody.innerHTML = '';
 
             state.ledger.forEach(l => {
@@ -1166,9 +1232,9 @@
             });
         }
 
-        // Render CRM Customers directory list
         function renderCRMTable() {
             const tbody = document.getElementById('crm-clients-rows');
+            if (!tbody) return;
             tbody.innerHTML = '';
 
             state.clients.forEach(c => {
@@ -1181,15 +1247,14 @@
                     <td class="p-4 text-center font-mono">${c.eventsCount}</td>
                     <td class="p-4 font-mono text-gold font-semibold">${formatCurrency(c.ltv, state.lang)}</td>
                     <td class="p-4 text-right space-x-2">
-                        <button onclick="applyCRMToProposal('${c.name}', '${c.company || ''}')" class="text-[9px] uppercase tracking-wider bg-gold text-dark font-bold px-2 py-1 rounded">Build Quote</button>
-                        <button onclick="deleteClient('${c.id}')" class="text-zinc-500 hover:text-red-400">&times;</button>
+                        <button data-action="apply-crm" data-name="${c.name}" data-company="${c.company || ''}" class="text-[9px] uppercase tracking-wider bg-gold text-dark font-bold px-2 py-1 rounded">Build Quote</button>
+                        <button data-action="delete-crm" data-id="${c.id}" class="text-zinc-500 hover:text-red-400 font-bold text-sm">&times;</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        // Bind client data to proposal form
         function applyCRMToProposal(name, company) {
             document.getElementById('input-client').value = name;
             document.getElementById('input-company').value = company;
@@ -1204,51 +1269,52 @@
             showToast("Customer profile removed");
         }
 
-        // Simulated Invoice AI OCR scanner dropzone mechanism
         function triggerSimulatedOCR() {
             const loader = document.getElementById('ocr-loader');
             const dropzone = document.getElementById('ocr-dropzone');
             const results = document.getElementById('ocr-results');
+
+            if (!loader || !dropzone || !results) return;
 
             dropzone.classList.add('hidden');
             results.classList.add('hidden');
             loader.classList.remove('hidden');
 
             let pct = 0;
+            const progressPct = document.getElementById('ocr-progress-pct');
+            const progressBar = document.getElementById('ocr-progress-bar');
+            
             const interval = setInterval(() => {
                 pct += 10;
-                document.getElementById('ocr-progress-pct').textContent = `${pct}%`;
-                document.getElementById('ocr-progress-bar').style.width = `${pct}%`;
+                if (progressPct) progressPct.textContent = `${pct}%`;
+                if (progressBar) progressBar.style.width = `${pct}%`;
 
                 if (pct >= 100) {
                     clearInterval(interval);
                     loader.classList.add('hidden');
                     
-                    // Generate premium mock invoice data matching current lang
                     const extractedValue = Math.floor(2500 + Math.random() * 5000);
                     document.getElementById('ocr-total-val').textContent = formatCurrency(extractedValue, state.lang);
                     document.getElementById('ocr-vendor').textContent = "Bespoke Imports Corp";
                     document.getElementById('ocr-tax-id').textContent = "EIN-41-5063583";
-                    document.getElementById('ocr-date').value = "2026-06-19";
+                    document.getElementById('ocr-date').textContent = "2026-06-19";
                     results.classList.remove('hidden');
                     showToast("AI OCR scanner analysis complete!");
                 }
             }, 150);
         }
 
-        // Save OCR item as manual ledger event closure expense
         function approveOCRExpense() {
             const costText = document.getElementById('ocr-total-val').textContent;
             const numericCost = parseFloat(costText.replace(/[^0-9.-]+/g,"")) || 2500;
             const segment = document.getElementById('ocr-allocated-segment').value;
 
-            // Rollup mock new event closure
             const newLedger = {
                 id: crypto.randomUUID(),
                 ref: `SV-2026-${Math.floor(100+Math.random()*900)}`,
                 client: "Inquire Closed Vendor",
                 guests: 50,
-                revenue: numericCost * 2.5, // assuming healthy 60% margins
+                revenue: numericCost * 2.5,
                 cost: numericCost,
                 profit: (numericCost * 2.5) - numericCost,
                 margin: 60,
@@ -1266,13 +1332,11 @@
             showToast("Ledger event cost closing added!");
         }
 
-        // Dynamic CRM addition
         function setupCRMForm() {
             const card = document.getElementById('crm-form-container');
-            card.classList.toggle('hidden');
+            if (card) card.classList.toggle('hidden');
         }
 
-        // PDF Sandbox export fallback if popups are blocked by iFrames
         function exportDocumentToPDF() {
             try {
                 const clientName = document.getElementById('doc-client').textContent;
@@ -1280,7 +1344,6 @@
                 
                 const printWindow = window.open('', '_blank');
                 if (!printWindow) {
-                    // Fallback to inline print layout switch
                     showToast("Sandbox Blocked. Toggling body print layout directly...", "success");
                     window.print();
                     return;
@@ -1365,7 +1428,6 @@
             }
         }
 
-        // Custom dispatch dialog drawer
         function triggerShareDispatch(proposalId = null) {
             const activeId = proposalId || state.currentQuoteId || 'SV-2026-X';
             const client = document.getElementById('input-client').value || "Client";
@@ -1420,9 +1482,21 @@ SEIVA Collective`;
             document.getElementById('dispatch-overlay').classList.remove('hidden');
         }
 
-        // Dynamic items editor delegation to bypass CSP rules
+        function shareWhatsApp() {
+            const draftText = encodeURIComponent(document.getElementById('dispatch-email-text').value);
+            window.open(`https://api.whatsapp.com/send?text=${draftText}`, '_blank');
+        }
+
+        function openMailClient() {
+            const email = document.getElementById('crm-input-email')?.value || "";
+            const subject = encodeURIComponent("Coletivo SEIVA — Proposta Gastronômica");
+            const body = encodeURIComponent(document.getElementById('dispatch-email-text').value);
+            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+        }
+
         function renderEditor() {
             const container = document.getElementById('items-editor-container');
+            if (!container) return;
             container.innerHTML = '';
 
             items.forEach((item, index) => {
@@ -1430,7 +1504,7 @@ SEIVA Collective`;
                 div.className = "bg-zinc-800 p-4 rounded border border-zinc-700 relative space-y-3";
                 
                 let subHTML = '';
-                item.subItems.forEach((sub, subIdx) => {
+                (item.subItems || []).forEach((sub, subIdx) => {
                     subHTML += `
                         <div class="bg-zinc-900/60 p-2 rounded border border-zinc-750 space-y-2 relative ml-3 border-l-2 border-gold/30 pl-3">
                             <button data-action="delete-sub" data-parent="${index}" data-sub="${subIdx}" class="absolute top-1 right-1 text-zinc-500 hover:text-red-400 text-xs font-bold">&times;</button>
@@ -1497,11 +1571,209 @@ SEIVA Collective`;
             });
         }
 
-        // Programmatic interactions setup
+        function renderDocPreview() {
+            const container = document.getElementById('doc-items-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            items.forEach((item) => {
+                const parentTotal = item.qty * item.rate;
+                const parentHasPrice = item.hasPrice;
+
+                const parentRow = document.createElement('div');
+                parentRow.className = "py-6 md:py-8 border-b border-dark/5 last:border-0 break-inside-avoid";
+                
+                parentRow.innerHTML = `
+                    <div class="grid grid-cols-12 gap-4 items-start">
+                        <div class="col-span-6 md:col-span-7">
+                            <p class="font-sans text-[13px] text-zinc-700 font-light tracking-wide leading-relaxed">${item.name}</p>
+                            ${item.desc ? `<p class="font-sans text-[11px] text-zinc-500 font-light mt-1 leading-relaxed tracking-wide">${item.desc}</p>` : ''}
+                        </div>
+                        <div class="col-span-2 md:col-span-1 text-center text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
+                            ${parentHasPrice ? item.qty : '—'}
+                        </div>
+                        <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
+                            ${parentHasPrice ? formatCurrency(item.rate, state.lang) : '—'}
+                        </div>
+                        <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-700 tracking-wider font-semibold">
+                            ${parentHasPrice ? formatCurrency(parentTotal, state.lang) : '—'}
+                        </div>
+                    </div>
+                    <div class="mt-4 space-y-4 pl-4 md:pl-6 border-l border-zinc-200">
+                        ${(item.subItems || []).map(sub => {
+                            const subTotal = sub.qty * sub.rate;
+                            const isPricedSub = sub.hasPrice;
+                            
+                            return `
+                                <div class="grid grid-cols-12 gap-4 items-start">
+                                    <div class="col-span-6 md:col-span-7">
+                                        <p class="font-sans text-[13px] text-zinc-600 font-light leading-relaxed tracking-wide">${sub.name}</p>
+                                    </div>
+                                    <div class="col-span-2 md:col-span-1 text-center text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
+                                        ${isPricedSub ? sub.qty : ''}
+                                    </div>
+                                    <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
+                                        ${isPricedSub ? formatCurrency(sub.rate, state.lang) : ''}
+                                    </div>
+                                    <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-600 tracking-wider font-semibold">
+                                        ${isPricedSub ? formatCurrency(subTotal, state.lang) : ''}
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+                container.appendChild(parentRow);
+            });
+
+            calculateAndRenderTotals();
+        }
+
+        function addNewItem() {
+            const labelsObj = translations[state.lang].labels;
+            items.push({
+                name: labelsObj.placeholderName,
+                desc: labelsObj.placeholderDesc,
+                hasPrice: true,
+                qty: 1,
+                rate: 100,
+                subItems: []
+            });
+            renderAll();
+        }
+
+        function addNewSubItem(parentIdx) {
+            items[parentIdx].subItems.push({
+                name: "New Sub Item or Course Selection",
+                desc: "",
+                hasPrice: false,
+                qty: 1,
+                rate: 0
+            });
+            renderAll();
+        }
+
+        function handleItemChange(idx, key, val) {
+            if (key === 'qty' || key === 'rate') {
+                items[idx][key] = parseFloat(val) || 0;
+            } else if (key === 'hasPrice') {
+                items[idx][key] = val;
+            } else {
+                items[idx][key] = val;
+            }
+            renderDocPreview();
+        }
+
+        function handleSubItemChange(parentIdx, subIdx, key, val) {
+            if (key === 'qty' || key === 'rate') {
+                items[parentIdx].subItems[subIdx][key] = parseFloat(val) || 0;
+            } else if (key === 'hasPrice') {
+                items[parentIdx].subItems[subIdx][key] = val;
+            } else {
+                items[parentIdx].subItems[subIdx][key] = val;
+            }
+            renderDocPreview();
+        }
+
+        function deleteItem(idx) {
+            items.splice(idx, 1);
+            renderAll();
+        }
+
+        function deleteSubItem(parentIdx, subIdx) {
+            items[parentIdx].subItems.splice(subIdx, 1);
+            renderAll();
+        }
+
+        function loadCloudLibraryList() {
+            const listEl = document.getElementById('proposals-list');
+            if (!listEl) return;
+            listEl.innerHTML = '';
+
+            state.quotes.forEach(q => {
+                const row = document.createElement('div');
+                row.className = "p-4 border-b border-zinc-800 hover:bg-zinc-950/20 cursor-pointer flex justify-between items-center";
+                row.innerHTML = `
+                    <div>
+                        <span class="text-xs font-bold text-cream font-mono">${q.meta.ref}</span>
+                        <span class="text-xs text-zinc-500 ml-2">${q.meta.client || '—'} (${q.meta.event || '—'})</span>
+                    </div>
+                    <span class="text-[9px] font-mono px-2 py-0.5 rounded border border-zinc-700 uppercase bg-zinc-950">${q.status}</span>
+                `;
+                row.addEventListener('click', () => {
+                    editProposal(q.id);
+                });
+                listEl.appendChild(row);
+            });
+        }
+
+        function editProposal(id) {
+            const q = state.quotes.find(item => item.id === id);
+            if (!q) return;
+
+            state.currentQuoteId = q.id;
+            state.lang = q.lang || 'POR';
+            items = JSON.parse(JSON.stringify(q.items || []));
+
+            document.getElementById('input-ref').value = q.meta.ref || '';
+            document.getElementById('input-date-issue').value = q.meta.dateIssue || '';
+            document.getElementById('input-date-valid').value = q.meta.dateValid || '';
+            document.getElementById('input-client').value = q.meta.client || '';
+            document.getElementById('input-company').value = q.meta.company || '';
+            document.getElementById('input-event').value = q.meta.event || '';
+            document.getElementById('input-event-date').value = q.meta.eventDate || '';
+            document.getElementById('input-location').value = q.meta.location || '';
+            document.getElementById('input-guests').value = q.meta.guests || '';
+            document.getElementById('input-format').value = q.meta.format || '';
+            document.getElementById('input-concept').value = q.meta.concept || '';
+            document.getElementById('input-presenter').value = q.meta.presenter || '';
+            document.getElementById('input-title').value = q.meta.title || '';
+
+            document.getElementById('input-status').value = q.status || 'Draft';
+
+            changeLanguage(state.lang);
+            switchWorkspaceView('builder');
+            showToast("Draft Loaded.");
+        }
+
+        function createNewProposal() {
+            state.currentQuoteId = null;
+            items = [];
+            
+            generateDefaultMeta();
+            
+            document.getElementById('input-date-valid').value = '';
+            document.getElementById('input-client').value = '';
+            document.getElementById('input-company').value = '';
+            document.getElementById('input-event').value = '';
+            document.getElementById('input-event-date').value = '';
+            document.getElementById('input-location').value = '';
+            document.getElementById('input-guests').value = '';
+            document.getElementById('input-format').value = '';
+            document.getElementById('input-concept').value = '';
+            document.getElementById('input-presenter').value = 'Bernardo Simões';
+            document.getElementById('input-title').value = 'Executive Chef';
+
+            document.getElementById('input-status').value = 'Draft';
+
+            updateMetadata();
+            renderAll();
+            switchWorkspaceView('builder');
+            showToast("New Blank Proposal Draft Initiated.");
+        }
+
+        function renderAll() {
+            renderEditor();
+            renderDocPreview();
+        }
+
         function registerHandlers() {
-            // Pin Check Gate
-            document.getElementById('btn-login-submit').addEventListener('click', () => {
-                const pin = document.getElementById('admin-pin').value;
+            // Password verification gate supporting keydown 'Enter'
+            const submitBtn = document.getElementById('btn-login-submit');
+            const pinInput = document.getElementById('admin-pin');
+            
+            const handlePasscodeCheck = () => {
+                const pin = pinInput.value.trim();
                 if (pin === 'seiva2026') {
                     document.getElementById('login-gateway').classList.add('opacity-0', 'pointer-events-none');
                     document.getElementById('app-content').classList.remove('hidden');
@@ -1512,18 +1784,24 @@ SEIVA Collective`;
                 } else {
                     showToast("Incorrect Passcode. Access denied.", "error");
                 }
-            });
+            };
 
-            // Tab navigation routers
+            if (submitBtn) submitBtn.addEventListener('click', handlePasscodeCheck);
+            if (pinInput) {
+                pinInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') handlePasscodeCheck();
+                });
+            }
+
             document.getElementById('tab-dashboard').addEventListener('click', () => switchWorkspaceView('dashboard'));
             document.getElementById('tab-crm').addEventListener('click', () => switchWorkspaceView('crm'));
             document.getElementById('tab-builder').addEventListener('click', () => switchWorkspaceView('builder'));
             document.getElementById('btn-dashboard-new-proposal').addEventListener('click', createNewProposal);
 
-            // Collapsible settings panels
             document.getElementById('sidebar-collapse-btn').addEventListener('click', toggleSidebar);
             document.getElementById('sidebar-toggle-floating').addEventListener('click', toggleSidebar);
             document.getElementById('sidebar-primary-export-btn').addEventListener('click', exportDocumentToPDF);
+            
             document.getElementById('ui-btn-add-item').addEventListener('click', () => {
                 addNewItem();
                 triggerAutosave();
@@ -1534,28 +1812,17 @@ SEIVA Collective`;
                 document.getElementById('dispatch-overlay').classList.add('hidden');
             });
 
-            document.getElementById('btn-whatsapp-dispatch').addEventListener('click', shareWhatsApp);
-            document.getElementById('btn-direct-email').addEventListener('click', (e) => {
-                e.preventDefault();
-                openMailClient();
+            // Delegated click routers for tables
+            document.getElementById('crm-clients-rows').addEventListener('click', (e) => {
+                const applyBtn = e.target.closest('[data-action="apply-crm"]');
+                const delBtn = e.target.closest('[data-action="delete-crm"]');
+                if (applyBtn) {
+                    applyCRMToProposal(applyBtn.getAttribute('data-name'), applyBtn.getAttribute('data-company'));
+                } else if (delBtn) {
+                    deleteClient(delBtn.getAttribute('data-id'));
+                }
             });
 
-            // Clipboard Copy handling
-            document.getElementById('btn-copy-link').addEventListener('click', () => {
-                const input = document.getElementById('share-link-input');
-                input.select();
-                document.execCommand('copy');
-                showToast("Invite Link Copied.");
-            });
-
-            document.getElementById('btn-copy-email-draft').addEventListener('click', () => {
-                const textarea = document.getElementById('dispatch-email-text');
-                textarea.select();
-                document.execCommand('copy');
-                showToast("Email text copied.");
-            });
-
-            // Metadata inputs listeners for live-update preview
             const metaFields = [
                 'ref', 'date-issue', 'date-valid', 'client', 'company',
                 'event', 'event-date', 'location', 'guests', 'format',
@@ -1571,12 +1838,10 @@ SEIVA Collective`;
                 }
             });
 
-            // Status select monitor
             document.getElementById('input-status').addEventListener('change', function() {
                 triggerAutosave();
             });
 
-            // Dynamic items editor delegation to bypass CSP rules
             const editor = document.getElementById('items-editor-container');
             editor.addEventListener('input', function(e) {
                 const target = e.target;
@@ -1634,7 +1899,7 @@ SEIVA Collective`;
                 }
             });
 
-            // OCR dropzone trigger click
+            // OCR Dropzone
             const dropzone = document.getElementById('ocr-dropzone');
             const fileInput = document.getElementById('ocr-file-input');
             dropzone.addEventListener('click', () => fileInput.click());
@@ -1642,7 +1907,7 @@ SEIVA Collective`;
             
             document.getElementById('btn-ocr-approve-expense').addEventListener('click', approveOCRExpense);
 
-            // CRM Add Client Profile triggers
+            // CRM Add Client Profile trigger
             document.getElementById('btn-crm-add-client').addEventListener('click', setupCRMForm);
             document.getElementById('btn-crm-cancel').addEventListener('click', setupCRMForm);
             document.getElementById('crm-client-form').addEventListener('submit', function(e) {
@@ -1662,7 +1927,6 @@ SEIVA Collective`;
                 showToast("New client card saved!");
             });
 
-            // Dynamic ENG/POR/ITA buttons bindings
             ['ENG', 'POR', 'ITA'].forEach(lang => {
                 document.getElementById(`lang-btn-${lang}`).addEventListener('click', () => {
                     changeLanguage(lang);
