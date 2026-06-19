@@ -251,24 +251,26 @@ function ScrollColoredImage({
       ref={containerRef} 
       onMouseEnter={() => !isMobile && setIsHovered(true)}
       onMouseLeave={() => !isMobile && setIsHovered(false)}
-      className={`group relative overflow-hidden bg-neutral-950 border border-border/10 rounded-sm shadow-xl transition-all duration-700 ${aspectClass}`}
+      className="group relative overflow-hidden bg-neutral-950 border border-border/10 rounded-sm shadow-xl transition-all duration-700"
     >
-      <img 
-        src={src} 
-        alt={alt} 
-        loading={loading} 
-        className={`transition-all duration-1000 ease-out transform ${objectCover ? "h-full w-full object-cover" : "h-auto w-full"} ${className}`} 
-        style={{
-          filter: active
-            ? "grayscale(0%) sepia(0%) contrast(1.0) saturate(105%) brightness(1.0)"
-            : "grayscale(100%) sepia(15%) contrast(1.15) saturate(75%) brightness(0.85)",
-          transform: active ? "scale(1.04)" : "scale(1)"
-        }}
-      />
-      <div 
-        className="absolute inset-0 bg-neutral-900/10 mix-blend-multiply pointer-events-none transition-opacity duration-1000"
-        style={{ opacity: active ? 0 : 1 }}
-      />
+      <div className={aspectClass}>
+        <img 
+          src={src} 
+          alt={alt} 
+          loading={loading} 
+          className={`transition-all duration-1000 ease-out transform ${objectCover ? "h-full w-full object-cover" : "h-auto w-full"} ${className}`} 
+          style={{
+            filter: active
+              ? "grayscale(0%) sepia(0%) contrast(0.94) saturate(95%) brightness(1.0)"
+              : "grayscale(100%) sepia(12%) contrast(1.04) saturate(70%) brightness(0.85)",
+            transform: active ? "scale(1.04)" : "scale(1)"
+          }}
+        />
+        <div 
+          className="absolute inset-0 bg-neutral-900/10 mix-blend-multiply pointer-events-none transition-opacity duration-1000"
+          style={{ opacity: active ? 0 : 1 }}
+        />
+      </div>
     </div>
   );
 }
@@ -428,7 +430,7 @@ function CaseStudyGallery({ lang }: { lang: Lang }) {
 function Experiences({ lang }: { lang: Lang }) {
   const c = copy.experiences;
   return (
-    <section id="experiences" className="border-t border-border bg-foreground px-6 py-32 text-background md:px-12 md:py-48">
+    <section id="experiences" className="border-t border-border bg-foreground px-6 py-32 text-background md:px-12 md:py-48 font-sans">
       <div className="mx-auto max-w-[1400px]">
         <div className="grid grid-cols-12 gap-8">
           <div className="col-span-12 md:col-span-3">
@@ -628,7 +630,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 function Footer({ lang }: { lang: Lang }) {
   const c = copy.footer;
   return (
-    <footer className="border-t border-border px-6 py-16 md:px-12">
+    <footer className="border-t border-border px-6 py-16 md:px-12 bg-neutral-950">
       <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-8 md:flex-row md:items-center">
         <div>
           <Logo
