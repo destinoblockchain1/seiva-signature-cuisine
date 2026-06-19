@@ -1,9 +1,11 @@
+// new html file
 import { createFileRoute } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { useState, useRef, useEffect, type FormEvent } from "react";
 import { Toaster, toast } from "sonner";
 import { Resend } from "resend";
 import Autoplay from "embla-carousel-autoplay";
+
 import chefsImg from "@/assets/chefs-collective.jpg";
 import matchpoint1 from "@/assets/matchpoint-1.jpg";
 import matchpoint2 from "@/assets/matchpoint-2.jpg";
@@ -12,6 +14,13 @@ import matchpoint4 from "@/assets/matchpoint-4.jpg";
 import matchpoint5 from "@/assets/matchpoint-5.jpg";
 import matchpoint6 from "@/assets/matchpoint-6.jpg";
 import matchpoint7 from "@/assets/matchpoint-7.jpg";
+
+import img6589 from "@/assets/IMG_6589.jpg";
+import img6608 from "@/assets/IMG_6608.jpg";
+import img7088 from "@/assets/IMG_7088.jpg";
+import img7145 from "@/assets/IMG_7145.jpg";
+import img8396 from "@/assets/IMG_8396.jpg";
+
 import { copy, type Lang } from "@/lib/i18n";
 import { Logo, TriadIcon } from "@/components/Logo";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
@@ -33,7 +42,6 @@ function t<T extends { en: any; pt: any }>(obj: T, l: Lang) { return obj[l]; }
 
 function Landing() {
   const [lang, setLang] = useState<Lang>("en");
-  const c = copy;
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-foreground selection:text-background">
@@ -112,25 +120,99 @@ function Hero({ lang }: { lang: Lang }) {
 
 function Manifesto({ lang }: { lang: Lang }) {
   const c = copy.manifesto;
+  const bodyParagraphs = t(c.body, lang);
+  
   return (
-    <section id="manifesto" className="border-t border-border px-6 py-32 md:px-12 md:py-48">
+    <section id="manifesto" className="border-t border-border px-6 py-32 md:px-12 md:py-48 overflow-hidden">
       <div className="mx-auto max-w-[1400px]">
-        <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-12 md:col-span-3">
-            <p className="eyebrow text-muted-foreground">{t(c.eyebrow, lang)}</p>
+        <div className="grid grid-cols-12 gap-8 md:gap-16 items-start">
+          
+          {/* Left Lateral Column: IMG_8396.jpg and IMG_6589.jpg (Desktop Only) */}
+          <div className="hidden md:flex col-span-2 flex-col gap-12 mt-20">
+            <ScrollColoredImage 
+              src={img8396} 
+              alt="SEIVA Gastronomy - Raw Crudo Caviar Detail" 
+              aspectClass="aspect-[3/4] w-full" 
+            />
+            <ScrollColoredImage 
+              src={img6589} 
+              alt="SEIVA Gastronomy - Seared Tuna Crudo Detail" 
+              aspectClass="aspect-[3/4] w-full" 
+            />
           </div>
-          <div className="col-span-12 md:col-span-9">
-            <p className="editorial-display text-3xl italic md:text-5xl">
-              "{t(c.pull, lang)}"
-            </p>
-            <div className="mt-16 max-w-3xl space-y-6 text-base font-light leading-[1.8] text-foreground/85 md:text-lg">
-              {t(c.body, lang).map((p: string, i: number) => (
-                <p key={i}>{p}</p>
-              ))}
+          
+          {/* Center Column: Uncompromised text flow segmented by inline separator */}
+          <div className="col-span-12 md:col-span-8">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+              
+              <div className="col-span-12 md:col-span-3">
+                <p className="eyebrow text-muted-foreground">{t(c.eyebrow, lang)}</p>
+              </div>
+              
+              <div className="col-span-12 md:col-span-9">
+                <p className="editorial-display text-3xl italic md:text-5xl">
+                  "{t(c.pull, lang)}"
+                </p>
+                
+                {/* Dynamically rendering first two paragraphs from source i18n */}
+                <div className="mt-16 space-y-6 text-base font-light leading-[1.8] text-foreground/85 md:text-lg">
+                  {bodyParagraphs.slice(0, 2).map((p: string, i: number) => (
+                    <p key={i}>{p}</p>
+                  ))}
+                </div>
+
+                {/* Mid-text visual break using IMG_7088.jpg */}
+                <div className="my-14 overflow-hidden rounded-sm bg-neutral-950 border border-border/10 shadow-lg">
+                  <ScrollColoredImage 
+                    src={img7088} 
+                    alt="SEIVA Gastronomy - Cucumber Ribbon Presentation Detail" 
+                    aspectClass="aspect-[16/10] w-full" 
+                  />
+                </div>
+
+                {/* Dynamically rendering final paragraphs from source i18n */}
+                <div className="space-y-6 text-base font-light leading-[1.8] text-foreground/85 md:text-lg">
+                  {bodyParagraphs.slice(2).map((p: string, i: number) => (
+                    <p key={i + 2}>{p}</p>
+                  ))}
+                </div>
+                
+                <p className="editorial-display mt-16 text-xl italic text-accent">{t(c.signoff, lang)}</p>
+              </div>
+
             </div>
-            <p className="editorial-display mt-16 text-xl italic text-accent">{t(c.signoff, lang)}</p>
+          </div>
+
+          {/* Right Lateral Column: IMG_6608.jpg and IMG_7145.jpg (Desktop Only) */}
+          <div className="hidden md:flex col-span-2 flex-col gap-12 mt-40">
+            <ScrollColoredImage 
+              src={img6608} 
+              alt="SEIVA Gastronomy - Elegant Seafood Plating Detail" 
+              aspectClass="aspect-[3/4] w-full" 
+            />
+            <ScrollColoredImage 
+              src={img7145} 
+              alt="SEIVA Gastronomy - Finished Fine Plating Detail" 
+              aspectClass="aspect-[3/4] w-full" 
+            />
+          </div>
+
+        </div>
+
+        {/* Consolidating Bottom "Visual Notes" Editorial Grid */}
+        <div className="mt-28 border-t border-border/60 pt-20">
+          <p className="eyebrow text-muted-foreground mb-8">
+            {lang === "en" ? "Editorial Journal — Visual Notes" : "Diário Editorial — Notas Visuais"}
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
+            <ScrollColoredImage src={img8396} alt="SEIVA Journal 1" aspectClass="aspect-square w-full" />
+            <ScrollColoredImage src={img6589} alt="SEIVA Journal 2" aspectClass="aspect-square w-full" />
+            <ScrollColoredImage src={img7088} alt="SEIVA Journal 3" aspectClass="aspect-square w-full" />
+            <ScrollColoredImage src={img6608} alt="SEIVA Journal 4" aspectClass="aspect-square w-full" />
+            <ScrollColoredImage src={img7145} alt="SEIVA Journal 5" aspectClass="aspect-square w-full md:col-span-1 col-span-2" />
           </div>
         </div>
+
       </div>
     </section>
   );
@@ -154,6 +236,7 @@ function ScrollColoredImage({
   const containerRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -173,7 +256,7 @@ function ScrollColoredImage({
         setInView(entry.isIntersecting);
       },
       {
-        threshold: 0.6,
+        threshold: 0.5,
       }
     );
 
@@ -186,17 +269,32 @@ function ScrollColoredImage({
     };
   }, [isMobile]);
 
-  const imageClass = `${objectCover ? "h-full w-full object-cover" : ""} transition-all duration-700 ease-out transform ${
-    isMobile
-      ? inView
-        ? "grayscale-0 contrast-100 scale-105"
-        : "grayscale contrast-125"
-      : "grayscale contrast-125 group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
-  } ${className}`;
+  const active = isMobile ? inView : isHovered;
 
   return (
-    <div ref={containerRef} className={`group relative overflow-hidden ${aspectClass}`}>
-      <img src={src} alt={alt} loading={loading} className={imageClass} />
+    <div 
+      ref={containerRef} 
+      onMouseEnter={() => !isMobile && setIsHovered(true)}
+      onMouseLeave={() => !isMobile && setIsHovered(false)}
+      className={`group relative overflow-hidden bg-neutral-950 border border-neutral-900 rounded-sm shadow-xl transition-all duration-700 ${aspectClass}`}
+    >
+      <img 
+        src={src} 
+        alt={alt} 
+        loading={loading} 
+        className={`transition-all duration-1000 ease-out transform ${objectCover ? "h-full w-full object-cover" : "h-auto w-full"} ${className}`} 
+        style={{
+          filter: active
+            ? "grayscale(0%) sepia(0%) contrast(1.0) saturate(105%) brightness(1.0)"
+            : "grayscale(100%) sepia(15%) contrast(1.15) saturate(75%) brightness(0.85)",
+          transform: active ? "scale(1.04)" : "scale(1)"
+        }}
+      />
+      {/* Neutral gradient overlay for sophisticated image blending */}
+      <div 
+        className="absolute inset-0 bg-neutral-900/10 mix-blend-multiply pointer-events-none transition-opacity duration-1000"
+        style={{ opacity: active ? 0 : 1 }}
+      />
     </div>
   );
 }
