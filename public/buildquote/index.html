@@ -981,6 +981,12 @@
             return new Intl.NumberFormat(locale, { style: 'currency', currency: currency }).format(val);
         }
 
+        // --- SAFE INPUT GETTER ---
+        function getInputValue(id) {
+            const el = document.getElementById(id);
+            return el ? el.value : '';
+        }
+
         // --- LOCAL STORAGE AUTOSAVE SIMULATION ---
         function triggerAutosave() {
             const statusEl = document.getElementById('autosave-status');
@@ -990,19 +996,19 @@
             const payload = {
                 items: items,
                 meta: {
-                    ref: document.getElementById('input-ref').value,
-                    dateIssue: document.getElementById('input-date-issue').value,
-                    dateValid: document.getElementById('input-date-valid').value,
-                    client: document.getElementById('input-client').value,
-                    company: document.getElementById('input-company').value,
-                    event: document.getElementById('input-event').value,
-                    eventDate: document.getElementById('input-event-date').value,
-                    location: document.getElementById('input-location').value,
-                    guests: document.getElementById('input-guests').value,
-                    format: document.getElementById('input-format').value,
-                    concept: document.getElementById('input-concept').value,
-                    presenter: document.getElementById('input-presenter').value,
-                    title: document.getElementById('input-title').value
+                    ref: getInputValue('input-ref'),
+                    dateIssue: getInputValue('input-date-issue'),
+                    dateValid: getInputValue('input-date-valid'),
+                    client: getInputValue('input-client'),
+                    company: getInputValue('input-company'),
+                    event: getInputValue('input-event'),
+                    eventDate: getInputValue('input-event-date'),
+                    location: getInputValue('input-location'),
+                    guests: getInputValue('input-guests'),
+                    format: getInputValue('input-format'),
+                    concept: getInputValue('input-concept'),
+                    presenter: getInputValue('input-presenter'),
+                    title: getInputValue('input-title')
                 }
             };
             localStorage.setItem('seiva_draft_payload', JSON.stringify(payload));
@@ -1097,20 +1103,32 @@
         }
 
         function updateMetadata() {
-            document.getElementById('doc-ref').textContent = document.getElementById('input-ref').value || '—';
-            document.getElementById('doc-date-issue').textContent = document.getElementById('input-date-issue').value || '—';
-            document.getElementById('doc-date-valid').textContent = document.getElementById('input-date-valid').value || '—';
-            document.getElementById('doc-client').textContent = document.getElementById('input-client').value || '—';
-            document.getElementById('doc-company').textContent = document.getElementById('input-company').value || '—';
-            document.getElementById('doc-event').textContent = document.getElementById('input-event').value || '—';
-            document.getElementById('doc-event-date').textContent = document.getElementById('input-event-date').value || '—';
-            document.getElementById('doc-location').textContent = document.getElementById('input-location').value || '—';
-            document.getElementById('doc-guests').textContent = document.getElementById('input-guests').value || '—';
-            document.getElementById('doc-format').textContent = document.getElementById('input-format').value || '—';
-            document.getElementById('doc-concept').textContent = document.getElementById('input-concept').value || '...';
-            document.getElementById('doc-presenter').textContent = document.getElementById('input-presenter').value || '—';
-            document.getElementById('doc-title').textContent = document.getElementById('input-title').value || '—';
-            document.getElementById('doc-collective').textContent = translations[state.lang].labels.collective;
+            const setPreviewText = (previewId, inputId, fallback = '—') => {
+                const pEl = document.getElementById(previewId);
+                const iEl = document.getElementById(inputId);
+                if (pEl) {
+                    pEl.textContent = (iEl ? iEl.value : '') || fallback;
+                }
+            };
+
+            setPreviewText('doc-ref', 'input-ref');
+            setPreviewText('doc-date-issue', 'input-date-issue');
+            setPreviewText('doc-date-valid', 'input-date-valid');
+            setPreviewText('doc-client', 'input-client');
+            setPreviewText('doc-company', 'input-company');
+            setPreviewText('doc-event', 'input-event');
+            setPreviewText('doc-event-date', 'input-event-date');
+            setPreviewText('doc-location', 'input-location');
+            setPreviewText('doc-guests', 'input-guests');
+            setPreviewText('doc-format', 'input-format');
+            setPreviewText('doc-concept', 'input-concept', '...');
+            setPreviewText('doc-presenter', 'input-presenter');
+            setPreviewText('doc-title', 'input-title');
+
+            const colEl = document.getElementById('doc-collective');
+            if (colEl && translations[state.lang]) {
+                colEl.textContent = translations[state.lang].labels.collective;
+            }
             
             calculateAndRenderTotals();
         }
@@ -1127,16 +1145,24 @@
             const taxes = subtotal * 0.07;
             const total = subtotal + taxes;
 
-            const guestStr = document.getElementById('input-guests').value || "";
+            const guestsEl = document.getElementById('input-guests');
+            const guestStr = guestsEl ? guestsEl.value : "";
             const guestMatch = guestStr.match(/\d+/);
             const guestCount = guestMatch ? parseInt(guestMatch[0], 10) : 1;
             const safeDivider = guestCount > 0 ? guestCount : 1;
             const totalPerGuest = total / safeDivider;
 
-            document.getElementById('doc-subtotal').textContent = formatCurrency(subtotal, state.lang);
-            document.getElementById('doc-taxes').textContent = formatCurrency(taxes, state.lang);
-            document.getElementById('doc-total-per-guest').textContent = formatCurrency(totalPerGuest, state.lang);
-            document.getElementById('doc-total').textContent = formatCurrency(total, state.lang);
+            const subtotalEl = document.getElementById('doc-subtotal');
+            if (subtotalEl) subtotalEl.textContent = formatCurrency(subtotal, state.lang);
+
+            const taxesEl = document.getElementById('doc-taxes');
+            if (taxesEl) taxesEl.textContent = formatCurrency(taxes, state.lang);
+
+            const perGuestEl = document.getElementById('doc-total-per-guest');
+            if (perGuestEl) perGuestEl.textContent = formatCurrency(totalPerGuest, state.lang);
+
+            const totalEl = document.getElementById('doc-total');
+            if (totalEl) totalEl.textContent = formatCurrency(total, state.lang);
             
             recomputeAnalyticsDashboard();
         }
@@ -1167,12 +1193,18 @@
                 activeProposalsCount++;
             });
 
-            document.getElementById('stat-revenue').textContent = formatCurrency(approvedSum, state.lang);
-            document.getElementById('stat-pipeline').textContent = formatCurrency(pipelineSum, state.lang);
-            document.getElementById('stat-active').textContent = activeProposalsCount;
+            const revEl = document.getElementById('stat-revenue');
+            if (revEl) revEl.textContent = formatCurrency(approvedSum, state.lang);
+
+            const pipeEl = document.getElementById('stat-pipeline');
+            if (pipeEl) pipeEl.textContent = formatCurrency(pipelineSum, state.lang);
+
+            const activeEl = document.getElementById('stat-active');
+            if (activeEl) activeEl.textContent = activeProposalsCount;
             
             const rate = activeProposalsCount > 0 ? Math.round((approvedCount / activeProposalsCount) * 100) : 0;
-            document.getElementById('stat-conversion').textContent = `${rate}%`;
+            const conversionEl = document.getElementById('stat-conversion');
+            if (conversionEl) conversionEl.textContent = `${rate}%`;
 
             renderSegmentBars();
         }
@@ -1265,8 +1297,12 @@
         }
 
         function applyCRMToProposal(name, company) {
-            document.getElementById('input-client').value = name;
-            document.getElementById('input-company').value = company;
+            const clientEl = document.getElementById('input-client');
+            if (clientEl) clientEl.value = name;
+            
+            const companyEl = document.getElementById('input-company');
+            if (companyEl) companyEl.value = company;
+
             updateMetadata();
             switchWorkspaceView('builder');
             showToast(`Loaded CRM Card for ${name}`);
@@ -1563,7 +1599,7 @@ SEIVA Collective`;
                         </div>
                         <div>
                             <label class="block text-[8px] uppercase text-zinc-500 font-bold">Rate</label>
-                            <input type="number" value="${item.rate}" data-action="change-parent" data-index="${index}" data-field="rate" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
+                            <input type="number" value="${item.rate}" data-index="${index}" data-field="rate" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
                         </div>
                     </div>
                     <div class="pt-2 border-t border-zinc-750 space-y-2">
@@ -1638,145 +1674,50 @@ SEIVA Collective`;
             calculateAndRenderTotals();
         }
 
-        function addNewItem() {
-            const labelsObj = translations[state.lang].labels;
-            items.push({
-                name: labelsObj.placeholderName,
-                desc: labelsObj.placeholderDesc,
-                hasPrice: true,
-                qty: 1,
-                rate: 100,
-                subItems: []
-            });
-            renderAll();
-        }
+        function switchWorkspaceView(viewName) {
+            state.tab = viewName;
+            const tabs = {
+                dashboard: { btn: 'tab-dashboard', container: 'view-dashboard' },
+                crm: { btn: 'tab-crm', container: 'view-crm' },
+                builder: { btn: 'tab-builder', container: 'view-builder' }
+            };
 
-        function addNewSubItem(parentIdx) {
-            items[parentIdx].subItems.push({
-                name: "New Sub Item or Course Selection",
-                desc: "",
-                hasPrice: false,
-                qty: 1,
-                rate: 0
-            });
-            renderAll();
-        }
-
-        function handleItemChange(idx, key, val) {
-            if (key === 'qty' || key === 'rate') {
-                items[idx][key] = parseFloat(val) || 0;
-            } else if (key === 'hasPrice') {
-                items[idx][key] = val;
-            } else {
-                items[idx][key] = val;
-            }
-            renderDocPreview();
-        }
-
-        function handleSubItemChange(parentIdx, subIdx, key, val) {
-            if (key === 'qty' || key === 'rate') {
-                items[parentIdx].subItems[subIdx][key] = parseFloat(val) || 0;
-            } else if (key === 'hasPrice') {
-                items[parentIdx].subItems[subIdx][key] = val;
-            } else {
-                items[parentIdx].subItems[subIdx][key] = val;
-            }
-            renderDocPreview();
-        }
-
-        function loadCloudLibraryList() {
-            const listEl = document.getElementById('proposals-list');
-            if (!listEl) return;
-            listEl.innerHTML = '';
-
-            state.quotes.forEach(q => {
-                const row = document.createElement('div');
-                row.className = "p-4 border-b border-zinc-800 hover:bg-zinc-950/20 cursor-pointer flex justify-between items-center";
-                row.innerHTML = `
-                    <div>
-                        <span class="text-xs font-bold text-cream font-mono">${q.meta.ref}</span>
-                        <span class="text-xs text-zinc-500 ml-2">${q.meta.client || '—'} (${q.meta.event || '—'})</span>
-                    </div>
-                    <span class="text-[9px] font-mono px-2 py-0.5 rounded border border-zinc-700 uppercase bg-zinc-950">${q.status}</span>
-                `;
-                row.addEventListener('click', () => {
-                    editProposal(q.id);
-                });
-                listEl.appendChild(row);
+            Object.keys(tabs).forEach(k => {
+                const config = tabs[k];
+                const btn = document.getElementById(config.btn);
+                const view = document.getElementById(config.container);
+                if (k === viewName) {
+                    if (btn) btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all bg-gold text-dark shadow";
+                    if (view) view.classList.remove('hidden');
+                    if (k === 'dashboard') loadCloudLibraryList();
+                } else {
+                    if (btn) btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all text-zinc-400 hover:text-cream bg-zinc-950 hover:bg-zinc-900/50";
+                    if (view) view.classList.add('hidden');
+                }
             });
         }
 
-        function editProposal(id) {
-            const q = state.quotes.find(item => item.id === id);
-            if (!q) return;
+        function switchWorkspaceView(viewName) {
+            state.tab = viewName;
+            const tabs = {
+                dashboard: { btn: 'tab-dashboard', container: 'view-dashboard' },
+                crm: { btn: 'tab-crm', container: 'view-crm' },
+                builder: { btn: 'tab-builder', container: 'view-builder' }
+            };
 
-            state.currentQuoteId = q.id;
-            state.lang = q.lang || 'POR';
-            items = JSON.parse(JSON.stringify(q.items || []));
-
-            document.getElementById('input-ref').value = q.meta.ref || '';
-            document.getElementById('input-date-issue').value = q.meta.dateIssue || '';
-            document.getElementById('input-date-valid').value = q.meta.dateValid || '';
-            document.getElementById('input-client').value = q.meta.client || '';
-            document.getElementById('input-company').value = q.meta.company || '';
-            document.getElementById('input-event').value = q.meta.event || '';
-            document.getElementById('input-event-date').value = q.meta.eventDate || '';
-            document.getElementById('input-location').value = q.meta.location || '';
-            document.getElementById('input-guests').value = q.meta.guests || '';
-            document.getElementById('input-format').value = q.meta.format || '';
-            document.getElementById('input-concept').value = q.meta.concept || '';
-            document.getElementById('input-presenter').value = q.meta.presenter || '';
-            document.getElementById('input-title').value = q.meta.title || '';
-
-            document.getElementById('input-status').value = q.status || 'Draft';
-
-            changeLanguage(state.lang);
-            switchWorkspaceView('builder');
-            showToast("Draft Loaded.");
-        }
-
-        function createNewProposal() {
-            state.currentQuoteId = null;
-            items = [];
-            
-            generateDefaultMeta();
-            
-            document.getElementById('input-date-valid').value = '';
-            document.getElementById('input-client').value = '';
-            document.getElementById('input-company').value = '';
-            document.getElementById('input-event').value = '';
-            document.getElementById('input-event-date').value = '';
-            document.getElementById('input-location').value = '';
-            document.getElementById('input-guests').value = '';
-            document.getElementById('input-format').value = '';
-            document.getElementById('input-concept').value = '';
-            document.getElementById('input-presenter').value = 'Bernardo Simões';
-            document.getElementById('input-title').value = 'Executive Chef';
-
-            document.getElementById('input-status').value = 'Draft';
-
-            updateMetadata();
-            renderAll();
-            switchWorkspaceView('builder');
-            showToast("New Blank Proposal Draft Initiated.");
-        }
-
-        function generateDefaultMeta() {
-            const currentYear = new Date().getFullYear();
-            const randomNum = Math.floor(100 + Math.random() * 900); // SV-2026-XXX
-            const ref = `SV-${currentYear}-${randomNum}`;
-            const today = new Date();
-            const options = { day: 'numeric', month: 'long', year: 'numeric' };
-
-            let dateIssueStr = today.toLocaleDateString(state.lang === 'POR' ? 'pt-BR' : state.lang === 'ITA' ? 'it-IT' : 'en-US', options);
-            
-            document.getElementById('input-ref').value = ref;
-            document.getElementById('input-date-issue').value = dateIssueStr;
-        }
-
-        function renderAll() {
-            renderEditor();
-            renderDocPreview();
+            Object.keys(tabs).forEach(k => {
+                const config = tabs[k];
+                const btn = document.getElementById(config.btn);
+                const view = document.getElementById(config.container);
+                if (k === viewName) {
+                    if (btn) btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all bg-gold text-dark shadow";
+                    if (view) view.classList.remove('hidden');
+                    if (k === 'dashboard') loadCloudLibraryList();
+                } else {
+                    if (btn) btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all text-zinc-400 hover:text-cream bg-zinc-950 hover:bg-zinc-900/50";
+                    if (view) view.classList.add('hidden');
+                }
+            });
         }
 
         function registerHandlers() {
@@ -1805,10 +1746,17 @@ SEIVA Collective`;
                 });
             }
 
-            document.getElementById('tab-dashboard').addEventListener('click', () => switchWorkspaceView('dashboard'));
-            document.getElementById('tab-crm').addEventListener('click', () => switchWorkspaceView('crm'));
-            document.getElementById('tab-builder').addEventListener('click', () => switchWorkspaceView('builder'));
-            document.getElementById('btn-dashboard-new-proposal').addEventListener('click', createNewProposal);
+            const tabDashboard = document.getElementById('tab-dashboard');
+            if (tabDashboard) tabDashboard.addEventListener('click', () => switchWorkspaceView('dashboard'));
+            
+            const tabCrm = document.getElementById('tab-crm');
+            if (tabCrm) tabCrm.addEventListener('click', () => switchWorkspaceView('crm'));
+            
+            const tabBuilder = document.getElementById('tab-builder');
+            if (tabBuilder) tabBuilder.addEventListener('click', () => switchWorkspaceView('builder'));
+            
+            const btnNewProposal = document.getElementById('btn-dashboard-new-proposal');
+            if (btnNewProposal) btnNewProposal.addEventListener('click', createNewProposal);
 
             const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
             if (sidebarCollapseBtn) sidebarCollapseBtn.addEventListener('click', toggleSidebar);
@@ -1816,28 +1764,41 @@ SEIVA Collective`;
             const sidebarToggleFloating = document.getElementById('sidebar-toggle-floating');
             if (sidebarToggleFloating) sidebarToggleFloating.addEventListener('click', toggleSidebar);
 
-            document.getElementById('sidebar-primary-export-btn').addEventListener('click', exportDocumentToPDF);
+            const sidebarPrimaryExportBtn = document.getElementById('sidebar-primary-export-btn');
+            if (sidebarPrimaryExportBtn) sidebarPrimaryExportBtn.addEventListener('click', exportDocumentToPDF);
             
-            document.getElementById('ui-btn-add-item').addEventListener('click', () => {
-                addNewItem();
-                triggerAutosave();
-            });
+            const uiBtnAddItem = document.getElementById('ui-btn-add-item');
+            if (uiBtnAddItem) {
+                uiBtnAddItem.addEventListener('click', () => {
+                    addNewItem();
+                    triggerAutosave();
+                });
+            }
 
-            document.getElementById('btn-share-dispatch').addEventListener('click', () => triggerShareDispatch());
-            document.getElementById('btn-close-dispatch').addEventListener('click', () => {
-                document.getElementById('dispatch-overlay').classList.add('hidden');
-            });
+            const btnShareDispatch = document.getElementById('btn-share-dispatch');
+            if (btnShareDispatch) btnShareDispatch.addEventListener('click', () => triggerShareDispatch());
+            
+            const btnCloseDispatch = document.getElementById('btn-close-dispatch');
+            if (btnCloseDispatch) {
+                btnCloseDispatch.addEventListener('click', () => {
+                    const overlay = document.getElementById('dispatch-overlay');
+                    if (overlay) overlay.classList.add('hidden');
+                });
+            }
 
             // Delegated click routers for tables
-            document.getElementById('crm-clients-rows').addEventListener('click', (e) => {
-                const applyBtn = e.target.closest('[data-action="apply-crm"]');
-                const delBtn = e.target.closest('[data-action="delete-crm"]');
-                if (applyBtn) {
-                    applyCRMToProposal(applyBtn.getAttribute('data-name'), applyBtn.getAttribute('data-company'));
-                } else if (delBtn) {
-                    deleteClient(delBtn.getAttribute('data-id'));
-                }
-            });
+            const crmClientsRows = document.getElementById('crm-clients-rows');
+            if (crmClientsRows) {
+                crmClientsRows.addEventListener('click', (e) => {
+                    const applyBtn = e.target.closest('[data-action="apply-crm"]');
+                    const delBtn = e.target.closest('[data-action="delete-crm"]');
+                    if (applyBtn) {
+                        applyCRMToProposal(applyBtn.getAttribute('data-name'), applyBtn.getAttribute('data-company'));
+                    } else if (delBtn) {
+                        deleteClient(delBtn.getAttribute('data-id'));
+                    }
+                });
+            }
 
             const metaFields = [
                 'ref', 'date-issue', 'date-valid', 'client', 'company',
@@ -1854,131 +1815,185 @@ SEIVA Collective`;
                 }
             });
 
-            document.getElementById('input-status').addEventListener('change', function() {
-                triggerAutosave();
-            });
+            const inputStatus = document.getElementById('input-status');
+            if (inputStatus) {
+                inputStatus.addEventListener('change', function() {
+                    triggerAutosave();
+                });
+            }
 
             const editor = document.getElementById('items-editor-container');
-            editor.addEventListener('input', function(e) {
-                const target = e.target;
-                if (target.getAttribute('data-action') === 'change-parent') {
-                    const index = parseInt(target.getAttribute('data-index'), 10);
-                    const field = target.getAttribute('data-field');
-                    handleItemChange(index, field, target.value);
-                    triggerAutosave();
-                }
-                if (target.getAttribute('data-action') === 'change-sub') {
-                    const parent = parseInt(target.getAttribute('data-parent'), 10);
-                    const sub = parseInt(target.getAttribute('data-sub'), 10);
-                    const field = target.getAttribute('data-field');
-                    handleSubItemChange(parent, sub, field, target.value);
-                    triggerAutosave();
-                }
-            });
+            if (editor) {
+                editor.addEventListener('input', function(e) {
+                    const target = e.target;
+                    if (target.getAttribute('data-action') === 'change-parent') {
+                        const index = parseInt(target.getAttribute('data-index'), 10);
+                        const field = target.getAttribute('data-field');
+                        handleItemChange(index, field, target.value);
+                        triggerAutosave();
+                    }
+                    if (target.getAttribute('data-action') === 'change-sub') {
+                        const parent = parseInt(target.getAttribute('data-parent'), 10);
+                        const sub = parseInt(target.getAttribute('data-sub'), 10);
+                        const field = target.getAttribute('data-field');
+                        handleSubItemChange(parent, sub, field, target.value);
+                        triggerAutosave();
+                    }
+                });
 
-            editor.addEventListener('click', function(e) {
-                const target = e.target;
-                if (target.getAttribute('data-action') === 'add-sub') {
-                    const index = parseInt(target.getAttribute('data-index'), 10);
-                    addNewSubItem(index);
-                    triggerAutosave();
-                }
-                const delParent = target.closest('[data-action="delete-parent"]');
-                if (delParent) {
-                    const index = parseInt(delParent.getAttribute('data-index'), 10);
-                    deleteItem(index);
-                    triggerAutosave();
-                }
-                const delSub = target.closest('[data-action="delete-sub"]');
-                if (delSub) {
-                    const parent = parseInt(delSub.getAttribute('data-parent'), 10);
-                    const sub = parseInt(delSub.getAttribute('data-sub'), 10);
-                    deleteSubItem(parent, sub);
-                    triggerAutosave();
-                }
-            });
+                editor.addEventListener('click', function(e) {
+                    const target = e.target;
+                    if (target.getAttribute('data-action') === 'add-sub') {
+                        const index = parseInt(target.getAttribute('data-index'), 10);
+                        addNewSubItem(index);
+                        triggerAutosave();
+                    }
+                    const delParent = target.closest('[data-action="delete-parent"]');
+                    if (delParent) {
+                        const index = parseInt(delParent.getAttribute('data-index'), 10);
+                        deleteItem(index);
+                        triggerAutosave();
+                    }
+                    const delSub = target.closest('[data-action="delete-sub"]');
+                    if (delSub) {
+                        const parent = parseInt(delSub.getAttribute('data-parent'), 10);
+                        const sub = parseInt(delSub.getAttribute('data-sub'), 10);
+                        deleteSubItem(parent, sub);
+                        triggerAutosave();
+                    }
+                });
 
-            editor.addEventListener('change', function(e) {
-                const target = e.target;
-                if (target.getAttribute('data-action') === 'toggle-parent-price') {
-                    const index = parseInt(target.getAttribute('data-index'), 10);
-                    handleItemChange(index, 'hasPrice', target.checked);
-                    renderAll();
-                    triggerAutosave();
-                }
-                if (target.getAttribute('data-action') === 'toggle-sub-price') {
-                    const parent = parseInt(target.getAttribute('data-parent'), 10);
-                    const sub = parseInt(target.getAttribute('data-sub'), 10);
-                    handleSubItemChange(parent, sub, 'hasPrice', target.checked);
-                    renderAll();
-                    triggerAutosave();
-                }
-            });
+                editor.addEventListener('change', function(e) {
+                    const target = e.target;
+                    if (target.getAttribute('data-action') === 'toggle-parent-price') {
+                        const index = parseInt(target.getAttribute('data-index'), 10);
+                        handleItemChange(index, 'hasPrice', target.checked);
+                        renderAll();
+                        triggerAutosave();
+                    }
+                    if (target.getAttribute('data-action') === 'toggle-sub-price') {
+                        const parent = parseInt(target.getAttribute('data-parent'), 10);
+                        const sub = parseInt(target.getAttribute('data-sub'), 10);
+                        handleSubItemChange(parent, sub, 'hasPrice', target.checked);
+                        renderAll();
+                        triggerAutosave();
+                    }
+                });
+            }
 
             // OCR Dropzone
             const dropzone = document.getElementById('ocr-dropzone');
             const fileInput = document.getElementById('ocr-file-input');
-            dropzone.addEventListener('click', () => fileInput.click());
-            fileInput.addEventListener('change', triggerSimulatedOCR);
+            if (dropzone && fileInput) {
+                dropzone.addEventListener('click', () => fileInput.click());
+                fileInput.addEventListener('change', triggerSimulatedOCR);
+            }
             
-            document.getElementById('btn-ocr-approve-expense').addEventListener('click', approveOCRExpense);
+            const btnOcrApproveExpense = document.getElementById('btn-ocr-approve-expense');
+            if (btnOcrApproveExpense) {
+                btnOcrApproveExpense.addEventListener('click', approveOCRExpense);
+            }
 
             // CRM Add Client Profile trigger
-            document.getElementById('btn-crm-add-client').addEventListener('click', setupCRMForm);
-            document.getElementById('btn-crm-cancel').addEventListener('click', setupCRMForm);
-            document.getElementById('crm-client-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const newClient = {
-                    id: crypto.randomUUID(),
-                    name: document.getElementById('crm-input-name').value,
-                    company: document.getElementById('crm-input-company').value,
-                    email: document.getElementById('crm-input-email').value,
-                    eventsCount: 0,
-                    ltv: 0
-                };
-                state.clients.push(newClient);
-                renderCRMTable();
-                document.getElementById('crm-client-form').reset();
-                setupCRMForm();
-                showToast("New client card saved!");
-            });
+            const btnCrmAddClient = document.getElementById('btn-crm-add-client');
+            if (btnCrmAddClient) btnCrmAddClient.addEventListener('click', setupCRMForm);
+            
+            const btnCrmCancel = document.getElementById('btn-crm-cancel');
+            if (btnCrmCancel) btnCrmCancel.addEventListener('click', setupCRMForm);
+            
+            const crmClientForm = document.getElementById('crm-client-form');
+            if (crmClientForm) {
+                crmClientForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const newClient = {
+                        id: crypto.randomUUID(),
+                        name: document.getElementById('crm-input-name').value,
+                        company: document.getElementById('crm-input-company').value,
+                        email: document.getElementById('crm-input-email').value,
+                        eventsCount: 0,
+                        ltv: 0
+                    };
+                    state.clients.push(newClient);
+                    renderCRMTable();
+                    crmClientForm.reset();
+                    setupCRMForm();
+                    showToast("New client card saved!");
+                });
+            }
 
             ['ENG', 'POR', 'ITA'].forEach(lang => {
-                document.getElementById(`lang-btn-${lang}`).addEventListener('click', () => {
-                    changeLanguage(lang);
-                    triggerAutosave();
+                const langBtn = document.getElementById(`lang-btn-${lang}`);
+                if (langBtn) {
+                    langBtn.addEventListener('click', () => {
+                        changeLanguage(lang);
+                        triggerAutosave();
+                    });
+                }
+            });
+
+            const docBtnApprove = document.getElementById('doc-btn-approve');
+            if (docBtnApprove) {
+                docBtnApprove.addEventListener('click', () => {
+                    const paymentMsg = document.getElementById('payment-msg');
+                    if (paymentMsg) paymentMsg.classList.toggle('hidden');
                 });
-            });
+            }
 
-            document.getElementById('doc-btn-approve').addEventListener('click', () => {
-                document.getElementById('payment-msg').classList.toggle('hidden');
-            });
+            const btnLogout = document.getElementById('btn-logout');
+            if (btnLogout) {
+                btnLogout.addEventListener('click', () => {
+                    const pinInput = document.getElementById('admin-pin');
+                    if (pinInput) pinInput.value = '';
+                    const appContent = document.getElementById('app-content');
+                    if (appContent) appContent.classList.add('hidden');
+                    const loginGateway = document.getElementById('login-gateway');
+                    if (loginGateway) loginGateway.classList.remove('opacity-0', 'pointer-events-none');
+                });
+            }
 
-            document.getElementById('btn-logout').addEventListener('click', () => {
-                document.getElementById('admin-pin').value = '';
-                document.getElementById('app-content').classList.add('hidden');
-                document.getElementById('login-gateway').classList.remove('opacity-0', 'pointer-events-none');
-            });
+            const btnWhatsappDispatch = document.getElementById('btn-whatsapp-dispatch');
+            if (btnWhatsappDispatch) {
+                btnWhatsappDispatch.addEventListener('click', shareWhatsApp);
+            }
 
-            document.getElementById('btn-whatsapp-dispatch').addEventListener('click', shareWhatsApp);
-            document.getElementById('btn-direct-email').addEventListener('click', (e) => {
-                e.preventDefault();
-                openMailClient();
-            });
+            const btnDirectEmail = document.getElementById('btn-direct-email');
+            if (btnDirectEmail) {
+                btnDirectEmail.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openMailClient();
+                });
+            }
 
-            document.getElementById('btn-copy-link').addEventListener('click', () => {
-                const input = document.getElementById('share-link-input');
-                input.select();
-                document.execCommand('copy');
-                showToast("Invite Link Copied.");
-            });
+            const btnCopyLink = document.getElementById('btn-copy-link');
+            if (btnCopyLink) {
+                btnCopyLink.addEventListener('click', () => {
+                    const input = document.getElementById('share-link-input');
+                    if (input) {
+                        input.select();
+                        document.execCommand('copy');
+                        showToast("Invite Link Copied.");
+                    }
+                });
+            }
 
-            document.getElementById('btn-copy-email-draft').addEventListener('click', () => {
-                const textarea = document.getElementById('dispatch-email-text');
-                textarea.select();
-                document.execCommand('copy');
-                showToast("Email text copied.");
-            });
+            const btnCopyEmailDraft = document.getElementById('btn-copy-email-draft');
+            if (btnCopyEmailDraft) {
+                btnCopyEmailDraft.addEventListener('click', () => {
+                    const textarea = document.getElementById('dispatch-email-text');
+                    if (textarea) {
+                        textarea.select();
+                        document.execCommand('copy');
+                        showToast("Email text copied.");
+                    }
+                });
+            }
+
+            const searchProposals = document.getElementById('search-proposals');
+            if (searchProposals) {
+                searchProposals.addEventListener('input', function() {
+                    loadCloudLibraryList(this.value);
+                });
+            }
         }
 
         // Initialize template on DOM Content loaded safely
