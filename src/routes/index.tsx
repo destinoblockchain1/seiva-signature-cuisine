@@ -36,7 +36,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "SEIVA — Signature Cuisine, Tailor-Made" },
       { property: "og:description", content: "A horizontal collective of three chefs crafting bespoke culinary experiences for iconic brands and VIP hosts." },
     ],
-    script: [
+    scripts: [
       {
         type: "application/ld+json",
         children: JSON.stringify({
@@ -73,7 +73,6 @@ export const Route = createFileRoute("/")({
     ]
   }),
 });
-
 function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
   const c = copy.nav;
   const link = (href: string, label: string) => (
