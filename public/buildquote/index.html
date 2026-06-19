@@ -174,6 +174,9 @@
                     <h2 id="dash-title" class="font-serif-luxury text-3xl tracking-wide uppercase">Business Analytics</h2>
                     <p id="dash-subtitle" class="text-zinc-500 text-xs mt-1">Real-time status of your bespoke catering inquiries & closed volumes.</p>
                 </div>
+                <button id="btn-dashboard-new-proposal" class="bg-gold text-dark px-6 py-3 font-bold uppercase tracking-widest text-xs hover:bg-gold/90 transition-all shadow-md">
+                    + Start New Proposal
+                </button>
             </div>
 
             <!-- ANALYTICS CARDS -->
@@ -229,11 +232,8 @@
                     <div class="bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden">
                         <div class="p-6 border-b border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-4 bg-zinc-950/40">
                             <h3 id="lib-title" class="text-xs uppercase tracking-[0.2em] font-bold text-cream">Proposal Library & Vault</h3>
-                            <div class="flex flex-wrap gap-2 w-full sm:w-auto items-center">
-                                <input type="text" id="search-proposals" placeholder="Search by Client or Event..." class="bg-zinc-900 text-cream px-4 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded w-full sm:w-64 placeholder:text-zinc-650">
-                                <button id="btn-dashboard-new-proposal" class="bg-gold text-dark px-4 py-2 font-bold uppercase tracking-widest text-[10px] hover:bg-gold/90 transition-all rounded shadow">
-                                    + New Proposal
-                                </button>
+                            <div class="flex gap-2 w-full sm:w-auto">
+                                <input type="text" id="search-proposals" placeholder="Search by Client or Event..." class="bg-zinc-900 text-cream px-4 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded w-full sm:w-64 placeholder:text-zinc-600">
                             </div>
                         </div>
                         <div id="proposals-list" class="divide-y divide-zinc-800 max-h-[300px] overflow-y-auto">
@@ -715,9 +715,6 @@
 
     <!-- App Business Logic & Translators UI Controller -->
     <script>
-        // GLOBAL STATE TO DECLARE CORE DYNAMIC PROPERTIES & PRESERVE UX LOGIC
-        let items = [];
-
         // MOCK DATA STORAGE TO POPULATE DASHBOARD, CRM & FINANCIAL LEDGER
         const state = {
             lang: 'POR',
@@ -768,20 +765,7 @@
                     presenter: "",
                     title: ""
                 },
-                placeholders: {
-                    client: "e.g. Alexander Sterling",
-                    company: "e.g. Sterling Global Holdings",
-                    event: "e.g. Private Executive Gala",
-                    eventDate: "e.g. August 14, 2026",
-                    location: "e.g. Miami Beach Estate",
-                    guests: "e.g. 45 VIPs",
-                    format: "e.g. 5-Course Tasting",
-                    concept: "e.g. A seamless, high-ticket culinary narrative...",
-                    presenter: "e.g. Bernardo Simões",
-                    title: "e.g. Executive Chef / Partner"
-                },
                 labels: {
-                    statusLabel: "Status",
                     btnConfigure: "Configure Proposal",
                     sidebarTitle: "Configure Details",
                     sectDocInfo: "Document Info",
@@ -819,33 +803,889 @@
                     footerLocations: "Florida · Rio de Janeiro · Santa Catarina",
                     placeholderName: "New Premium Culinary Package",
                     placeholderDesc: "Enter package scope or structural details here."
-                },
-                items: [
-                    {
-                        name: "Custom Gala Dinner Sequence",
-                        desc: "Signature culinary flow executed on-site for high-tier executives.",
-                        hasPrice: true,
-                        qty: 45,
-                        rate: 350,
-                        subItems: [
-                            { name: "Starters & Canapés", desc: "", hasPrice: false },
-                            { name: "Feta-stuffed crisp dates with wild-flower honey drizzle", desc: "", hasPrice: false },
-                            { name: "Charred sourdough flatbread with whipped ricotta, black salt, and local figs", desc: "", hasPrice: false },
-                            { name: "Main Courses Selection", desc: "", hasPrice: false },
-                            { name: "Piedmontese handcrafted Agnolotti in sage brown butter", desc: "", hasPrice: false },
-                            { name: "Atlantic Seabass in a delicate citrus-scallion reduction", desc: "", hasPrice: false }
-                        ]
-                    },
-                    {
-                        name: "Surgical Logistics & Elite Sommelier Team",
-                        desc: "Full brigade setup including glass architecture, serving crew, and sommelier curation.",
-                        hasPrice: true,
-                        qty: 1,
-                        rate: 4200,
-                        subItems: [
-                            { name: "Old-World Wine Pairings", desc: "Italian & French classic reserve vintages", hasPrice: true, qty: 45, rate: 120 }
-                        ]
-                    }
-                ]
+                }
             },
             POR: {
+                dashboard: {
+                    title: "Métricas de Negócios",
+                    subtitle: "Status em tempo real das solicitações comerciais e faturamento fechado.",
+                    closedRevenue: "Faturamento Fechado",
+                    activePipeline: "Pipeline Ativo",
+                    activeProposals: "Propostas Ativas",
+                    conversionRate: "Taxa de Conversão",
+                    fromApproved: "De Propostas Aprovadas",
+                    draftSent: "Rascunho & Enviada",
+                    totalLogged: "Total de Propostas Salvas",
+                    closedVsPipeline: "Fechado vs Pipeline",
+                    libTitle: "Biblioteca de Propostas & Cofre",
+                    ledgerTitle: "Fechamento de Eventos & Margens"
+                },
+                meta: {
+                    ref: "SV-2026-X",
+                    dateIssue: "19 de Junho, 2026",
+                    dateValid: "26 de Junho, 2026",
+                    client: "",
+                    company: "",
+                    event: "",
+                    eventDate: "",
+                    location: "",
+                    guests: "",
+                    format: "",
+                    concept: "",
+                    presenter: "",
+                    title: ""
+                },
+                labels: {
+                    btnConfigure: "Configurar Proposta",
+                    sidebarTitle: "Configurar Detalhes",
+                    sectDocInfo: "Informações do Documento",
+                    sectClientInfo: "Informações do Cliente",
+                    sectEventParams: "Parâmetros do Evento",
+                    sectCreativeConcept: "Narrativa Conceitual",
+                    sectLineItems: "Itens de Orçamento",
+                    sectSignature: "Assinatura Executiva",
+                    btnAddItem: "+ Adicionar Item",
+                    titleMain: "Proposta",
+                    labelPreparedFor: "Preparado Para",
+                    labelIssueDate: "Data de Emissão",
+                    labelValidUntil: "Válido Até",
+                    labelEvent: "O Evento",
+                    labelEventDate: "Data do Evento",
+                    labelLocation: "Localização",
+                    labelGuests: "Convidados",
+                    labelFormat: "Formato",
+                    labelConcept: "O Conceito",
+                    labelInvestmentBreakdown: "Detalhamento de Investimento",
+                    labelThDesc: "Descrição",
+                    labelThQty: "Qtd",
+                    labelThRate: "Tarifa",
+                    labelThTotal: "Total",
+                    labelSubtotal: "Subtotal",
+                    labelTaxes: "Impostos & Taxas (7%)",
+                    labelTotalPerGuest: "Total por Convidado",
+                    labelTotal: "Investimento Total",
+                    labelNextSteps: "Próximos Passos",
+                    labelNextStepsText: "Para reservar esta data e comissionar o coletivo, é necessário um sinal de 50%. O saldo remanescente deve ser pago até 7 dias antes do evento. Após confirmação, iniciaremos visitas técnicas de arquitetura de mesa.",
+                    btnApprove: "Aprovar & Confirmar Data",
+                    paymentMsgText: "Em ambiente de produção, este botão iniciaria o checkout seguro via Stripe ou transferência bancária internacional para coletar o sinal de 50%.",
+                    collective: "Coletivo SEIVA",
+                    footerTagline: "SEIVA — Alta Gastronomia Sob Medida.",
+                    footerLocations: "Flórida · Rio de Janeiro · Santa Catarina",
+                    placeholderName: "Nova Experiência Culinária",
+                    placeholderDesc: "Descreva os pratos ou arranjos logísticos adicionais aqui."
+                }
+            },
+            ITA: {
+                dashboard: {
+                    title: "Mete di Business",
+                    subtitle: "Analisi in tempo reale delle proposte e volumi di vendita.",
+                    closedRevenue: "Fatturato Chiuso",
+                    activePipeline: "Pipeline Attiva",
+                    activeProposals: "Proposte Attive",
+                    conversionRate: "Tasso di Conversione",
+                    fromApproved: "Da Proposte Approvate",
+                    draftSent: "Bozza & Spedite",
+                    totalLogged: "Totale Proposte Registrate",
+                    closedVsPipeline: "Chiuso vs Pipeline",
+                    libTitle: "Libreria Proposte & Vault",
+                    ledgerTitle: "Consuntivo Eventi & Margini"
+                },
+                meta: {
+                    ref: "SV-2026-X",
+                    dateIssue: "19 Giugno, 2026",
+                    dateValid: "26 Giugno, 2026",
+                    client: "",
+                    company: "",
+                    event: "",
+                    eventDate: "",
+                    location: "",
+                    guests: "",
+                    format: "",
+                    concept: "",
+                    presenter: "",
+                    title: ""
+                },
+                labels: {
+                    btnConfigure: "Configura Proposta",
+                    sidebarTitle: "Configura Dettagli",
+                    sectDocInfo: "Informazioni Documento",
+                    sectClientInfo: "Informazioni Cliente",
+                    sectEventParams: "Parametri Evento",
+                    sectCreativeConcept: "Visione Concettuale",
+                    sectLineItems: "Voci di Spesa",
+                    sectSignature: "Firma Autorizzata",
+                    btnAddItem: "+ Aggiungi Voce",
+                    titleMain: "Proposta",
+                    labelPreparedFor: "Preparato Per",
+                    labelIssueDate: "Data di Emissione",
+                    labelValidUntil: "Valido Fino Al",
+                    labelEvent: "L'Evento",
+                    labelEventDate: "Data Evento",
+                    labelLocation: "Luogo dell'Evento",
+                    labelGuests: "Ospiti",
+                    labelFormat: "Formato",
+                    labelConcept: "Il Concetto",
+                    labelInvestmentBreakdown: "Dettaglio dell'Investimento",
+                    labelThDesc: "Descrizione",
+                    labelThQty: "Qtà",
+                    labelThRate: "Tariffa",
+                    labelThTotal: "Totale",
+                    labelSubtotal: "Totale Parziale",
+                    labelTaxes: "Tasse & Commissioni (7%)",
+                    labelTotalPerGuest: "Totale per Ospite",
+                    labelTotal: "Investimento Totale",
+                    labelNextSteps: "Prossimi Passi",
+                    labelNextStepsText: "Per confermare la data e prenotare il collettivo, è richiesto un acconto del 50%. Il saldo rimanente deve essere versato entro 7 giorni dall'evento. Dopo l'approvazione, programmeremo un sopralluogo tecnico della location.",
+                    btnApprove: "Approva & Blocca la Data",
+                    paymentMsgText: "In un ambiente reale, questo attiverebbe il gateway di pagamento (Stripe) per raccogliere l'acconto del 50%.",
+                    collective: "Collettivo SEIVA",
+                    footerTagline: "SEIVA — Cucina d'Autore, Su Misura.",
+                    footerLocations: "Florida · Rio de Janeiro · Santa Catarina",
+                    placeholderName: "Nuovo Pacchetto Culinario",
+                    placeholderDesc: "Inserisci dettagli per questo servizio."
+                }
+            }
+        };
+
+        // Custom flutting gold notification system
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `p-4 rounded-lg shadow-lg text-[10px] tracking-widest uppercase font-mono flex items-center gap-2 transform translate-y-2 opacity-0 transition-all duration-300 max-w-sm pointer-events-auto border ${
+                type === 'success' ? 'bg-zinc-950 border-gold text-gold' : 'bg-red-950/90 border-red-500 text-red-200'
+            }`;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Setup Proposal ID and Date of Issue
+        function generateDefaultMeta() {
+            const currentYear = new Date().getFullYear();
+            const randomNum = Math.floor(100 + Math.random() * 900); // SV-2026-XXX
+            const ref = `SV-${currentYear}-${randomNum}`;
+            const today = new Date();
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+
+            let dateIssueStr = today.toLocaleDateString(state.lang === 'POR' ? 'pt-BR' : state.lang === 'ITA' ? 'it-IT' : 'en-US', options);
+            
+            document.getElementById('input-ref').value = ref;
+            document.getElementById('input-date-issue').value = dateIssueStr;
+        }
+
+        // Tab routing workflow
+        function switchWorkspaceView(viewName) {
+            state.tab = viewName;
+            const tabs = {
+                dashboard: { btn: 'tab-dashboard', container: 'view-dashboard' },
+                crm: { btn: 'tab-crm', container: 'view-crm' },
+                builder: { btn: 'tab-builder', container: 'view-builder' }
+            };
+
+            Object.keys(tabs).forEach(k => {
+                const config = tabs[k];
+                const btn = document.getElementById(config.btn);
+                const view = document.getElementById(config.container);
+                if (k === viewName) {
+                    btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all bg-gold text-dark shadow";
+                    view.classList.remove('hidden');
+                    if (k === 'dashboard') loadCloudLibraryList();
+                } else {
+                    btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all text-zinc-400 hover:text-cream bg-zinc-950 hover:bg-zinc-900/50";
+                    view.classList.add('hidden');
+                }
+            });
+        }
+
+        // Global Translators UI update
+        function changeLanguage(langCode) {
+            state.lang = langCode;
+            
+            ['ENG', 'POR', 'ITA'].forEach(l => {
+                const btn = document.getElementById(`lang-btn-${l}`);
+                if (btn) btn.className = l === langCode ? "px-2.5 py-1 rounded transition-all text-dark bg-gold font-bold shadow" : "px-2.5 py-1 rounded transition-all text-zinc-400 hover:text-cream bg-zinc-950";
+            });
+
+            applyUILabelTranslations();
+            updateMetadata();
+            renderAll();
+            renderLedgerTable();
+            renderCRMTable();
+        }
+
+        // Metadatas automatic sync to preview (Responsive fluid layout)
+        function updateMetadata() {
+            document.getElementById('doc-ref').textContent = document.getElementById('input-ref').value || '—';
+            document.getElementById('doc-date-issue').textContent = document.getElementById('input-date-issue').value || '—';
+            document.getElementById('doc-date-valid').textContent = document.getElementById('input-date-valid').value || '—';
+            document.getElementById('doc-client').textContent = document.getElementById('input-client').value || '—';
+            document.getElementById('doc-company').textContent = document.getElementById('input-company').value || '—';
+            document.getElementById('doc-event').textContent = document.getElementById('input-event').value || '—';
+            document.getElementById('doc-event-date').textContent = document.getElementById('input-event-date').value || '—';
+            document.getElementById('doc-location').textContent = document.getElementById('input-location').value || '—';
+            document.getElementById('doc-guests').textContent = document.getElementById('input-guests').value || '—';
+            document.getElementById('doc-format').textContent = document.getElementById('input-format').value || '—';
+            document.getElementById('doc-concept').textContent = document.getElementById('input-concept').value || '...';
+            document.getElementById('doc-presenter').textContent = document.getElementById('input-presenter').value || '—';
+            document.getElementById('doc-title').textContent = document.getElementById('input-title').value || '—';
+            document.getElementById('doc-collective').textContent = translations[state.lang].labels.collective;
+            
+            calculateAndRenderTotals();
+        }
+
+        // Calculation algorithms
+        function calculateAndRenderTotals() {
+            let subtotal = 0;
+            items.forEach(item => {
+                if (item.hasPrice) subtotal += (item.qty * item.rate);
+                item.subItems.forEach(sub => {
+                    if (sub.hasPrice) subtotal += (sub.qty * sub.rate);
+                });
+            });
+
+            const taxes = subtotal * 0.07;
+            const total = subtotal + taxes;
+
+            const guestStr = document.getElementById('input-guests').value || "";
+            const guestMatch = guestStr.match(/\d+/);
+            const guestCount = guestMatch ? parseInt(guestMatch[0], 10) : 1;
+            const safeDivider = guestCount > 0 ? guestCount : 1;
+            const totalPerGuest = total / safeDivider;
+
+            document.getElementById('doc-subtotal').textContent = formatCurrency(subtotal, state.lang);
+            document.getElementById('doc-taxes').textContent = formatCurrency(taxes, state.lang);
+            document.getElementById('doc-total-per-guest').textContent = formatCurrency(totalPerGuest, state.lang);
+            document.getElementById('doc-total').textContent = formatCurrency(total, state.lang);
+            
+            recomputeAnalyticsDashboard();
+        }
+
+        // Sync local ledger and items into dashboard
+        function recomputeAnalyticsDashboard() {
+            let approvedSum = 0;
+            let pipelineSum = 0;
+            let activeProposalsCount = state.quotes.length;
+            let approvedCount = 0;
+
+            state.quotes.forEach(q => {
+                let sub = 0;
+                (q.items || []).forEach(it => {
+                    if (itemHasPrice(it)) sub += (it.qty * it.rate);
+                });
+                const total = sub * 1.07;
+                if (q.status === 'Approved') {
+                    approvedSum += total;
+                    approvedCount++;
+                } else if (q.status === 'Sent' || q.status === 'Draft') {
+                    pipelineSum += total;
+                }
+            });
+
+            // Append mock closed closures into the stats
+            state.ledger.forEach(l => {
+                approvedSum += l.revenue;
+                approvedCount++;
+                activeProposalsCount++;
+            });
+
+            document.getElementById('stat-revenue').textContent = formatCurrency(approvedSum, state.lang);
+            document.getElementById('stat-pipeline').textContent = formatCurrency(pipelineSum, state.lang);
+            document.getElementById('stat-active').textContent = activeProposalsCount;
+            
+            const rate = activeProposalsCount > 0 ? Math.round((approvedCount / activeProposalsCount) * 100) : 0;
+            document.getElementById('stat-conversion').textContent = `${rate}%`;
+
+            renderSegmentBars();
+        }
+
+        function itemHasPrice(it) {
+            return it && it.hasPrice;
+        }
+
+        // Render segment chart for event expenses
+        function renderSegmentBars() {
+            const totals = { Products: 0, Equipments: 0, Furniture: 0, Staff: 0, Logistics: 0 };
+            state.ledger.forEach(l => {
+                if (l.segments) {
+                    Object.keys(totals).forEach(k => {
+                        totals[k] += (l.segments[k] || 0);
+                    });
+                }
+            });
+
+            const overall = Object.values(totals).reduce((a, b) => a + b, 0) || 1;
+            const container = document.getElementById('segment-bars-container');
+            container.innerHTML = '';
+
+            const segmentColors = {
+                Products: 'bg-gold',
+                Equipments: 'bg-amber-600',
+                Furniture: 'bg-zinc-500',
+                Staff: 'bg-emerald-600',
+                Logistics: 'bg-blue-600'
+            };
+
+            Object.keys(totals).forEach(k => {
+                const pct = Math.round((totals[k] / overall) * 100);
+                const bar = document.createElement('div');
+                bar.className = "space-y-1.5";
+                bar.innerHTML = `
+                    <div class="flex justify-between text-[10px] uppercase font-bold tracking-wider">
+                        <span>${k}</span>
+                        <span class="font-mono text-gold">${formatCurrency(totals[k], state.lang)} (${pct}%)</span>
+                    </div>
+                    <div class="w-full bg-zinc-950 h-2 rounded-full overflow-hidden">
+                        <div class="h-full ${segmentColors[k]}" style="width: ${pct}%"></div>
+                    </div>
+                `;
+                container.appendChild(bar);
+            });
+        }
+
+        // Render Ledger Tables
+        function renderLedgerTable() {
+            const tbody = document.getElementById('event-ledger-rows');
+            tbody.innerHTML = '';
+
+            state.ledger.forEach(l => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-zinc-800 hover:bg-zinc-950/20";
+                tr.innerHTML = `
+                    <td class="py-3 font-mono font-bold text-gold">${l.ref}</td>
+                    <td class="py-3 font-mono">${l.guests}</td>
+                    <td class="py-3 font-mono">${formatCurrency(l.revenue, state.lang)}</td>
+                    <td class="py-3 font-mono text-red-400">${formatCurrency(l.cost, state.lang)}</td>
+                    <td class="py-3 font-mono text-emerald-400 font-bold">${formatCurrency(l.profit, state.lang)}</td>
+                    <td class="py-3 font-mono text-right text-zinc-500">${l.margin}%</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Render CRM Customers directory list
+        function renderCRMTable() {
+            const tbody = document.getElementById('crm-clients-rows');
+            tbody.innerHTML = '';
+
+            state.clients.forEach(c => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-zinc-950/40";
+                tr.innerHTML = `
+                    <td class="p-4 font-bold text-cream">${c.name}</td>
+                    <td class="p-4 text-zinc-400">${c.company || '—'}</td>
+                    <td class="p-4 text-zinc-400 font-mono">${c.email}</td>
+                    <td class="p-4 text-center font-mono">${c.eventsCount}</td>
+                    <td class="p-4 font-mono text-gold font-semibold">${formatCurrency(c.ltv, state.lang)}</td>
+                    <td class="p-4 text-right space-x-2">
+                        <button onclick="applyCRMToProposal('${c.name}', '${c.company || ''}')" class="text-[9px] uppercase tracking-wider bg-gold text-dark font-bold px-2 py-1 rounded">Build Quote</button>
+                        <button onclick="deleteClient('${c.id}')" class="text-zinc-500 hover:text-red-400">&times;</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Bind client data to proposal form
+        function applyCRMToProposal(name, company) {
+            document.getElementById('input-client').value = name;
+            document.getElementById('input-company').value = company;
+            updateMetadata();
+            switchWorkspaceView('builder');
+            showToast(`Loaded CRM Card for ${name}`);
+        }
+
+        function deleteClient(id) {
+            state.clients = state.clients.filter(c => c.id !== id);
+            renderCRMTable();
+            showToast("Customer profile removed");
+        }
+
+        // Simulated Invoice AI OCR scanner dropzone mechanism
+        function triggerSimulatedOCR() {
+            const loader = document.getElementById('ocr-loader');
+            const dropzone = document.getElementById('ocr-dropzone');
+            const results = document.getElementById('ocr-results');
+
+            dropzone.classList.add('hidden');
+            results.classList.add('hidden');
+            loader.classList.remove('hidden');
+
+            let pct = 0;
+            const interval = setInterval(() => {
+                pct += 10;
+                document.getElementById('ocr-progress-pct').textContent = `${pct}%`;
+                document.getElementById('ocr-progress-bar').style.width = `${pct}%`;
+
+                if (pct >= 100) {
+                    clearInterval(interval);
+                    loader.classList.add('hidden');
+                    
+                    // Generate premium mock invoice data matching current lang
+                    const extractedValue = Math.floor(2500 + Math.random() * 5000);
+                    document.getElementById('ocr-total-val').textContent = formatCurrency(extractedValue, state.lang);
+                    document.getElementById('ocr-vendor').textContent = "Bespoke Imports Corp";
+                    document.getElementById('ocr-tax-id').textContent = "EIN-41-5063583";
+                    document.getElementById('ocr-date').value = "2026-06-19";
+                    results.classList.remove('hidden');
+                    showToast("AI OCR scanner analysis complete!");
+                }
+            }, 150);
+        }
+
+        // Save OCR item as manual ledger event closure expense
+        function approveOCRExpense() {
+            const costText = document.getElementById('ocr-total-val').textContent;
+            const numericCost = parseFloat(costText.replace(/[^0-9.-]+/g,"")) || 2500;
+            const segment = document.getElementById('ocr-allocated-segment').value;
+
+            // Rollup mock new event closure
+            const newLedger = {
+                id: crypto.randomUUID(),
+                ref: `SV-2026-${Math.floor(100+Math.random()*900)}`,
+                client: "Inquire Closed Vendor",
+                guests: 50,
+                revenue: numericCost * 2.5, // assuming healthy 60% margins
+                cost: numericCost,
+                profit: (numericCost * 2.5) - numericCost,
+                margin: 60,
+                segments: { Products: 0, Equipments: 0, Furniture: 0, Staff: 0, Logistics: 0 }
+            };
+
+            newLedger.segments[segment] = numericCost;
+            state.ledger.push(newLedger);
+            
+            document.getElementById('ocr-results').classList.add('hidden');
+            document.getElementById('ocr-dropzone').classList.remove('hidden');
+            
+            renderLedgerTable();
+            recomputeAnalyticsDashboard();
+            showToast("Ledger event cost closing added!");
+        }
+
+        // Dynamic CRM addition
+        function setupCRMForm() {
+            const card = document.getElementById('crm-form-container');
+            card.classList.toggle('hidden');
+        }
+
+        // PDF Sandbox export fallback if popups are blocked by iFrames
+        function exportDocumentToPDF() {
+            try {
+                const clientName = document.getElementById('doc-client').textContent;
+                const docHTMLContent = document.getElementById('capture-print-area').innerHTML;
+                
+                const printWindow = window.open('', '_blank');
+                if (!printWindow) {
+                    // Fallback to inline print layout switch
+                    showToast("Sandbox Blocked. Toggling body print layout directly...", "success");
+                    window.print();
+                    return;
+                }
+
+                const printTemplate = `
+                    <!DOCTYPE html>
+                    <html lang="${state.lang.toLowerCase()}">
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>${clientName} — SEIVA Proposal</title>
+                        \x3Cscript src="https://cdn.tailwindcss.com"\x3E\x3C/script\x3E
+                        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+                        \x3Cscript\x3E
+                            tailwind.config = {
+                                theme: {
+                                    extend: {
+                                        colors: {
+                                            dark: '#0F0F0F',
+                                            cream: '#F7F5F0',
+                                            platinum: '#E2E0D9',
+                                            gold: '#C5A880'
+                                        },
+                                        fontFamily: {
+                                            serif: ['"Cormorant Garamond"', 'serif'],
+                                            sans: ['"Inter"', 'sans-serif'],
+                                        }
+                                    }
+                                }
+                            }
+                        \x3C/script\x3E
+                        <style>
+                            body {
+                                background-color: #F7F5F0 !important;
+                                color: #0F0F0F;
+                                font-family: 'Inter', sans-serif;
+                                -webkit-font-smoothing: antialiased;
+                                padding: 0;
+                                margin: 0;
+                            }
+                            .font-serif-luxury {
+                                font-family: 'Cormorant Garamond', serif;
+                                letter-spacing: 0.05em;
+                            }
+                            .no-print {
+                                display: none !important;
+                            }
+                            @page {
+                                size: letter portrait;
+                                margin: 25mm !important;
+                            }
+                            .break-inside-avoid {
+                                break-inside: avoid;
+                                page-break-inside: avoid;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="max-w-4xl mx-auto bg-cream">
+                            ${docHTMLContent}
+                        </div>
+                        \x3Cscript\x3E
+                            window.onload = function() {
+                                const interactives = document.querySelectorAll('.no-print');
+                                interactives.forEach(el => el.remove());
+                                setTimeout(() => {
+                                    window.print();
+                                    window.close();
+                                }, 550);
+                            };
+                        \x3C/script\x3E
+                    </body>
+                    </html>
+                `;
+
+                printWindow.document.write(printTemplate);
+                printWindow.document.close();
+                showToast("PDF Export Thread Initiated.");
+            } catch (err) {
+                console.error("PDF engine crash: ", err);
+                window.print();
+            }
+        }
+
+        // Custom dispatch dialog drawer
+        function triggerShareDispatch(proposalId = null) {
+            const activeId = proposalId || state.currentQuoteId || 'SV-2026-X';
+            const client = document.getElementById('input-client').value || "Client";
+            const event = document.getElementById('input-event').value || "Bespoke Event";
+            const total = document.getElementById('doc-total').textContent;
+            const link = `https://seivaculinary.com/proposals/?id=${activeId}`;
+
+            document.getElementById('share-link-input').value = link;
+
+            let draft = "";
+            if (state.lang === 'POR') {
+                draft = `Assunto: Coletivo SEIVA — Proposta para ${event}
+
+Prezado(a) ${client},
+
+É um privilégio compartilhar a proposta gastronômica desenvolvida para a sua "${event}".
+
+Preparamos uma narrativa de etapas focada na contemporaneidade técnica e no frescor de produtores locais para encantar seus convidados seletos.
+
+Acesse o detalhamento oficial e faça a validação da proposta no link seguro abaixo:
+${link}
+
+Resumo do Investimento: ${total}
+
+Ficamos inteiramente à sua disposição para eventuais refinamentos.
+
+Atenciosamente,
+
+Bernardo Simões
+Chef Executivo
+Coletivo SEIVA`;
+            } else {
+                draft = `Subject: SEIVA Collective — Proposal Layout for ${event}
+
+Dear ${client},
+
+It is a privilege to present our tailored culinary layout for your upcoming "${event}". 
+
+Please review your secure proposal blueprint here:
+${link}
+
+Summary of Investment: ${total}
+
+Warmest regards,
+
+Bernardo Simões
+Executive Chef / Partner
+SEIVA Collective`;
+            }
+
+            document.getElementById('dispatch-email-text').value = draft;
+            document.getElementById('dispatch-overlay').classList.remove('hidden');
+        }
+
+        // Dynamic items editor delegation to bypass CSP rules
+        function renderEditor() {
+            const container = document.getElementById('items-editor-container');
+            container.innerHTML = '';
+
+            items.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = "bg-zinc-800 p-4 rounded border border-zinc-700 relative space-y-3";
+                
+                let subHTML = '';
+                item.subItems.forEach((sub, subIdx) => {
+                    subHTML += `
+                        <div class="bg-zinc-900/60 p-2 rounded border border-zinc-750 space-y-2 relative ml-3 border-l-2 border-gold/30 pl-3">
+                            <button data-action="delete-sub" data-parent="${index}" data-sub="${subIdx}" class="absolute top-1 right-1 text-zinc-500 hover:text-red-400 text-xs font-bold">&times;</button>
+                            <div>
+                                <label class="block text-[8px] uppercase text-zinc-500 font-bold mb-0.5">Sub-item Name / Course Details</label>
+                                <input type="text" value="${sub.name}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="name" class="w-full bg-zinc-950 text-cream px-2 py-1 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="ps-${index}-${subIdx}" ${sub.hasPrice ? 'checked' : ''} data-action="toggle-sub-price" data-parent="${index}" data-sub="${subIdx}" class="rounded text-gold focus:ring-0">
+                                <label for="ps-${index}-${subIdx}" class="text-[8px] uppercase text-zinc-400 font-bold cursor-pointer">Has Custom Price</label>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 ${sub.hasPrice ? '' : 'hidden'}">
+                                <div>
+                                    <label class="block text-[8px] uppercase text-zinc-500 font-bold">Qty</label>
+                                    <input type="number" value="${sub.qty}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="qty" class="w-full bg-zinc-950 text-cream px-2 py-0.5 text-xs border border-zinc-700 outline-none rounded">
+                                </div>
+                                <div>
+                                    <label class="block text-[8px] uppercase text-zinc-500 font-bold">Rate</label>
+                                    <input type="number" value="${sub.rate}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="rate" class="w-full bg-zinc-950 text-cream px-2 py-0.5 text-xs border border-zinc-700 outline-none rounded">
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                div.innerHTML = `
+                    <button data-action="delete-parent" data-index="${index}" class="absolute top-3 right-3 text-zinc-500 hover:text-red-400 transition-colors">
+                        &times;
+                    </button>
+                    <div>
+                        <span class="text-[8px] uppercase font-bold text-gold tracking-widest block mb-1">Item #${index+1}</span>
+                        <label class="block text-[8px] uppercase text-zinc-500 font-bold">Title / Package</label>
+                        <input type="text" value="${item.name}" data-action="change-parent" data-index="${index}" data-field="name" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
+                    </div>
+                    <div>
+                        <label class="block text-[8px] uppercase text-zinc-500 font-bold">Short Scope Description</label>
+                        <input type="text" value="${item.desc}" data-action="change-parent" data-index="${index}" data-field="desc" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="pm-${index}" ${item.hasPrice ? 'checked' : ''} data-action="toggle-parent-price" data-index="${index}" class="rounded text-gold focus:ring-0">
+                        <label for="pm-${index}" class="text-[8px] uppercase text-zinc-400 font-bold cursor-pointer">Include Parent Price</label>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 ${item.hasPrice ? '' : 'hidden'}">
+                        <div>
+                            <label class="block text-[8px] uppercase text-zinc-500 font-bold">Qty</label>
+                            <input type="number" value="${item.qty}" data-action="change-parent" data-index="${index}" data-field="qty" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
+                        </div>
+                        <div>
+                            <label class="block text-[8px] uppercase text-zinc-500 font-bold">Rate</label>
+                            <input type="number" value="${item.rate}" data-action="change-parent" data-index="${index}" data-field="rate" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
+                        </div>
+                    </div>
+                    <div class="pt-2 border-t border-zinc-750 space-y-2">
+                        <div class="flex justify-between items-center px-1">
+                            <span class="text-[8px] uppercase text-zinc-400 font-bold">Sub-Items Breakdown</span>
+                            <button data-action="add-sub" data-index="${index}" class="text-[8px] uppercase bg-zinc-900 text-gold hover:bg-gold hover:text-dark px-2 py-0.5 rounded transition-all font-semibold">+ Add Sub-item</button>
+                        </div>
+                        <div class="space-y-2">
+                            ${subHTML}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Programmatic interactions setup
+        function registerHandlers() {
+            // Pin Check Gate
+            document.getElementById('btn-login-submit').addEventListener('click', () => {
+                const pin = document.getElementById('admin-pin').value;
+                if (pin === 'seiva2026') {
+                    document.getElementById('login-gateway').classList.add('opacity-0', 'pointer-events-none');
+                    document.getElementById('app-content').classList.remove('hidden');
+                    showToast("Authentication Unlocked.");
+                    loadCloudLibraryList();
+                    renderLedgerTable();
+                    renderCRMTable();
+                } else {
+                    showToast("Incorrect Passcode. Access denied.", "error");
+                }
+            });
+
+            // Tab navigation routers
+            document.getElementById('tab-dashboard').addEventListener('click', () => switchWorkspaceView('dashboard'));
+            document.getElementById('tab-crm').addEventListener('click', () => switchWorkspaceView('crm'));
+            document.getElementById('tab-builder').addEventListener('click', () => switchWorkspaceView('builder'));
+            document.getElementById('btn-dashboard-new-proposal').addEventListener('click', createNewProposal);
+
+            // Collapsible settings panels
+            document.getElementById('sidebar-collapse-btn').addEventListener('click', toggleSidebar);
+            document.getElementById('sidebar-toggle-floating').addEventListener('click', toggleSidebar);
+            document.getElementById('sidebar-primary-export-btn').addEventListener('click', exportDocumentToPDF);
+            document.getElementById('ui-btn-add-item').addEventListener('click', () => {
+                addNewItem();
+                triggerAutosave();
+            });
+
+            document.getElementById('btn-share-dispatch').addEventListener('click', () => triggerShareDispatch());
+            document.getElementById('btn-close-dispatch').addEventListener('click', () => {
+                document.getElementById('dispatch-overlay').classList.add('hidden');
+            });
+
+            document.getElementById('btn-whatsapp-dispatch').addEventListener('click', shareWhatsApp);
+            document.getElementById('btn-direct-email').addEventListener('click', (e) => {
+                e.preventDefault();
+                openMailClient();
+            });
+
+            // Clipboard Copy handling
+            document.getElementById('btn-copy-link').addEventListener('click', () => {
+                const input = document.getElementById('share-link-input');
+                input.select();
+                document.execCommand('copy');
+                showToast("Invite Link Copied.");
+            });
+
+            document.getElementById('btn-copy-email-draft').addEventListener('click', () => {
+                const textarea = document.getElementById('dispatch-email-text');
+                textarea.select();
+                document.execCommand('copy');
+                showToast("Email text copied.");
+            });
+
+            // Metadata inputs listeners for live-update preview
+            const metaFields = [
+                'ref', 'date-issue', 'date-valid', 'client', 'company',
+                'event', 'event-date', 'location', 'guests', 'format',
+                'concept', 'presenter', 'title'
+            ];
+            metaFields.forEach(f => {
+                const el = document.getElementById(`input-${f}`);
+                if (el) {
+                    el.addEventListener('input', () => {
+                        updateMetadata();
+                        triggerAutosave();
+                    });
+                }
+            });
+
+            // Status select monitor
+            document.getElementById('input-status').addEventListener('change', function() {
+                triggerAutosave();
+            });
+
+            // Dynamic items editor delegation to bypass CSP rules
+            const editor = document.getElementById('items-editor-container');
+            editor.addEventListener('input', function(e) {
+                const target = e.target;
+                if (target.getAttribute('data-action') === 'change-parent') {
+                    const index = parseInt(target.getAttribute('data-index'), 10);
+                    const field = target.getAttribute('data-field');
+                    handleItemChange(index, field, target.value);
+                    triggerAutosave();
+                }
+                if (target.getAttribute('data-action') === 'change-sub') {
+                    const parent = parseInt(target.getAttribute('data-parent'), 10);
+                    const sub = parseInt(target.getAttribute('data-sub'), 10);
+                    const field = target.getAttribute('data-field');
+                    handleSubItemChange(parent, sub, field, target.value);
+                    triggerAutosave();
+                }
+            });
+
+            editor.addEventListener('click', function(e) {
+                const target = e.target;
+                if (target.getAttribute('data-action') === 'add-sub') {
+                    const index = parseInt(target.getAttribute('data-index'), 10);
+                    addNewSubItem(index);
+                    triggerAutosave();
+                }
+                const delParent = target.closest('[data-action="delete-parent"]');
+                if (delParent) {
+                    const index = parseInt(delParent.getAttribute('data-index'), 10);
+                    deleteItem(index);
+                    triggerAutosave();
+                }
+                const delSub = target.closest('[data-action="delete-sub"]');
+                if (delSub) {
+                    const parent = parseInt(delSub.getAttribute('data-parent'), 10);
+                    const sub = parseInt(delSub.getAttribute('data-sub'), 10);
+                    deleteSubItem(parent, sub);
+                    triggerAutosave();
+                }
+            });
+
+            editor.addEventListener('change', function(e) {
+                const target = e.target;
+                if (target.getAttribute('data-action') === 'toggle-parent-price') {
+                    const index = parseInt(target.getAttribute('data-index'), 10);
+                    handleItemChange(index, 'hasPrice', target.checked);
+                    renderAll();
+                    triggerAutosave();
+                }
+                if (target.getAttribute('data-action') === 'toggle-sub-price') {
+                    const parent = parseInt(target.getAttribute('data-parent'), 10);
+                    const sub = parseInt(target.getAttribute('data-sub'), 10);
+                    handleSubItemChange(parent, sub, 'hasPrice', target.checked);
+                    renderAll();
+                    triggerAutosave();
+                }
+            });
+
+            // OCR dropzone trigger click
+            const dropzone = document.getElementById('ocr-dropzone');
+            const fileInput = document.getElementById('ocr-file-input');
+            dropzone.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', triggerSimulatedOCR);
+            
+            document.getElementById('btn-ocr-approve-expense').addEventListener('click', approveOCRExpense);
+
+            // CRM Add Client Profile triggers
+            document.getElementById('btn-crm-add-client').addEventListener('click', setupCRMForm);
+            document.getElementById('btn-crm-cancel').addEventListener('click', setupCRMForm);
+            document.getElementById('crm-client-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const newClient = {
+                    id: crypto.randomUUID(),
+                    name: document.getElementById('crm-input-name').value,
+                    company: document.getElementById('crm-input-company').value,
+                    email: document.getElementById('crm-input-email').value,
+                    eventsCount: 0,
+                    ltv: 0
+                };
+                state.clients.push(newClient);
+                renderCRMTable();
+                document.getElementById('crm-client-form').reset();
+                setupCRMForm();
+                showToast("New client card saved!");
+            });
+
+            // Dynamic ENG/POR/ITA buttons bindings
+            ['ENG', 'POR', 'ITA'].forEach(lang => {
+                document.getElementById(`lang-btn-${lang}`).addEventListener('click', () => {
+                    changeLanguage(lang);
+                    triggerAutosave();
+                });
+            });
+
+            document.getElementById('doc-btn-approve').addEventListener('click', () => {
+                document.getElementById('payment-msg').classList.toggle('hidden');
+            });
+
+            document.getElementById('btn-logout').addEventListener('click', () => {
+                document.getElementById('admin-pin').value = '';
+                document.getElementById('app-content').classList.add('hidden');
+                document.getElementById('login-gateway').classList.remove('opacity-0', 'pointer-events-none');
+            });
+        }
+
+        // Initialize template on DOM Content loaded safely
+        document.addEventListener('DOMContentLoaded', () => {
+            registerHandlers();
+            changeLanguage('POR');
+        });
+    </script>
+</body>
+</html>
