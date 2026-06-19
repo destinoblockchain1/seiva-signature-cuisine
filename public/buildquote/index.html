@@ -73,14 +73,14 @@
             .print-container {
                 box-shadow: none !important;
                 margin: 0 !important;
-                padding: 0 !important;
+                padding: 1in !important; /* Estrita margem de 1 polegada nas quatro direções */
                 max-width: 100% !important;
                 background-color: #F7F5F0 !important;
                 border: none !important;
             }
             @page {
                 size: letter portrait;
-                margin: 1in !important; /* Estrita margem de 1 polegada nas quatro direções */
+                margin: 0 !important; /* Deixa o navegador usar o padding fixo de 1 polegada */
             }
             .break-inside-avoid {
                 break-inside: avoid;
@@ -233,7 +233,7 @@
                         <div class="p-6 border-b border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-4 bg-zinc-950/40">
                             <h3 id="lib-title" class="text-xs uppercase tracking-[0.2em] font-bold text-cream">Proposal Library & Vault</h3>
                             <div class="flex gap-2 w-full sm:w-auto">
-                                <input type="text" id="search-proposals" placeholder="Search by Client or Event..." class="bg-zinc-900 text-cream px-4 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded w-full sm:w-64 placeholder:text-zinc-650">
+                                <input type="text" id="search-proposals" placeholder="Search by Client or Event..." class="bg-zinc-900 text-cream px-4 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded w-full sm:w-64 placeholder:text-zinc-605">
                             </div>
                         </div>
                         <div id="proposals-list" class="divide-y divide-zinc-800 max-h-[300px] overflow-y-auto">
@@ -470,7 +470,7 @@
                     <div class="border-t border-zinc-800 pt-5 space-y-4">
                         <h3 id="ui-sect-creative-concept" class="text-[10px] uppercase tracking-[0.15em] font-bold text-gold">Creative Concept</h3>
                         <div>
-                            <label id="label-concept" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Concept Statement</label>
+                            <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Concept Statement</label>
                             <textarea id="input-concept" rows="5" class="w-full bg-zinc-800 text-cream p-3 text-xs border border-zinc-700 focus:border-gold outline-none rounded resize-none leading-relaxed placeholder:text-zinc-600 font-light"></textarea>
                         </div>
                     </div>
@@ -512,7 +512,7 @@
                     </svg>
                 </button>
 
-                <!-- Proposal Template Document -->
+                <!-- Proposal Template Document with exact 1-inch printable spacing -->
                 <div id="capture-print-area" class="print-container w-full max-w-4xl bg-cream shadow-2xl text-dark p-8 md:p-16 relative overflow-hidden flex flex-col justify-between min-h-[1100px] my-auto">
                     <div class="absolute top-0 right-0 w-64 h-64 bg-platinum/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
 
@@ -988,15 +988,15 @@
                     sectLineItems: "Line Items & Menu",
                     sectSignature: "Firma Autorizzata",
                     btnAddItem: "+ Add Item",
-                    titleMain: "Proposta",
-                    labelPreparedFor: "Preparato Per",
-                    labelIssueDate: "Data di Emissione",
-                    labelValidUntil: "Valido Fino Al",
+                    titleMain: "Proposal",
+                    labelPreparedFor: "Prepared For",
+                    labelIssueDate: "Date of Issue",
+                    labelValidUntil: "Valid Until",
                     labelEvent: "L'Evento",
-                    labelEventDate: "Data Evento",
+                    labelEventDate: "Event Date",
                     labelLocation: "Luogo dell'Evento",
                     labelGuests: "Ospiti",
-                    labelFormat: "Formato",
+                    labelFormat: "Format",
                     labelConcept: "Il Concetto",
                     labelInvestmentBreakdown: "Dettaglio dell'Investimento",
                     labelThDesc: "Descrizione",
@@ -1034,6 +1034,10 @@
             }
         };
 
+        // --- STREAMING_CHUNK: Inicializando variáveis de estado dinâmico... ---
+        // DYNAMIC ITEMS ARRAY HOLDER
+        let items = [];
+
         // --- TOAST NOTIFICATIONS SYSTEM ---
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
@@ -1068,7 +1072,7 @@
         // --- LOCAL STORAGE AUTOSAVE SIMULATION ---
         function triggerAutosave() {
             const statusEl = document.getElementById('autosave-status');
-            if (statusEl) statusEl.textContent = "Saving...";
+            if (statusEl) statusEl.textContent = "Offline Saving...";
             
             // Save state payload safely to localStorage to persist over refreshes
             const payload = {
@@ -1108,6 +1112,7 @@
             }
         }
 
+        // --- STREAMING_CHUNK: Configurando a alteração dinâmica de idioma... ---
         function changeLanguage(langCode) {
             state.lang = langCode;
             
@@ -1121,6 +1126,8 @@
             });
 
             applyUILabelTranslations();
+            // Clone items array from translations block safely
+            items = JSON.parse(JSON.stringify(translations[langCode].items || []));
             updateMetadata();
             renderAll();
             renderLedgerTable();
@@ -1159,7 +1166,7 @@
             updateText('ui-sect-signature', labelsObj.sectSignature);
             updateText('ui-btn-add-item', labelsObj.btnAddItem);
             
-            // Translate Sidebar Input Sub-Labels (Fixes 100% translation requirement)
+            // Translate Sidebar Input Sub-Labels
             updateText('label-ref', subLabelsObj.ref);
             updateText('label-date-issue', subLabelsObj.dateIssue);
             updateText('label-date-valid', subLabelsObj.dateValid);
@@ -1214,6 +1221,7 @@
             document.getElementById('input-title').placeholder = ghost.title;
         }
 
+        // --- STREAMING_CHUNK: Sincronizando dados dos inputs e calculando totais de faturamento... ---
         function updateMetadata() {
             // Sincronização explícita com fallbacks elegantes '—' em caso de input vazio
             const syncPreview = (pId, iId) => {
@@ -1318,6 +1326,7 @@
             return it && it.hasPrice;
         }
 
+        // --- STREAMING_CHUNK: Gerando os gráficos de distribuição por logísticas... ---
         function renderSegmentBars() {
             const totals = { Products: 0, Equipments: 0, Furniture: 0, Staff: 0, Logistics: 0 };
             state.ledger.forEach(l => {
@@ -1419,6 +1428,7 @@
             showToast("Customer profile removed");
         }
 
+        // --- STREAMING_CHUNK: Simulando escaneamento inteligente de recibos por OCR... ---
         function triggerSimulatedOCR() {
             const loader = document.getElementById('ocr-loader');
             const dropzone = document.getElementById('ocr-dropzone');
@@ -1487,6 +1497,7 @@
             if (card) card.classList.toggle('hidden');
         }
 
+        // --- STREAMING_CHUNK: Definindo template limpo para a exportação de PDF de 1 polegada... ---
         function exportDocumentToPDF() {
             try {
                 const clientName = document.getElementById('doc-client').textContent;
@@ -1499,7 +1510,7 @@
                     return;
                 }
 
-                // Generates HTML write with explicit 1 inch printable margins all around (Fixes proposaal example to fix.pdf)
+                // Generates HTML write with explicit 1 inch printable margins all around
                 const printTemplate = `
                     <!DOCTYPE html>
                     <html lang="${state.lang.toLowerCase()}">
@@ -1532,8 +1543,8 @@
                                 color: #0F0F0F;
                                 font-family: 'Inter', sans-serif;
                                 -webkit-font-smoothing: antialiased;
-                                padding: 0;
-                                margin: 0;
+                                padding: 0 !important;
+                                margin: 0 !important;
                             }
                             .font-serif-luxury {
                                 font-family: 'Cormorant Garamond', serif;
@@ -1542,9 +1553,16 @@
                             .no-print {
                                 display: none !important;
                             }
+                            .print-container {
+                                padding: 1in !important; /* Estrita margem interna de 1 polegada */
+                                background-color: #F7F5F0 !important;
+                                width: 100% !important;
+                                max-width: 100% !important;
+                                box-shadow: none !important;
+                            }
                             @page {
                                 size: letter portrait;
-                                margin: 1in !important; /* Estrita margem de 1 polegada */
+                                margin: 0 !important; /* Desabilita margem do navegador e usa padding rígido */
                             }
                             .break-inside-avoid {
                                 break-inside: avoid;
@@ -1553,7 +1571,7 @@
                         </style>
                     </head>
                     <body>
-                        <div class="max-w-4xl mx-auto bg-cream">
+                        <div class="print-container max-w-4xl mx-auto bg-cream">
                             ${docHTMLContent}
                         </div>
                         \x3Cscript\x3E
@@ -1645,7 +1663,7 @@ SEIVA Collective`;
             window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
         }
 
-        // Focused-safe hierarchy builder preventing keyboard cursor focus loss (Ref: image_1fb4fd.png)
+        // --- STREAMING_CHUNK: Renderizando os itens hierárquicos do editor lateral... ---
         function renderEditor() {
             const container = document.getElementById('items-editor-container');
             if (!container) return;
@@ -1661,7 +1679,7 @@ SEIVA Collective`;
                         <div class="bg-zinc-900/60 p-2 rounded border border-zinc-750 space-y-2 relative ml-3 border-l-2 border-gold/30 pl-3">
                             <button data-action="delete-sub" data-parent="${index}" data-sub="${subIdx}" class="absolute top-1 right-1 text-zinc-500 hover:text-red-400 text-xs font-bold">&times;</button>
                             <div>
-                                <label class="block text-[8px] uppercase text-zinc-500 font-bold mb-0.5">Sub-item Name</label>
+                                <label class="block text-[8px] uppercase text-zinc-500 font-bold mb-0.5">Sub-item Name / Course Details</label>
                                 <input type="text" value="${sub.name}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="name" class="w-full bg-zinc-950 text-cream px-2 py-1 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
                             </div>
                             <div class="flex items-center gap-2">
@@ -1687,7 +1705,7 @@ SEIVA Collective`;
                         &times;
                     </button>
                     <div>
-                        <span class="text-[8px] uppercase font-bold text-gold tracking-widest block mb-1">Primary Item #${index+1}</span>
+                        <span class="text-[8px] uppercase font-bold text-gold tracking-widest block mb-1">Item #${index+1}</span>
                         <label class="block text-[8px] uppercase text-zinc-500 font-bold">Title / Package</label>
                         <input type="text" value="${item.name}" data-action="change-parent" data-index="${index}" data-field="name" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
                     </div>
@@ -1706,12 +1724,12 @@ SEIVA Collective`;
                         </div>
                         <div>
                             <label class="block text-[8px] uppercase text-zinc-500 font-bold">Rate</label>
-                            <input type="number" value="${item.rate}" data-index="${index}" data-field="rate" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
+                            <input type="number" value="${item.rate}" data-action="change-parent" data-index="${index}" data-field="rate" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
                         </div>
                     </div>
                     <div class="pt-2 border-t border-zinc-750 space-y-2">
                         <div class="flex justify-between items-center px-1">
-                            <span class="text-[8px] uppercase text-zinc-400 font-bold">Sub-Items / Menu Breakdown</span>
+                            <span class="text-[8px] uppercase text-zinc-400 font-bold">Sub-Items Breakdown</span>
                             <button data-action="add-sub" data-index="${index}" class="text-[8px] uppercase bg-zinc-900 text-gold hover:bg-gold hover:text-dark px-2 py-0.5 rounded transition-all font-semibold">+ Add Sub-item</button>
                         </div>
                         <div class="space-y-2">
@@ -1723,6 +1741,7 @@ SEIVA Collective`;
             });
         }
 
+        // --- STREAMING_CHUNK: Injetando pré-visualização em tempo real na folha de propostas... ---
         function renderDocPreview() {
             const container = document.getElementById('doc-items-container');
             if (!container) return;
@@ -1781,76 +1800,7 @@ SEIVA Collective`;
             calculateAndRenderTotals();
         }
 
-        function switchWorkspaceView(viewName) {
-            state.tab = viewName;
-            const tabs = {
-                dashboard: { btn: 'tab-dashboard', container: 'view-dashboard' },
-                crm: { btn: 'tab-crm', container: 'view-crm' },
-                builder: { btn: 'tab-builder', container: 'view-builder' }
-            };
-
-            Object.keys(tabs).forEach(k => {
-                const config = tabs[k];
-                const btn = document.getElementById(config.btn);
-                const view = document.getElementById(config.container);
-                if (k === viewName) {
-                    if (btn) btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all bg-gold text-dark shadow";
-                    if (view) view.classList.remove('hidden');
-                    if (k === 'dashboard') loadCloudLibraryList();
-                } else {
-                    if (btn) btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all text-zinc-400 hover:text-cream bg-zinc-950 hover:bg-zinc-900/50";
-                    if (view) view.classList.add('hidden');
-                }
-            });
-        }
-
-        function generateDefaultMeta() {
-            const currentYear = new Date().getFullYear();
-            const randomNum = Math.floor(100 + Math.random() * 900); // SV-2026-XXX
-            const ref = `SV-${currentYear}-${randomNum}`;
-            const today = new Date();
-            const options = { day: 'numeric', month: 'long', year: 'numeric' };
-
-            let dateIssueStr = today.toLocaleDateString(state.lang === 'POR' ? 'pt-BR' : state.lang === 'ITA' ? 'it-IT' : 'en-US', options);
-            
-            const refInput = document.getElementById('input-ref');
-            if (refInput) refInput.value = ref;
-
-            const dateInput = document.getElementById('input-date-issue');
-            if (dateInput) dateInput.value = dateIssueStr;
-        }
-
-        function createNewProposal() {
-            state.currentQuoteId = null;
-            items = [];
-            
-            generateDefaultMeta();
-            
-            document.getElementById('input-date-valid').value = '';
-            document.getElementById('input-client').value = '';
-            document.getElementById('input-company').value = '';
-            document.getElementById('input-event').value = '';
-            document.getElementById('input-event-date').value = '';
-            document.getElementById('input-location').value = '';
-            document.getElementById('input-guests').value = '';
-            document.getElementById('input-format').value = '';
-            document.getElementById('input-concept').value = '';
-            document.getElementById('input-presenter').value = 'Bernardo Simões';
-            document.getElementById('input-title').value = 'Executive Chef';
-
-            document.getElementById('input-status').value = 'Draft';
-
-            updateMetadata();
-            renderAll();
-            switchWorkspaceView('builder');
-            showToast("New Blank Proposal Draft Initiated.");
-        }
-
-        function renderAll() {
-            renderEditor();
-            renderDocPreview();
-        }
-
+        // --- STREAMING_CHUNK: Registrando eventos de cliques e ativando o login... ---
         function registerHandlers() {
             // Password verification gate supporting keydown 'Enter'
             const submitBtn = document.getElementById('btn-login-submit');
