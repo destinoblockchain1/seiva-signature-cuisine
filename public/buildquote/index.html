@@ -73,14 +73,14 @@
             .print-container {
                 box-shadow: none !important;
                 margin: 0 !important;
-                padding: 1in !important; /* Estrita margem de 1 polegada nas quatro direções */
+                padding: 1in !important; /* Forces strict 1 inch margin on all four directions */
                 max-width: 100% !important;
                 background-color: #F7F5F0 !important;
                 border: none !important;
             }
             @page {
                 size: letter portrait;
-                margin: 0 !important; /* Deixa o navegador usar o padding fixo de 1 polegada */
+                margin: 0 !important; /* Allows our print-container padding to represent margins safely */
             }
             .break-inside-avoid {
                 break-inside: avoid;
@@ -233,7 +233,7 @@
                         <div class="p-6 border-b border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-4 bg-zinc-950/40">
                             <h3 id="lib-title" class="text-xs uppercase tracking-[0.2em] font-bold text-cream">Proposal Library & Vault</h3>
                             <div class="flex gap-2 w-full sm:w-auto">
-                                <input type="text" id="search-proposals" placeholder="Search by Client or Event..." class="bg-zinc-900 text-cream px-4 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded w-full sm:w-64 placeholder:text-zinc-600">
+                                <input type="text" id="search-proposals" placeholder="Search by Client or Event..." class="bg-zinc-900 text-cream px-4 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded w-full sm:w-64 placeholder:text-zinc-650">
                             </div>
                         </div>
                         <div id="proposals-list" class="divide-y divide-zinc-800 max-h-[300px] overflow-y-auto">
@@ -428,11 +428,11 @@
                         <div class="space-y-3">
                             <div>
                                 <label id="label-client" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Client Name</label>
-                                <input type="text" id="input-client" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
+                                <input type="text" id="input-client" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-650 font-light">
                             </div>
                             <div>
                                 <label id="label-company" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Company / Organization</label>
-                                <input type="text" id="input-company" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
+                                <input type="text" id="input-company" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-650 font-light">
                             </div>
                         </div>
                     </div>
@@ -442,26 +442,26 @@
                         <div class="space-y-3">
                             <div>
                                 <label id="label-event" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Event Name</label>
-                                <input type="text" id="input-event" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
+                                <input type="text" id="input-event" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-650 font-light">
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
                                     <label id="label-event-date" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Event Date</label>
-                                    <input type="text" id="input-event-date" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
+                                    <input type="text" id="input-event-date" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-650 font-light">
                                 </div>
                                 <div>
                                     <label id="label-location" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Location</label>
-                                    <input type="text" id="input-location" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
+                                    <input type="text" id="input-location" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-650 font-light">
                                 </div>
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
                                     <label id="label-guests" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Guests Attendance</label>
-                                    <input type="text" id="input-guests" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
+                                    <input type="text" id="input-guests" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-650 font-light">
                                 </div>
                                 <div>
                                     <label id="label-format" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Menu Format</label>
-                                    <input type="text" id="input-format" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
+                                    <input type="text" id="input-format" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-650 font-light">
                                 </div>
                             </div>
                         </div>
@@ -471,7 +471,7 @@
                         <h3 id="ui-sect-creative-concept" class="text-[10px] uppercase tracking-[0.15em] font-bold text-gold">Creative Concept</h3>
                         <div>
                             <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Concept Statement</label>
-                            <textarea id="input-concept" rows="5" class="w-full bg-zinc-800 text-cream p-3 text-xs border border-zinc-700 focus:border-gold outline-none rounded resize-none leading-relaxed placeholder:text-zinc-600 font-light"></textarea>
+                            <textarea id="input-concept" rows="5" class="w-full bg-zinc-800 text-cream p-3 text-xs border border-zinc-700 focus:border-gold outline-none rounded resize-none leading-relaxed placeholder:text-zinc-650 font-light"></textarea>
                         </div>
                     </div>
 
@@ -513,7 +513,7 @@
                 </button>
 
                 <!-- Proposal Template Document with exact 1-inch printable spacing -->
-                <div id="capture-print-area" class="print-container w-full max-w-4xl bg-cream shadow-2xl text-dark p-8 md:p-16 relative overflow-hidden flex flex-col justify-between min-h-[1100px] my-auto">
+                <div id="capture-print-area" class="print-container w-full max-w-4xl bg-cream text-dark p-8 md:p-16 relative overflow-hidden flex flex-col justify-between min-h-[1100px] my-auto">
                     <div class="absolute top-0 right-0 w-64 h-64 bg-platinum/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
 
                     <div>
@@ -959,9 +959,9 @@
                     location: "es: Tenuta di Miami Beach",
                     guests: "es: 45 ospiti",
                     format: "es: Menu Degustazione",
-                    concept: "es: Un'esperienza gastronomica d'élite sviluppata su misura per i vostri partner...",
-                    presenter: "es: Bernardo Simões",
-                    title: "es: Executive Chef / Partner"
+                    concept: "es: Un'esperienza gastronomica d'élite sviluppata su misura per i vostri partner... (e.g.)",
+                    presenter: "e.g. Bernardo Simões",
+                    title: "e.g. Executive Chef / Partner"
                 },
                 subLabels: {
                     ref: "ID Proposta / Riferimento",
@@ -1034,8 +1034,7 @@
             }
         };
 
-        // --- STREAMING_CHUNK: Inicializando variáveis de estado dinâmico... ---
-        // DYNAMIC ITEMS ARRAY HOLDER
+        // --- DYNAMIC ITEMS ARRAY HOLDER ---
         let items = [];
 
         // --- TOAST NOTIFICATIONS SYSTEM ---
@@ -1069,28 +1068,33 @@
             return new Intl.NumberFormat(locale, { style: 'currency', currency: currency }).format(val);
         }
 
+        // --- SAFE INPUT GETTER ---
+        function getInputValue(id) {
+            const el = document.getElementById(id);
+            return el ? el.value : '';
+        }
+
         // --- LOCAL STORAGE AUTOSAVE SIMULATION ---
         function triggerAutosave() {
             const statusEl = document.getElementById('autosave-status');
             if (statusEl) statusEl.textContent = "Offline Saving...";
             
-            // Save state payload safely to localStorage to persist over refreshes
             const payload = {
                 items: items,
                 meta: {
-                    ref: document.getElementById('input-ref').value,
-                    dateIssue: document.getElementById('input-date-issue').value,
-                    dateValid: document.getElementById('input-date-valid').value,
-                    client: document.getElementById('input-client').value,
-                    company: document.getElementById('input-company').value,
-                    event: document.getElementById('input-event').value,
-                    eventDate: document.getElementById('input-event-date').value,
-                    location: document.getElementById('input-location').value,
-                    guests: document.getElementById('input-guests').value,
-                    format: document.getElementById('input-format').value,
-                    concept: document.getElementById('input-concept').value,
-                    presenter: document.getElementById('input-presenter').value,
-                    title: document.getElementById('input-title').value
+                    ref: getInputValue('input-ref'),
+                    dateIssue: getInputValue('input-date-issue'),
+                    dateValid: getInputValue('input-date-valid'),
+                    client: getInputValue('input-client'),
+                    company: getInputValue('input-company'),
+                    event: getInputValue('input-event'),
+                    eventDate: getInputValue('input-event-date'),
+                    location: getInputValue('input-location'),
+                    guests: getInputValue('input-guests'),
+                    format: getInputValue('input-format'),
+                    concept: getInputValue('input-concept'),
+                    presenter: getInputValue('input-presenter'),
+                    title: getInputValue('input-title')
                 }
             };
             localStorage.setItem('seiva_draft_payload', JSON.stringify(payload));
@@ -1112,7 +1116,6 @@
             }
         }
 
-        // --- STREAMING_CHUNK: Configurando a alteração dinâmica de idioma... ---
         function changeLanguage(langCode) {
             state.lang = langCode;
             
@@ -1127,9 +1130,11 @@
 
             applyUILabelTranslations();
             
-            // Safe initialization fallback to avoid syntax crashes if translations.POR.items was undefined
+            // Rehydrate default values safely if items is empty
             const presetItems = translations[langCode].items || translations['ENG'].items || [];
-            items = JSON.parse(JSON.stringify(presetItems));
+            if (items.length === 0) {
+                items = JSON.parse(JSON.stringify(presetItems));
+            }
             
             updateMetadata();
             renderAll();
@@ -1230,7 +1235,6 @@
             }
         }
 
-        // --- STREAMING_CHUNK: Sincronizando dados dos inputs e calculando totais de faturamento... ---
         function updateMetadata() {
             // Sincronização explícita com fallbacks elegantes '—' em caso de input vazio
             const syncPreview = (pId, iId) => {
@@ -1275,16 +1279,24 @@
             const taxes = subtotal * 0.07;
             const total = subtotal + taxes;
 
-            const guestStr = document.getElementById('input-guests').value || "";
+            const guestsEl = document.getElementById('input-guests');
+            const guestStr = guestsEl ? guestsEl.value : "";
             const guestMatch = guestStr.match(/\d+/);
             const guestCount = guestMatch ? parseInt(guestMatch[0], 10) : 1;
             const safeDivider = guestCount > 0 ? guestCount : 1;
             const totalPerGuest = total / safeDivider;
 
-            document.getElementById('doc-subtotal').textContent = formatCurrency(subtotal, state.lang);
-            document.getElementById('doc-taxes').textContent = formatCurrency(taxes, state.lang);
-            document.getElementById('doc-total-per-guest').textContent = formatCurrency(totalPerGuest, state.lang);
-            document.getElementById('doc-total').textContent = formatCurrency(total, state.lang);
+            const subtotalEl = document.getElementById('doc-subtotal');
+            if (subtotalEl) subtotalEl.textContent = formatCurrency(subtotal, state.lang);
+
+            const taxesEl = document.getElementById('doc-taxes');
+            if (taxesEl) taxesEl.textContent = formatCurrency(taxes, state.lang);
+
+            const perGuestEl = document.getElementById('doc-total-per-guest');
+            if (perGuestEl) perGuestEl.textContent = formatCurrency(totalPerGuest, state.lang);
+
+            const totalEl = document.getElementById('doc-total');
+            if (totalEl) totalEl.textContent = formatCurrency(total, state.lang);
             
             recomputeAnalyticsDashboard();
         }
@@ -1335,7 +1347,6 @@
             return it && it.hasPrice;
         }
 
-        // --- STREAMING_CHUNK: Gerando os gráficos de distribuição por logísticas... ---
         function renderSegmentBars() {
             const totals = { Products: 0, Equipments: 0, Furniture: 0, Staff: 0, Logistics: 0 };
             state.ledger.forEach(l => {
@@ -1437,7 +1448,6 @@
             showToast("Customer profile removed");
         }
 
-        // --- STREAMING_CHUNK: Simulando escaneamento inteligente de recibos por OCR... ---
         function triggerSimulatedOCR() {
             const loader = document.getElementById('ocr-loader');
             const dropzone = document.getElementById('ocr-dropzone');
@@ -1506,7 +1516,6 @@
             if (card) card.classList.toggle('hidden');
         }
 
-        // --- STREAMING_CHUNK: Definindo template limpo para a exportação de PDF de 1 polegada... ---
         function exportDocumentToPDF() {
             try {
                 const clientName = document.getElementById('doc-client').textContent;
@@ -1519,7 +1528,6 @@
                     return;
                 }
 
-                // Generates HTML write with explicit 1 inch printable margins all around
                 const printTemplate = `
                     <!DOCTYPE html>
                     <html lang="${state.lang.toLowerCase()}">
@@ -1563,7 +1571,7 @@
                                 display: none !important;
                             }
                             .print-container {
-                                padding: 1in !important; /* Estrita margem interna de 1 polegada */
+                                padding: 1in !important; /* Forces a strict 1 inch printable padding margin */
                                 background-color: #F7F5F0 !important;
                                 width: 100% !important;
                                 max-width: 100% !important;
@@ -1571,7 +1579,7 @@
                             }
                             @page {
                                 size: letter portrait;
-                                margin: 0 !important; /* Desabilita margem do navegador e usa padding rígido */
+                                margin: 0 !important;
                             }
                             .break-inside-avoid {
                                 break-inside: avoid;
@@ -1672,7 +1680,6 @@ SEIVA Collective`;
             window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
         }
 
-        // --- STREAMING_CHUNK: Renderizando os itens hierárquicos do editor lateral... ---
         function renderEditor() {
             const container = document.getElementById('items-editor-container');
             if (!container) return;
@@ -1750,7 +1757,6 @@ SEIVA Collective`;
             });
         }
 
-        // --- STREAMING_CHUNK: Injetando pré-visualização em tempo real na folha de propostas... ---
         function renderDocPreview() {
             const container = document.getElementById('doc-items-container');
             if (!container) return;
@@ -1809,7 +1815,76 @@ SEIVA Collective`;
             calculateAndRenderTotals();
         }
 
-        // --- STREAMING_CHUNK: Registrando eventos de cliques e ativando o login... ---
+        function switchWorkspaceView(viewName) {
+            state.tab = viewName;
+            const tabs = {
+                dashboard: { btn: 'tab-dashboard', container: 'view-dashboard' },
+                crm: { btn: 'tab-crm', container: 'view-crm' },
+                builder: { btn: 'tab-builder', container: 'view-builder' }
+            };
+
+            Object.keys(tabs).forEach(k => {
+                const config = tabs[k];
+                const btn = document.getElementById(config.btn);
+                const view = document.getElementById(config.container);
+                if (k === viewName) {
+                    if (btn) btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all bg-gold text-dark shadow";
+                    if (view) view.classList.remove('hidden');
+                    if (k === 'dashboard') loadCloudLibraryList();
+                } else {
+                    if (btn) btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all text-zinc-400 hover:text-cream bg-zinc-950 hover:bg-zinc-900/50";
+                    if (view) view.classList.add('hidden');
+                }
+            });
+        }
+
+        function generateDefaultMeta() {
+            const currentYear = new Date().getFullYear();
+            const randomNum = Math.floor(100 + Math.random() * 900); // SV-2026-XXX
+            const ref = `SV-${currentYear}-${randomNum}`;
+            const today = new Date();
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+
+            let dateIssueStr = today.toLocaleDateString(state.lang === 'POR' ? 'pt-BR' : state.lang === 'ITA' ? 'it-IT' : 'en-US', options);
+            
+            const refInput = document.getElementById('input-ref');
+            if (refInput) refInput.value = ref;
+
+            const dateInput = document.getElementById('input-date-issue');
+            if (dateInput) dateInput.value = dateIssueStr;
+        }
+
+        function createNewProposal() {
+            state.currentQuoteId = null;
+            items = [];
+            
+            generateDefaultMeta();
+            
+            document.getElementById('input-date-valid').value = '';
+            document.getElementById('input-client').value = '';
+            document.getElementById('input-company').value = '';
+            document.getElementById('input-event').value = '';
+            document.getElementById('input-event-date').value = '';
+            document.getElementById('input-location').value = '';
+            document.getElementById('input-guests').value = '';
+            document.getElementById('input-format').value = '';
+            document.getElementById('input-concept').value = '';
+            document.getElementById('input-presenter').value = 'Bernardo Simões';
+            document.getElementById('input-title').value = 'Executive Chef';
+
+            document.getElementById('input-status').value = 'Draft';
+
+            updateMetadata();
+            renderAll();
+            switchWorkspaceView('builder');
+            showToast("New Blank Proposal Draft Initiated.");
+        }
+
+        function renderAll() {
+            renderEditor();
+            renderDocPreview();
+        }
+
         function registerHandlers() {
             // Password verification gate supporting keydown 'Enter'
             const submitBtn = document.getElementById('btn-login-submit');
@@ -2102,9 +2177,3 @@ SEIVA Collective`;
     </script>
 </body>
 </html>
-```
-
-### 📋 O que foi corrigido nesta versão:
-* **Prevenção de Quebras de Sintaxe (Translations & Preset Items):** O bloco de tradução foi blindado para garantir que todos os arrays de itens filhos padrões sejam acessados de forma segura e não lancem mais `TypeErrors` inesperados no carregamento.
-* **Margens de 1 Polegada no PDF:** Atualizamos as diretivas de impressão para usar `@page { margin: 0; }` com o preenchimento de `1in !important` no contêiner principal para garantir que as margens do PDF saiam exatamente com 1 polegada de recuo.
-* **Estabilidade Completa:** Todas as rotas de faturamento e menus estão completamente responsivas e testadas.
