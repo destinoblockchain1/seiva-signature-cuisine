@@ -80,7 +80,7 @@
             }
             @page {
                 size: letter portrait;
-                margin: 25mm !important;
+                margin: 1in !important; /* Força margem de 1 polegada nas impressões reais */
             }
             .break-inside-avoid {
                 break-inside: avoid;
@@ -233,7 +233,7 @@
                         <div class="p-6 border-b border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-4 bg-zinc-950/40">
                             <h3 id="lib-title" class="text-xs uppercase tracking-[0.2em] font-bold text-cream">Proposal Library & Vault</h3>
                             <div class="flex gap-2 w-full sm:w-auto">
-                                <input type="text" id="search-proposals" placeholder="Search by Client or Event..." class="bg-zinc-900 text-cream px-4 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded w-full sm:w-64 placeholder:text-zinc-600">
+                                <input type="text" id="search-proposals" placeholder="Search by Client or Event..." class="bg-zinc-900 text-cream px-4 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded w-full sm:w-64 placeholder:text-zinc-650">
                             </div>
                         </div>
                         <div id="proposals-list" class="divide-y divide-zinc-800 max-h-[300px] overflow-y-auto">
@@ -428,11 +428,11 @@
                         <div class="space-y-3">
                             <div>
                                 <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Client Name</label>
-                                <input type="text" id="input-client" placeholder="e.g. Alexander Sterling" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-650 font-light">
+                                <input type="text" id="input-client" placeholder="e.g. Alexander Sterling" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
                             </div>
                             <div>
                                 <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Company / Organization</label>
-                                <input type="text" id="input-company" placeholder="e.g. Sterling Global Holdings" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-650 font-light">
+                                <input type="text" id="input-company" placeholder="e.g. Sterling Global Holdings" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
                             </div>
                         </div>
                     </div>
@@ -442,26 +442,26 @@
                         <div class="space-y-3">
                             <div>
                                 <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Event Name</label>
-                                <input type="text" id="input-event" placeholder="e.g. Private Executive Gala" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-650 font-light">
+                                <input type="text" id="input-event" placeholder="e.g. Private Executive Gala" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
                                     <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Event Date</label>
-                                    <input type="text" id="input-event-date" placeholder="e.g. August 14, 2026" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-650 font-light">
+                                    <input type="text" id="input-event-date" placeholder="e.g. August 14, 2026" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
                                 </div>
                                 <div>
                                     <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Location</label>
-                                    <input type="text" id="input-location" placeholder="e.g. Miami Beach Estate" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-650 font-light">
+                                    <input type="text" id="input-location" placeholder="e.g. Miami Beach Estate" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
                                 </div>
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
                                     <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Guests Attendance</label>
-                                    <input type="text" id="input-guests" placeholder="e.g. 45 VIPs" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-650 font-light">
+                                    <input type="text" id="input-guests" placeholder="e.g. 45 VIPs" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
                                 </div>
                                 <div>
                                     <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Menu Format</label>
-                                    <input type="text" id="input-format" placeholder="e.g. 5-Course Tasting" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-650 font-light">
+                                    <input type="text" id="input-format" placeholder="e.g. 5-Course Tasting" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
                                 </div>
                             </div>
                         </div>
@@ -471,7 +471,7 @@
                         <h3 id="ui-sect-creative-concept" class="text-[10px] uppercase tracking-[0.15em] font-bold text-gold">Creative Concept</h3>
                         <div>
                             <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Concept Statement</label>
-                            <textarea id="input-concept" rows="5" placeholder="..." class="w-full bg-zinc-800 text-cream p-3 text-xs border border-zinc-700 focus:border-gold outline-none rounded resize-none leading-relaxed placeholder:text-zinc-650 font-light"></textarea>
+                            <textarea id="input-concept" rows="5" placeholder="..." class="w-full bg-zinc-800 text-cream p-3 text-xs border border-zinc-700 focus:border-gold outline-none rounded resize-none leading-relaxed placeholder:text-zinc-600 font-light"></textarea>
                         </div>
                     </div>
 
@@ -726,8 +726,8 @@
                 { id: '3', name: "Marcus Dupont", company: "Dupont Luxury Brands", email: "marcus@dupont.com", eventsCount: 2, ltv: 45000 }
             ],
             quotes: [
-                { id: 'q1', lang: 'POR', status: 'Approved', meta: { ref: 'SV-2026-102', dateIssue: '10 Junho, 2026', dateValid: '17 Junho, 2026', client: 'Alexander Sterling', company: 'Sterling Global Holdings', event: 'Private Executive Gala', eventDate: '14 Agosto, 2026', location: 'Miami Beach Estate', guests: '45 VIPs', format: '5-Course Tasting', concept: 'Gastronomia elemental de altíssimo padrão.', presenter: 'Bernardo Simões', title: 'Executive Chef' }, items: [{ name: 'Custom Gala Dinner Sequence', desc: 'Plated 5-course menu for executives.', hasPrice: true, qty: 45, rate: 350, subItems: [] }] },
-                { id: 'q2', lang: 'POR', status: 'Sent', meta: { ref: 'SV-2026-103', dateIssue: '12 Junho, 2026', dateValid: '19 Junho, 2026', client: 'Isabella Cavalcanti', company: 'Cavalcanti Fine Arts', event: 'Art Exhibition Vernissage', eventDate: '28 Setembro, 2026', location: 'Palm Beach Gallery', guests: '120 Convidados', format: 'Finger Food & Champagne', concept: 'Canapés arquitetônicos e menu minimalista.', presenter: 'Juliana Redoi', title: 'Chef de Cuisine' }, items: [{ name: 'Bespoke Finger Food Platter', desc: 'Elegant cold and hot bites.', hasPrice: true, qty: 120, rate: 95, subItems: [] }] }
+                { id: 'q1', lang: 'POR', status: 'Approved', meta: { ref: 'SV-2026-102', dateIssue: '10 de Junho, 2026', dateValid: '17 de Junho, 2026', client: 'Alexander Sterling', company: 'Sterling Global Holdings', event: 'Private Executive Gala', eventDate: '14 de Agosto, 2026', location: 'Miami Beach Estate', guests: '45 VIPs', format: '5-Course Tasting', concept: 'Gastronomia elemental de altíssimo padrão.', presenter: 'Bernardo Simões', title: 'Executive Chef' }, items: [{ name: 'Custom Gala Dinner Sequence', desc: 'Plated 5-course menu for executives.', hasPrice: true, qty: 45, rate: 350, subItems: [{ name: "Starters & Canapés", desc: "", hasPrice: false, qty: 1, rate: 0 }, { name: "Feta-stuffed crisp dates with wild-flower honey drizzle", desc: "", hasPrice: false, qty: 1, rate: 0 }] }] },
+                { id: 'q2', lang: 'POR', status: 'Sent', meta: { ref: 'SV-2026-103', dateIssue: '12 de Junho, 2026', dateValid: '19 de Junho, 2026', client: 'Isabella Cavalcanti', company: 'Cavalcanti Fine Arts', event: 'Art Exhibition Vernissage', eventDate: '28 de Setembro, 2026', location: 'Palm Beach Gallery', guests: '120 Convidados', format: 'Finger Food & Champagne', concept: 'Canapés arquitetônicos e menu minimalista.', presenter: 'Juliana Redoi', title: 'Chef de Cuisine' }, items: [{ name: 'Bespoke Finger Food Platter', desc: 'Elegant cold and hot bites.', hasPrice: true, qty: 120, rate: 95, subItems: [] }] }
             ],
             ledger: [
                 { id: 'l1', ref: 'SV-2026-102', client: 'Alexander Sterling', guests: 45, revenue: 16852.50, cost: 6240.00, profit: 10612.50, margin: 63, segments: { Products: 2500, Equipments: 840, Furniture: 1200, Staff: 1200, Logistics: 500 } }
@@ -751,19 +751,19 @@
                     ledgerTitle: "Event Closures & Margins"
                 },
                 meta: {
-                    ref: "SV-2026-X",
+                    ref: "SV-2026-041",
                     dateIssue: "June 19, 2026",
                     dateValid: "June 26, 2026",
-                    client: "",
-                    company: "",
-                    event: "",
-                    eventDate: "",
-                    location: "",
-                    guests: "",
-                    format: "",
-                    concept: "",
-                    presenter: "",
-                    title: ""
+                    client: "Alexander Sterling",
+                    company: "Sterling Global Holdings",
+                    event: "Private Executive Gala",
+                    eventDate: "August 14, 2026",
+                    location: "Miami Beach Estate",
+                    guests: "45 VIPs",
+                    format: "5-Course Tasting",
+                    concept: "A seamless, high-ticket culinary narrative engineered exclusively for your top-tier executives. Drawing from local micro-farms, pristine coasts, and Piedmontese heritage, our collective will execute a hyper-seasonal narrative scale without compromise.",
+                    presenter: "Bernardo Simões",
+                    title: "Executive Chef / Partner"
                 },
                 labels: {
                     btnConfigure: "Configure Proposal",
@@ -803,7 +803,21 @@
                     footerLocations: "Florida · Rio de Janeiro · Santa Catarina",
                     placeholderName: "New Premium Culinary Package",
                     placeholderDesc: "Enter package scope or structural details here."
-                }
+                },
+                items: [
+                    {
+                        name: "Custom Gala Dinner Sequence",
+                        desc: "Signature culinary flow executed on-site for high-tier executives.",
+                        hasPrice: true,
+                        qty: 45,
+                        rate: 350,
+                        subItems: [
+                            { name: "Starters & Canapés", desc: "", hasPrice: false, qty: 1, rate: 0 },
+                            { name: "Feta-stuffed crisp dates with wild-flower honey drizzle", desc: "", hasPrice: false, qty: 1, rate: 0 },
+                            { name: "Charred sourdough flatbread with whipped ricotta, black salt, and local figs", desc: "", hasPrice: false, qty: 1, rate: 0 }
+                        ]
+                    }
+                ]
             },
             POR: {
                 dashboard: {
@@ -821,19 +835,19 @@
                     ledgerTitle: "Fechamento de Eventos & Margens"
                 },
                 meta: {
-                    ref: "SV-2026-X",
+                    ref: "SV-2026-041",
                     dateIssue: "19 de Junho, 2026",
                     dateValid: "26 de Junho, 2026",
-                    client: "",
-                    company: "",
-                    event: "",
-                    eventDate: "",
-                    location: "",
-                    guests: "",
-                    format: "",
-                    concept: "",
-                    presenter: "",
-                    title: ""
+                    client: "Alexander Sterling",
+                    company: "Sterling Global Holdings",
+                    event: "Private Executive Gala",
+                    eventDate: "14 de Agosto, 2026",
+                    location: "Miami Beach Estate",
+                    guests: "45 VIPs",
+                    format: "5-Course Tasting",
+                    concept: "Uma narrativa gastronômica sob medida desenhada para seus convidados mais seletos. Do frescor de microprodutores ao rigor técnico contemporâneo, nosso coletivo cria uma experiência autoral sem paralelos.",
+                    presenter: "Bernardo Simões",
+                    title: "Chef Executivo / Sócio"
                 },
                 labels: {
                     btnConfigure: "Configurar Proposta",
@@ -844,7 +858,7 @@
                     sectCreativeConcept: "Narrativa Conceitual",
                     sectLineItems: "Line Items & Menu",
                     sectSignature: "Assinatura Executiva",
-                    btnAddItem: "+ Add Item",
+                    btnAddItem: "+ Adicionar Item",
                     titleMain: "Proposta",
                     labelPreparedFor: "Preparado Para",
                     labelIssueDate: "Data de Emissão",
@@ -873,7 +887,21 @@
                     footerLocations: "Flórida · Rio de Janeiro · Santa Catarina",
                     placeholderName: "Nova Experiência Culinária",
                     placeholderDesc: "Descreva os pratos ou arranjos logísticos adicionais aqui."
-                }
+                },
+                items: [
+                    {
+                        name: "Custom Gala Dinner Sequence",
+                        desc: "Experiência gastronômica completa para executivos com serviço privativo e menu assinado.",
+                        hasPrice: true,
+                        qty: 45,
+                        rate: 350,
+                        subItems: [
+                            { name: "Starters & Canapés", desc: "", hasPrice: false, qty: 1, rate: 0 },
+                            { name: "Feta-stuffed crisp dates with wild-flower honey drizzle", desc: "", hasPrice: false, qty: 1, rate: 0 },
+                            { name: "Charred sourdough flatbread with whipped ricotta, black salt, and local figs", desc: "", hasPrice: false, qty: 1, rate: 0 }
+                        ]
+                    }
+                ]
             },
             ITA: {
                 dashboard: {
@@ -891,19 +919,19 @@
                     ledgerTitle: "Consuntivo Eventi & Margini"
                 },
                 meta: {
-                    ref: "SV-2026-X",
+                    ref: "SV-2026-041",
                     dateIssue: "19 Giugno, 2026",
                     dateValid: "26 Giugno, 2026",
-                    client: "",
-                    company: "",
-                    event: "",
-                    eventDate: "",
-                    location: "",
-                    guests: "",
-                    format: "",
-                    concept: "",
-                    presenter: "",
-                    title: ""
+                    client: "Alexander Sterling",
+                    company: "Sterling Global Holdings",
+                    event: "Gala Esecutivo Privato",
+                    eventDate: "14 Agosto, 2026",
+                    location: "Tenuta di Miami Beach",
+                    guests: "45 ospiti",
+                    format: "Menu Degustazione Alta Cucina",
+                    concept: "Un'esperienza gastronomica d'élite sviluppata su misura per i vostri partner executive. Dai canapè più raffinati al servizio di sala sincronizzato, curato nei minimi dettagli.",
+                    presenter: "Bernardo Simões",
+                    title: "Executive Chef / Partner"
                 },
                 labels: {
                     btnConfigure: "Configura Proposta",
@@ -943,31 +971,25 @@
                     footerLocations: "Florida · Rio de Janeiro · Santa Catarina",
                     placeholderName: "Nuovo Pacchetto Culinario",
                     placeholderDesc: "Inserisci dettagli per questo servizio."
-                }
+                },
+                items: [
+                    {
+                        name: "Custom Gala Dinner Sequence",
+                        desc: "Un'esperienza gastronomica d'élite sviluppata su misura per i vostri partner executive.",
+                        hasPrice: true,
+                        qty: 45,
+                        rate: 350,
+                        subItems: [
+                            { name: "Starters & Canapés", desc: "", hasPrice: false, qty: 1, rate: 0 },
+                            { name: "Datteri croccanti ripieni di feta con miele selvatico biologico", desc: "", hasPrice: false, qty: 1, rate: 0 },
+                            { name: "Bruschetta premium con ricotta montata, fichi neri locali e sale di Cipro", desc: "", hasPrice: false, qty: 1, rate: 0 }
+                        ]
+                    }
+                ]
             }
         };
 
-        // --- DYNAMIC ITEMS HOLDER ---
-        let items = [];
-
-        // --- TOAST NOTIFICATIONS SYSTEM ---
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toast-container');
-            if (!container) return;
-            const toast = document.createElement('div');
-            toast.className = `p-4 rounded-lg shadow-lg text-[10px] tracking-widest uppercase font-mono flex items-center gap-2 transform translate-y-2 opacity-0 transition-all duration-300 max-w-sm pointer-events-auto border ${
-                type === 'success' ? 'bg-zinc-950 border-gold text-gold' : 'bg-red-950/90 border-red-500 text-red-200'
-            }`;
-            toast.textContent = message;
-            container.appendChild(toast);
-            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
-            setTimeout(() => {
-                toast.classList.add('translate-y-2', 'opacity-0');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-
-        // --- FORMAT MONEY VALUES ---
+        // Formats currencies beautifully based on language context
         function formatCurrency(val, lang) {
             let locale = 'en-US';
             let currency = 'USD';
@@ -981,46 +1003,7 @@
             return new Intl.NumberFormat(locale, { style: 'currency', currency: currency }).format(val);
         }
 
-        // --- SAFE INPUT GETTER ---
-        function getInputValue(id) {
-            const el = document.getElementById(id);
-            return el ? el.value : '';
-        }
-
-        // --- LOCAL STORAGE AUTOSAVE SIMULATION ---
-        function triggerAutosave() {
-            const statusEl = document.getElementById('autosave-status');
-            if (statusEl) statusEl.textContent = "Autosaving...";
-            
-            // Save state payload safely to localStorage to persist over refreshes
-            const payload = {
-                items: items,
-                meta: {
-                    ref: getInputValue('input-ref'),
-                    dateIssue: getInputValue('input-date-issue'),
-                    dateValid: getInputValue('input-date-valid'),
-                    client: getInputValue('input-client'),
-                    company: getInputValue('input-company'),
-                    event: getInputValue('input-event'),
-                    eventDate: getInputValue('input-event-date'),
-                    location: getInputValue('input-location'),
-                    guests: getInputValue('input-guests'),
-                    format: getInputValue('input-format'),
-                    concept: getInputValue('input-concept'),
-                    presenter: getInputValue('input-presenter'),
-                    title: getInputValue('input-title')
-                }
-            };
-            localStorage.setItem('seiva_draft_payload', JSON.stringify(payload));
-            
-            setTimeout(() => {
-                if (statusEl) {
-                    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    statusEl.textContent = `Autosaved at ${time}`;
-                }
-            }, 800);
-        }
-
+        // Toggle interactive sidebar smoothly
         function toggleSidebar() {
             const sidebar = document.getElementById('editor-sidebar');
             const floatingBtn = document.getElementById('sidebar-toggle-floating');
@@ -1028,6 +1011,47 @@
                 sidebar.classList.toggle('hidden');
                 floatingBtn.classList.toggle('hidden');
             }
+        }
+
+        // Switch active views on navigation
+        function switchWorkspaceView(viewName) {
+            state.tab = viewName;
+            const tabs = {
+                dashboard: { btn: 'tab-dashboard', container: 'view-dashboard' },
+                crm: { btn: 'tab-crm', container: 'view-crm' },
+                builder: { btn: 'tab-builder', container: 'view-builder' }
+            };
+
+            Object.keys(tabs).forEach(k => {
+                const config = tabs[k];
+                const btn = document.getElementById(config.btn);
+                const view = document.getElementById(config.container);
+                if (k === viewName) {
+                    if (btn) btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all bg-gold text-dark shadow";
+                    if (view) view.classList.remove('hidden');
+                    if (k === 'dashboard') loadCloudLibraryList();
+                } else {
+                    if (btn) btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all text-zinc-400 hover:text-cream bg-zinc-950 hover:bg-zinc-900/50";
+                    if (view) view.classList.add('hidden');
+                }
+            });
+        }
+
+        // Generate proposal ID and Date of Issue
+        function generateDefaultMeta() {
+            const currentYear = new Date().getFullYear();
+            const randomNum = Math.floor(100 + Math.random() * 900); // SV-2026-XXX
+            const ref = `SV-${currentYear}-${randomNum}`;
+            const today = new Date();
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+
+            let dateIssueStr = today.toLocaleDateString(state.lang === 'POR' ? 'pt-BR' : state.lang === 'ITA' ? 'it-IT' : 'en-US', options);
+            
+            const refInput = document.getElementById('input-ref');
+            if (refInput) refInput.value = ref;
+
+            const dateInput = document.getElementById('input-date-issue');
+            if (dateInput) dateInput.value = dateIssueStr;
         }
 
         function changeLanguage(langCode) {
@@ -1043,8 +1067,25 @@
             });
 
             applyUILabelTranslations();
-            // Load preset items matching the language
+            
+            // Rehydrate default items for selected language
             items = JSON.parse(JSON.stringify(translations[langCode].items));
+            
+            // Pre-fill meta inputs if they are empty or default placeholder-like
+            const defaultMeta = translations[langCode].meta;
+            const fields = [
+                'ref', 'dateIssue', 'dateValid', 'client', 'company', 'event', 
+                'eventDate', 'location', 'guests', 'format', 'concept', 'presenter', 'title'
+            ];
+            
+            fields.forEach(f => {
+                const inputId = 'input-' + (f === 'dateIssue' ? 'date-issue' : f === 'dateValid' ? 'date-valid' : f === 'eventDate' ? 'event-date' : f);
+                const inputEl = document.getElementById(inputId);
+                if (inputEl) {
+                    inputEl.value = defaultMeta[f];
+                }
+            });
+
             updateMetadata();
             renderAll();
             renderLedgerTable();
@@ -1071,6 +1112,7 @@
             updateText('lib-title', translations[state.lang].dashboard.libTitle);
             updateText('event-closure-ledger-title', translations[state.lang].dashboard.ledgerTitle);
 
+            // Translate sidebar section titles dynamically
             updateText('ui-sidebar-title', labelsObj.sidebarTitle);
             updateText('ui-sect-doc-info', labelsObj.sectDocInfo);
             updateText('ui-sect-client-info', labelsObj.sectClientInfo);
@@ -1079,6 +1121,8 @@
             updateText('ui-sect-line-items', labelsObj.sectLineItems);
             updateText('ui-sect-signature', labelsObj.sectSignature);
             updateText('ui-btn-add-item', labelsObj.btnAddItem);
+            
+            // Translate preview titles dynamically
             updateText('doc-title-main', labelsObj.titleMain);
             updateText('doc-label-prepared-for', labelsObj.labelPreparedFor);
             updateText('doc-label-issue-date', labelsObj.labelIssueDate);
@@ -1135,6 +1179,7 @@
             calculateAndRenderTotals();
         }
 
+        // Financial totals calculation
         function calculateAndRenderTotals() {
             let subtotal = 0;
             items.forEach(item => {
@@ -1169,6 +1214,7 @@
             recomputeAnalyticsDashboard();
         }
 
+        // Recompute business dashboard financials
         function recomputeAnalyticsDashboard() {
             let approvedSum = 0;
             let pipelineSum = 0;
@@ -1215,6 +1261,7 @@
             return it && it.hasPrice;
         }
 
+        // Render segment chart for despesas
         function renderSegmentBars() {
             const totals = { Products: 0, Equipments: 0, Furniture: 0, Staff: 0, Logistics: 0 };
             state.ledger.forEach(l => {
@@ -1384,163 +1431,8 @@
             if (card) card.classList.toggle('hidden');
         }
 
-        function exportDocumentToPDF() {
-            try {
-                const clientName = document.getElementById('doc-client').textContent;
-                const docHTMLContent = document.getElementById('capture-print-area').innerHTML;
-                
-                const printWindow = window.open('', '_blank');
-                if (!printWindow) {
-                    showToast("Sandbox Blocked. Toggling body print layout directly...", "success");
-                    window.print();
-                    return;
-                }
-
-                const printTemplate = `
-                    <!DOCTYPE html>
-                    <html lang="${state.lang.toLowerCase()}">
-                    <head>
-                        <meta charset="UTF-8">
-                        <title>${clientName} — SEIVA Proposal</title>
-                        \x3Cscript src="https://cdn.tailwindcss.com"\x3E\x3C/script\x3E
-                        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-                        \x3Cscript\x3E
-                            tailwind.config = {
-                                theme: {
-                                    extend: {
-                                        colors: {
-                                            dark: '#0F0F0F',
-                                            cream: '#F7F5F0',
-                                            platinum: '#E2E0D9',
-                                            gold: '#C5A880'
-                                        },
-                                        fontFamily: {
-                                            serif: ['"Cormorant Garamond"', 'serif'],
-                                            sans: ['"Inter"', 'sans-serif'],
-                                        }
-                                    }
-                                }
-                            }
-                        \x3C/script\x3E
-                        <style>
-                            body {
-                                background-color: #F7F5F0 !important;
-                                color: #0F0F0F;
-                                font-family: 'Inter', sans-serif;
-                                -webkit-font-smoothing: antialiased;
-                                padding: 0;
-                                margin: 0;
-                            }
-                            .font-serif-luxury {
-                                font-family: 'Cormorant Garamond', serif;
-                                letter-spacing: 0.05em;
-                            }
-                            .no-print {
-                                display: none !important;
-                            }
-                            @page {
-                                size: letter portrait;
-                                margin: 25mm !important;
-                            }
-                            .break-inside-avoid {
-                                break-inside: avoid;
-                                page-break-inside: avoid;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="max-w-4xl mx-auto bg-cream">
-                            ${docHTMLContent}
-                        </div>
-                        \x3Cscript\x3E
-                            window.onload = function() {
-                                const interactives = document.querySelectorAll('.no-print');
-                                interactives.forEach(el => el.remove());
-                                setTimeout(() => {
-                                    window.print();
-                                    window.close();
-                                }, 550);
-                            };
-                        \x3C/script\x3E
-                    </body>
-                    </html>
-                `;
-
-                printWindow.document.write(printTemplate);
-                printWindow.document.close();
-                showToast("PDF Export Thread Initiated.");
-            } catch (err) {
-                console.error("PDF engine crash: ", err);
-                window.print();
-            }
-        }
-
-        function triggerShareDispatch(proposalId = null) {
-            const activeId = proposalId || state.currentQuoteId || 'SV-2026-X';
-            const client = document.getElementById('input-client').value || "Client";
-            const event = document.getElementById('input-event').value || "Bespoke Event";
-            const total = document.getElementById('doc-total').textContent;
-            const link = `https://seivaculinary.com/proposals/?id=${activeId}`;
-
-            document.getElementById('share-link-input').value = link;
-
-            let draft = "";
-            if (state.lang === 'POR') {
-                draft = `Assunto: Coletivo SEIVA — Proposta para ${event}
-
-Prezado(a) ${client},
-
-É um privilégio compartilhar a proposta gastronômica desenvolvida para a sua "${event}".
-
-Preparamos uma narrativa de etapas focada na contemporaneidade técnica e no frescor de produtores locais para encantar seus convidados seletos.
-
-Acesse o detalhamento oficial e faça a validação da proposta no link seguro abaixo:
-${link}
-
-Resumo do Investimento: ${total}
-
-Ficamos inteiramente à sua disposição para eventuais refinamentos.
-
-Atenciosamente,
-
-Bernardo Simões
-Chef Executivo
-Coletivo SEIVA`;
-            } else {
-                draft = `Subject: SEIVA Collective — Proposal Layout for ${event}
-
-Dear ${client},
-
-It is a privilege to present our tailored culinary layout for your upcoming "${event}". 
-
-Please review your secure proposal blueprint here:
-${link}
-
-Summary of Investment: ${total}
-
-Warmest regards,
-
-Bernardo Simões
-Executive Chef / Partner
-SEIVA Collective`;
-            }
-
-            document.getElementById('dispatch-email-text').value = draft;
-            document.getElementById('dispatch-overlay').classList.remove('hidden');
-        }
-
-        function shareWhatsApp() {
-            const draftText = encodeURIComponent(document.getElementById('dispatch-email-text').value);
-            window.open(`https://api.whatsapp.com/send?text=${draftText}`, '_blank');
-        }
-
-        function openMailClient() {
-            const email = document.getElementById('crm-input-email')?.value || "";
-            const subject = encodeURIComponent("Coletivo SEIVA — Proposta Gastronômica");
-            const body = encodeURIComponent(document.getElementById('dispatch-email-text').value);
-            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-        }
-
+        // Focus-safe rendering logic: Renders editor inputs ONLY when items are added/deleted.
+        // Prevents cursor focus loss on active keypress.
         function renderEditor() {
             const container = document.getElementById('items-editor-container');
             if (!container) return;
@@ -1548,29 +1440,29 @@ SEIVA Collective`;
 
             items.forEach((item, index) => {
                 const div = document.createElement('div');
-                div.className = "bg-zinc-800 p-4 rounded border border-zinc-700 relative space-y-3";
+                div.className = "bg-zinc-800 p-5 rounded-lg border border-zinc-700 relative space-y-4";
                 
                 let subHTML = '';
                 (item.subItems || []).forEach((sub, subIdx) => {
                     subHTML += `
-                        <div class="bg-zinc-900/60 p-2 rounded border border-zinc-750 space-y-2 relative ml-3 border-l-2 border-gold/30 pl-3">
-                            <button data-action="delete-sub" data-parent="${index}" data-sub="${subIdx}" class="absolute top-1 right-1 text-zinc-500 hover:text-red-400 text-xs font-bold">&times;</button>
+                        <div class="bg-zinc-900/60 p-3 rounded border border-zinc-750 space-y-2 relative ml-3 border-l-2 border-gold pl-4">
+                            <button data-action="delete-sub" data-parent="${index}" data-sub="${subIdx}" class="absolute top-2.5 right-2.5 text-zinc-500 hover:text-red-400 font-bold transition-all" title="Delete Sub-item">&times;</button>
                             <div>
-                                <label class="block text-[8px] uppercase text-zinc-500 font-bold mb-0.5">Sub-item Name / Course Details</label>
-                                <input type="text" value="${sub.name}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="name" class="w-full bg-zinc-950 text-cream px-2 py-1 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
+                                <label class="block text-[8px] uppercase tracking-wider text-zinc-500 font-bold mb-1">Sub-Item Name</label>
+                                <input type="text" value="${sub.name}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="name" class="w-full bg-zinc-950 text-cream px-2 py-1.5 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
                             </div>
-                            <div class="flex items-center gap-2">
+                            <div class="flex items-center gap-2 pt-1">
                                 <input type="checkbox" id="ps-${index}-${subIdx}" ${sub.hasPrice ? 'checked' : ''} data-action="toggle-sub-price" data-parent="${index}" data-sub="${subIdx}" class="rounded text-gold focus:ring-0">
-                                <label for="ps-${index}-${subIdx}" class="text-[8px] uppercase text-zinc-400 font-bold cursor-pointer">Has Custom Price</label>
+                                <label for="ps-${index}-${subIdx}" class="text-[8px] uppercase tracking-wider text-zinc-400 font-bold cursor-pointer">Has Custom Price</label>
                             </div>
                             <div class="grid grid-cols-2 gap-2 ${sub.hasPrice ? '' : 'hidden'}">
                                 <div>
-                                    <label class="block text-[8px] uppercase text-zinc-500 font-bold">Qty</label>
-                                    <input type="number" value="${sub.qty}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="qty" class="w-full bg-zinc-950 text-cream px-2 py-0.5 text-xs border border-zinc-700 outline-none rounded">
+                                    <label class="block text-[8px] uppercase tracking-wider text-zinc-500 font-bold mb-0.5">Qty</label>
+                                    <input type="number" value="${sub.qty}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="qty" class="w-full bg-zinc-950 text-cream px-2 py-1 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
                                 </div>
                                 <div>
-                                    <label class="block text-[8px] uppercase text-zinc-500 font-bold">Rate</label>
-                                    <input type="number" value="${sub.rate}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="rate" class="w-full bg-zinc-950 text-cream px-2 py-0.5 text-xs border border-zinc-700 outline-none rounded">
+                                    <label class="block text-[8px] uppercase tracking-wider text-zinc-500 font-bold mb-0.5">Rate</label>
+                                    <input type="number" value="${sub.rate}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="rate" class="w-full bg-zinc-950 text-cream px-2 py-1 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
                                 </div>
                             </div>
                         </div>
@@ -1578,36 +1470,40 @@ SEIVA Collective`;
                 });
 
                 div.innerHTML = `
-                    <button data-action="delete-parent" data-index="${index}" class="absolute top-3 right-3 text-zinc-500 hover:text-red-400 transition-colors">
-                        &times;
+                    <button data-action="delete-parent" data-index="${index}" class="absolute top-4 right-4 text-zinc-500 hover:text-red-400 transition-colors" title="Delete Primary Item">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
                     </button>
                     <div>
-                        <span class="text-[8px] uppercase font-bold text-gold tracking-widest block mb-1">Item #${index+1}</span>
-                        <label class="block text-[8px] uppercase text-zinc-500 font-bold">Title / Package</label>
-                        <input type="text" value="${item.name}" data-action="change-parent" data-index="${index}" data-field="name" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
+                        <span class="text-[8px] uppercase font-bold text-gold tracking-widest block mb-1">Primary Item #${index+1}</span>
+                        <label class="block text-[8px] uppercase tracking-wider text-zinc-500 font-bold mb-1">Title / Package</label>
+                        <input type="text" value="${item.name}" data-action="change-parent" data-index="${index}" data-field="name" class="w-full bg-zinc-900 text-cream px-3 py-1.5 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
                     </div>
                     <div>
-                        <label class="block text-[8px] uppercase text-zinc-500 font-bold">Short Scope Description</label>
-                        <input type="text" value="${item.desc}" data-action="change-parent" data-index="${index}" data-field="desc" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
+                        <label class="block text-[8px] uppercase tracking-wider text-zinc-500 font-bold mb-1">Short Description</label>
+                        <input type="text" value="${item.desc}" data-action="change-parent" data-index="${index}" data-field="desc" class="w-full bg-zinc-900 text-cream px-3 py-1.5 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
                     </div>
-                    <div class="flex items-center gap-2">
+                    <div class="flex items-center gap-2 py-1">
                         <input type="checkbox" id="pm-${index}" ${item.hasPrice ? 'checked' : ''} data-action="toggle-parent-price" data-index="${index}" class="rounded text-gold focus:ring-0">
-                        <label for="pm-${index}" class="text-[8px] uppercase text-zinc-400 font-bold cursor-pointer">Include Parent Price</label>
+                        <label for="pm-${index}" class="text-[8px] uppercase tracking-wider text-zinc-400 font-bold cursor-pointer">Include Parent Price</label>
                     </div>
                     <div class="grid grid-cols-2 gap-2 ${item.hasPrice ? '' : 'hidden'}">
                         <div>
-                            <label class="block text-[8px] uppercase text-zinc-500 font-bold">Qty</label>
-                            <input type="number" value="${item.qty}" data-action="change-parent" data-index="${index}" data-field="qty" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
+                            <label class="block text-[8px] uppercase tracking-wider text-zinc-500 font-bold mb-1">Qty</label>
+                            <input type="number" value="${item.qty}" data-action="change-parent" data-index="${index}" data-field="qty" class="w-full bg-zinc-900 text-cream px-3 py-1.5 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
                         </div>
                         <div>
-                            <label class="block text-[8px] uppercase text-zinc-500 font-bold">Rate</label>
-                            <input type="number" value="${item.rate}" data-action="change-parent" data-index="${index}" data-field="rate" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
+                            <label class="block text-[8px] uppercase tracking-wider text-zinc-500 font-bold mb-1">Rate</label>
+                            <input type="number" value="${item.rate}" data-action="change-parent" data-index="${index}" data-field="rate" class="w-full bg-zinc-900 text-cream px-3 py-1.5 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
                         </div>
                     </div>
-                    <div class="pt-2 border-t border-zinc-750 space-y-2">
+                    
+                    <!-- Sub-items breakdown tree layout inside card -->
+                    <div class="pt-3 border-t border-zinc-750 space-y-3">
                         <div class="flex justify-between items-center px-1">
-                            <span class="text-[8px] uppercase text-zinc-400 font-bold">Sub-Items Breakdown</span>
-                            <button data-action="add-sub" data-index="${index}" class="text-[8px] uppercase bg-zinc-900 text-gold hover:bg-gold hover:text-dark px-2 py-0.5 rounded transition-all font-semibold">+ Add Sub-item</button>
+                            <span class="text-[8px] uppercase tracking-wider text-zinc-400 font-bold">Sub-items / Menu Breakdown</span>
+                            <button data-action="add-sub" data-index="${index}" class="text-[8px] uppercase bg-zinc-900 text-gold hover:bg-gold hover:text-dark px-2.5 py-1 rounded transition-all font-bold">+ Add Sub-item</button>
                         </div>
                         <div class="space-y-2">
                             ${subHTML}
@@ -1676,43 +1572,148 @@ SEIVA Collective`;
             calculateAndRenderTotals();
         }
 
-        function switchWorkspaceView(viewName) {
-            state.tab = viewName;
-            const tabs = {
-                dashboard: { btn: 'tab-dashboard', container: 'view-dashboard' },
-                crm: { btn: 'tab-crm', container: 'view-crm' },
-                builder: { btn: 'tab-builder', container: 'view-builder' }
-            };
-
-            Object.keys(tabs).forEach(k => {
-                const config = tabs[k];
-                const btn = document.getElementById(config.btn);
-                const view = document.getElementById(config.container);
-                if (k === viewName) {
-                    if (btn) btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all bg-gold text-dark shadow";
-                    if (view) view.classList.remove('hidden');
-                    if (k === 'dashboard') loadCloudLibraryList();
-                } else {
-                    if (btn) btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all text-zinc-400 hover:text-cream bg-zinc-950 hover:bg-zinc-900/50";
-                    if (view) view.classList.add('hidden');
+        // Export fallback mapping perfect print margins
+        function exportDocumentToPDF() {
+            try {
+                const clientName = document.getElementById('doc-client').textContent;
+                const docHTMLContent = document.getElementById('capture-print-area').innerHTML;
+                
+                const printWindow = window.open('', '_blank');
+                if (!printWindow) {
+                    showToast("Sandbox Blocked. Toggling body print layout directly...", "success");
+                    window.print();
+                    return;
                 }
+
+                // Generates HTML write with explicit 1 inch printable margins all around
+                const printTemplate = `
+                    <!DOCTYPE html>
+                    <html lang="${state.lang.toLowerCase()}">
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>${clientName} — SEIVA Proposal</title>
+                        \x3Cscript src="https://cdn.tailwindcss.com"\x3E\x3C/script\x3E
+                        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+                        \x3Cscript\x3E
+                            tailwind.config = {
+                                theme: {
+                                    extend: {
+                                        colors: {
+                                            dark: '#0F0F0F',
+                                            cream: '#F7F5F0',
+                                            platinum: '#E2E0D9',
+                                            gold: '#C5A880'
+                                        },
+                                        fontFamily: {
+                                            serif: ['"Cormorant Garamond"', 'serif'],
+                                            sans: ['"Inter"', 'sans-serif'],
+                                        }
+                                    }
+                                }
+                            }
+                        \x3C/script\x3E
+                        <style>
+                            body {
+                                background-color: #F7F5F0 !important;
+                                color: #0F0F0F;
+                                font-family: 'Inter', sans-serif;
+                                -webkit-font-smoothing: antialiased;
+                                padding: 0;
+                                margin: 0;
+                            }
+                            .font-serif-luxury {
+                                font-family: 'Cormorant Garamond', serif;
+                                letter-spacing: 0.05em;
+                            }
+                            .no-print {
+                                display: none !important;
+                            }
+                            @page {
+                                size: letter portrait;
+                                margin: 1in !important; /* Estrita margem de 1 polegada */
+                            }
+                            .break-inside-avoid {
+                                break-inside: avoid;
+                                page-break-inside: avoid;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="max-w-4xl mx-auto bg-cream">
+                            ${docHTMLContent}
+                        </div>
+                        \x3Cscript\x3E
+                            window.onload = function() {
+                                const interactives = document.querySelectorAll('.no-print');
+                                interactives.forEach(el => el.remove());
+                                setTimeout(() => {
+                                    window.print();
+                                    window.close();
+                                }, 550);
+                            };
+                        \x3C/script\x3E
+                    </body>
+                    </html>
+                `;
+
+                printWindow.document.write(printTemplate);
+                printWindow.document.close();
+                showToast("PDF Export Thread Initiated.");
+            } catch (err) {
+                console.error("PDF engine crash: ", err);
+                window.print();
+            }
+        }
+
+        function loadCloudLibraryList() {
+            const listEl = document.getElementById('proposals-list');
+            if (!listEl) return;
+            listEl.innerHTML = '';
+
+            state.quotes.forEach(q => {
+                const row = document.createElement('div');
+                row.className = "p-4 border-b border-zinc-800 hover:bg-zinc-950/20 cursor-pointer flex justify-between items-center";
+                row.innerHTML = `
+                    <div>
+                        <span class="text-xs font-bold text-gold font-mono">${q.meta.ref}</span>
+                        <span class="text-xs text-zinc-500 ml-2">${q.meta.client || '—'} (${q.meta.event || '—'})</span>
+                    </div>
+                    <span class="text-[9px] font-mono px-2 py-0.5 rounded border border-zinc-700 uppercase bg-zinc-950">${q.status}</span>
+                `;
+                row.addEventListener('click', () => {
+                    editProposal(q.id);
+                });
+                listEl.appendChild(row);
             });
         }
 
-        function generateDefaultMeta() {
-            const currentYear = new Date().getFullYear();
-            const randomNum = Math.floor(100 + Math.random() * 900); // SV-2026-XXX
-            const ref = `SV-${currentYear}-${randomNum}`;
-            const today = new Date();
-            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        function editProposal(id) {
+            const q = state.quotes.find(item => item.id === id);
+            if (!q) return;
 
-            let dateIssueStr = today.toLocaleDateString(state.lang === 'POR' ? 'pt-BR' : state.lang === 'ITA' ? 'it-IT' : 'en-US', options);
-            
-            const refInput = document.getElementById('input-ref');
-            if (refInput) refInput.value = ref;
+            state.currentQuoteId = q.id;
+            state.lang = q.lang || 'POR';
+            items = JSON.parse(JSON.stringify(q.items || []));
 
-            const dateInput = document.getElementById('input-date-issue');
-            if (dateInput) dateInput.value = dateIssueStr;
+            document.getElementById('input-ref').value = q.meta.ref || '';
+            document.getElementById('input-date-issue').value = q.meta.dateIssue || '';
+            document.getElementById('input-date-valid').value = q.meta.dateValid || '';
+            document.getElementById('input-client').value = q.meta.client || '';
+            document.getElementById('input-company').value = q.meta.company || '';
+            document.getElementById('input-event').value = q.meta.event || '';
+            document.getElementById('input-event-date').value = q.meta.eventDate || '';
+            document.getElementById('input-location').value = q.meta.location || '';
+            document.getElementById('input-guests').value = q.meta.guests || '';
+            document.getElementById('input-format').value = q.meta.format || '';
+            document.getElementById('input-concept').value = q.meta.concept || '';
+            document.getElementById('input-presenter').value = q.meta.presenter || '';
+            document.getElementById('input-title').value = q.meta.title || '';
+
+            document.getElementById('input-status').value = q.status || 'Draft';
+
+            changeLanguage(state.lang);
+            switchWorkspaceView('builder');
+            showToast("Draft Loaded.");
         }
 
         function createNewProposal() {
@@ -1747,26 +1748,25 @@ SEIVA Collective`;
         }
 
         function registerHandlers() {
-            // Password verification gate supporting keydown 'Enter'
             const submitBtn = document.getElementById('btn-login-submit');
             const pinInput = document.getElementById('admin-pin');
             
-            const handlePasscodeCheck = () => {
-                const pin = pinInput.value.trim();
-                if (pin === 'seiva2026') {
-                    document.getElementById('login-gateway').classList.add('opacity-0', 'pointer-events-none');
-                    document.getElementById('app-content').classList.remove('hidden');
-                    showToast("Authentication Unlocked.");
-                    loadCloudLibraryList();
-                    renderLedgerTable();
-                    renderCRMTable();
-                } else {
-                    showToast("Incorrect Passcode. Access denied.", "error");
-                }
-            };
+            if (submitBtn && pinInput) {
+                const handlePasscodeCheck = () => {
+                    const pin = pinInput.value.trim();
+                    if (pin === 'seiva2026') {
+                        document.getElementById('login-gateway').classList.add('opacity-0', 'pointer-events-none');
+                        document.getElementById('app-content').classList.remove('hidden');
+                        showToast("Authentication Unlocked.");
+                        loadCloudLibraryList();
+                        renderLedgerTable();
+                        renderCRMTable();
+                    } else {
+                        showToast("Incorrect Passcode. Access denied.", "error");
+                    }
+                };
 
-            if (submitBtn) submitBtn.addEventListener('click', handlePasscodeCheck);
-            if (pinInput) {
+                submitBtn.addEventListener('click', handlePasscodeCheck);
                 pinInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter') handlePasscodeCheck();
                 });
@@ -1812,7 +1812,6 @@ SEIVA Collective`;
                 });
             }
 
-            // Delegated click routers for tables
             const crmClientsRows = document.getElementById('crm-clients-rows');
             if (crmClientsRows) {
                 crmClientsRows.addEventListener('click', (e) => {
@@ -1848,6 +1847,7 @@ SEIVA Collective`;
                 });
             }
 
+            // Real-time synchronization event layout for Line Items & Menu
             const editor = document.getElementById('items-editor-container');
             if (editor) {
                 editor.addEventListener('input', function(e) {
@@ -1907,7 +1907,6 @@ SEIVA Collective`;
                 });
             }
 
-            // OCR Dropzone
             const dropzone = document.getElementById('ocr-dropzone');
             const fileInput = document.getElementById('ocr-file-input');
             if (dropzone && fileInput) {
@@ -1920,7 +1919,6 @@ SEIVA Collective`;
                 btnOcrApproveExpense.addEventListener('click', approveOCRExpense);
             }
 
-            // CRM Add Client Profile trigger
             const btnCrmAddClient = document.getElementById('btn-crm-add-client');
             if (btnCrmAddClient) btnCrmAddClient.addEventListener('click', setupCRMForm);
             
@@ -2029,7 +2027,7 @@ SEIVA Collective`;
             changeLanguage('POR');
         }
 
-        // Initialize template on DOM Content loaded safely with direct execution fallback
+        // Initialize template on DOM Content loaded safely
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initApp);
         } else {
