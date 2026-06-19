@@ -1,9 +1,11 @@
+// old vercel.json
 {
   "version": 2,
+  "outputDirectory": "dist/client",
   "rewrites": [
     {
-      "source": "/assets/(.*)",
-      "destination": "/assets/$1"
+      "source": "/assets/:path*",
+      "destination": "/assets/:path*"
     },
     {
       "source": "/(.*)",
