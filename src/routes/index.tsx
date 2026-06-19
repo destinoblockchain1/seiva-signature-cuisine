@@ -44,7 +44,7 @@ function Landing() {
   const [lang, setLang] = useState<Lang>("en");
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-foreground selection:text-background">
+    <div className="min-h-screen bg-background text-foreground selection:bg-foreground selection:text-background font-sans antialiased">
       <Nav lang={lang} setLang={setLang} />
       <Hero lang={lang} />
       <Manifesto lang={lang} />
@@ -77,9 +77,9 @@ function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
           {link("#inquire", t(c.inquire, lang))}
         </nav>
         <div className="flex items-center gap-3 text-[0.7rem] tracking-[0.2em]">
-          <button onClick={() => setLang("en")} className={lang === "en" ? "text-foreground" : "text-muted-foreground"}>EN</button>
+          <button onClick={() => setLang("en")} className={lang === "en" ? "text-foreground font-medium" : "text-muted-foreground"}>EN</button>
           <span className="text-muted-foreground">/</span>
-          <button onClick={() => setLang("pt")} className={lang === "pt" ? "text-foreground" : "text-muted-foreground"}>PT</button>
+          <button onClick={() => setLang("pt")} className={lang === "pt" ? "text-foreground font-medium" : "text-muted-foreground"}>PT</button>
         </div>
       </div>
     </header>
@@ -96,11 +96,10 @@ function Hero({ lang }: { lang: Lang }) {
 
   return (
     <section id="top" className="relative flex min-h-screen items-end overflow-hidden px-6 pb-24 pt-40 md:px-12 md:pb-32">
-      {/* Decorative serif glyph */}
-      <div aria-hidden className="pointer-events-none absolute -right-20 top-32 select-none editorial-display text-[28rem] leading-none text-secondary md:text-[44rem]">S</div>
+      <div aria-hidden className="pointer-events-none absolute -right-20 top-32 select-none font-serif text-[28rem] leading-none text-secondary md:text-[44rem] opacity-30">S</div>
       <div className="relative mx-auto w-full max-w-[1400px]">
         <p className="eyebrow text-muted-foreground">{t(c.eyebrow, lang)}</p>
-        <h1 className="editorial-display mt-10 whitespace-pre-line text-[14vw] md:text-[9.5rem]">
+        <h1 className="editorial-display mt-10 whitespace-pre-line text-[14vw] md:text-[9.5rem] leading-tight">
           {t(customHeadline, lang)}
         </h1>
         <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-12">
@@ -127,8 +126,8 @@ function Manifesto({ lang }: { lang: Lang }) {
       <div className="mx-auto max-w-[1400px]">
         <div className="grid grid-cols-12 gap-8 md:gap-16 items-start">
           
-          {/* Left Lateral Column: IMG_8396.jpg and IMG_6589.jpg (Desktop Only) */}
-          <div className="hidden md:flex col-span-2 flex-col gap-12 mt-20">
+          {/* Left Lateral Column: Expanded to col-span-3 for a larger editorial layout representation */}
+          <div className="hidden md:flex col-span-3 flex-col gap-16 mt-20">
             <ScrollColoredImage 
               src={img8396} 
               alt="SEIVA Gastronomy - Raw Crudo Caviar Detail" 
@@ -141,50 +140,41 @@ function Manifesto({ lang }: { lang: Lang }) {
             />
           </div>
           
-          {/* Center Column: Uncompromised text flow segmented by inline separator */}
-          <div className="col-span-12 md:col-span-8">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-              
-              <div className="col-span-12 md:col-span-3">
-                <p className="eyebrow text-muted-foreground">{t(c.eyebrow, lang)}</p>
-              </div>
-              
-              <div className="col-span-12 md:col-span-9">
-                <p className="editorial-display text-3xl italic md:text-5xl">
-                  "{t(c.pull, lang)}"
-                </p>
-                
-                {/* Dynamically rendering first two paragraphs from source i18n */}
-                <div className="mt-16 space-y-6 text-base font-light leading-[1.8] text-foreground/85 md:text-lg">
-                  {bodyParagraphs.slice(0, 2).map((p: string, i: number) => (
-                    <p key={i}>{p}</p>
-                  ))}
-                </div>
-
-                {/* Mid-text visual break using IMG_7088.jpg */}
-                <div className="my-14 overflow-hidden rounded-sm bg-neutral-950 border border-border/10 shadow-lg">
-                  <ScrollColoredImage 
-                    src={img7088} 
-                    alt="SEIVA Gastronomy - Cucumber Ribbon Presentation Detail" 
-                    aspectClass="aspect-[16/10] w-full" 
-                  />
-                </div>
-
-                {/* Dynamically rendering final paragraphs from source i18n */}
-                <div className="space-y-6 text-base font-light leading-[1.8] text-foreground/85 md:text-lg">
-                  {bodyParagraphs.slice(2).map((p: string, i: number) => (
-                    <p key={i + 2}>{p}</p>
-                  ))}
-                </div>
-                
-                <p className="editorial-display mt-16 text-xl italic text-accent">{t(c.signoff, lang)}</p>
-              </div>
-
+          {/* Center Column: Reduced from 8 to 6 to fit the larger side grid precisely (3 + 6 + 3 = 12) */}
+          <div className="col-span-12 md:col-span-6">
+            <p className="eyebrow text-muted-foreground mb-8">{t(c.eyebrow, lang)}</p>
+            <p className="editorial-display text-3xl italic md:text-5xl leading-tight">
+              "{t(c.pull, lang)}"
+            </p>
+            
+            {/* Displaying first two paragraphs */}
+            <div className="mt-16 space-y-6 text-base font-light leading-[1.8] text-foreground/85 md:text-lg">
+              {bodyParagraphs.slice(0, 2).map((p: string, i: number) => (
+                <p key={i}>{p}</p>
+              ))}
             </div>
+
+            {/* Content separating visual break */}
+            <div className="my-14 overflow-hidden rounded-sm bg-neutral-950 border border-border/10 shadow-lg">
+              <ScrollColoredImage 
+                src={img7088} 
+                alt="SEIVA Gastronomy - Cucumber Ribbon Presentation Detail" 
+                aspectClass="aspect-[16/10] w-full" 
+              />
+            </div>
+
+            {/* Displaying final four paragraphs */}
+            <div className="space-y-6 text-base font-light leading-[1.8] text-foreground/85 md:text-lg">
+              {bodyParagraphs.slice(2).map((p: string, i: number) => (
+                <p key={i + 2}>{p}</p>
+              ))}
+            </div>
+            
+            <p className="editorial-display mt-16 text-xl italic text-accent">{t(c.signoff, lang)}</p>
           </div>
 
-          {/* Right Lateral Column: IMG_6608.jpg and IMG_7145.jpg (Desktop Only) */}
-          <div className="hidden md:flex col-span-2 flex-col gap-12 mt-40">
+          {/* Right Lateral Column: Expanded to col-span-3 for a larger editorial layout representation */}
+          <div className="hidden md:flex col-span-3 flex-col gap-16 mt-36">
             <ScrollColoredImage 
               src={img6608} 
               alt="SEIVA Gastronomy - Elegant Seafood Plating Detail" 
@@ -198,21 +188,6 @@ function Manifesto({ lang }: { lang: Lang }) {
           </div>
 
         </div>
-
-        {/* Consolidating Bottom "Visual Notes" Editorial Grid */}
-        <div className="mt-28 border-t border-border/60 pt-20">
-          <p className="eyebrow text-muted-foreground mb-8">
-            {lang === "en" ? "Editorial Journal — Visual Notes" : "Diário Editorial — Notas Visuais"}
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
-            <ScrollColoredImage src={img8396} alt="SEIVA Journal 1" aspectClass="aspect-square w-full" />
-            <ScrollColoredImage src={img6589} alt="SEIVA Journal 2" aspectClass="aspect-square w-full" />
-            <ScrollColoredImage src={img7088} alt="SEIVA Journal 3" aspectClass="aspect-square w-full" />
-            <ScrollColoredImage src={img6608} alt="SEIVA Journal 4" aspectClass="aspect-square w-full" />
-            <ScrollColoredImage src={img7145} alt="SEIVA Journal 5" aspectClass="aspect-square w-full md:col-span-1 col-span-2" />
-          </div>
-        </div>
-
       </div>
     </section>
   );
@@ -276,7 +251,7 @@ function ScrollColoredImage({
       ref={containerRef} 
       onMouseEnter={() => !isMobile && setIsHovered(true)}
       onMouseLeave={() => !isMobile && setIsHovered(false)}
-      className={`group relative overflow-hidden bg-neutral-950 border border-neutral-900 rounded-sm shadow-xl transition-all duration-700 ${aspectClass}`}
+      className={`group relative overflow-hidden bg-neutral-950 border border-border/10 rounded-sm shadow-xl transition-all duration-700 ${aspectClass}`}
     >
       <img 
         src={src} 
@@ -290,7 +265,6 @@ function ScrollColoredImage({
           transform: active ? "scale(1.04)" : "scale(1)"
         }}
       />
-      {/* Neutral gradient overlay for sophisticated image blending */}
       <div 
         className="absolute inset-0 bg-neutral-900/10 mix-blend-multiply pointer-events-none transition-opacity duration-1000"
         style={{ opacity: active ? 0 : 1 }}
@@ -309,7 +283,7 @@ function Chefs({ lang }: { lang: Lang }) {
             <p className="eyebrow text-muted-foreground">{t(c.eyebrow, lang)}</p>
           </div>
           <div className="col-span-12 md:col-span-9">
-            <h2 className="editorial-display whitespace-pre-line text-5xl md:text-7xl">{t(c.title, lang)}</h2>
+            <h2 className="editorial-display whitespace-pre-line text-5xl md:text-7xl leading-tight">{t(c.title, lang)}</h2>
             <p className="mt-8 max-w-xl text-base font-light leading-relaxed text-muted-foreground md:text-lg">{t(c.intro, lang)}</p>
           </div>
         </div>
@@ -356,7 +330,7 @@ function CaseStudy({ lang }: { lang: Lang }) {
             <p className="eyebrow text-muted-foreground">{t(c.eyebrow, lang)}</p>
           </div>
           <div className="col-span-12 md:col-span-9">
-            <h2 className="editorial-display whitespace-pre-line text-5xl md:text-7xl">{t(c.title, lang)}</h2>
+            <h2 className="editorial-display whitespace-pre-line text-5xl md:text-7xl leading-tight">{t(c.title, lang)}</h2>
             <p className="mt-10 max-w-2xl text-base font-light leading-relaxed text-foreground/85 md:text-lg">{t(c.lede, lang)}</p>
           </div>
         </div>
@@ -405,7 +379,7 @@ function CaseStudyGallery({ lang }: { lang: Lang }) {
       setSelectedIndex(api.selectedScrollSnap());
     };
 
-    onSelect(); // Set initial selected index
+    onSelect();
     api.on("select", onSelect);
     api.on("reInit", onSelect);
 
@@ -461,7 +435,7 @@ function Experiences({ lang }: { lang: Lang }) {
             <p className="eyebrow text-background/50">{t(c.eyebrow, lang)}</p>
           </div>
           <div className="col-span-12 md:col-span-9">
-            <h2 className="editorial-display whitespace-pre-line text-5xl md:text-7xl">{t(c.title, lang)}</h2>
+            <h2 className="editorial-display whitespace-pre-line text-5xl md:text-7xl leading-tight">{t(c.title, lang)}</h2>
           </div>
         </div>
 
@@ -594,7 +568,7 @@ function Inquire({ lang }: { lang: Lang }) {
             <p className="eyebrow text-muted-foreground">{t(c.eyebrow, lang)}</p>
           </div>
           <div className="col-span-12 md:col-span-9">
-            <h2 className="editorial-display whitespace-pre-line text-5xl md:text-7xl">{t(c.title, lang)}</h2>
+            <h2 className="editorial-display whitespace-pre-line text-5xl md:text-7xl leading-tight">{t(c.title, lang)}</h2>
             <p className="mt-10 max-w-2xl text-base font-light leading-relaxed text-muted-foreground md:text-lg">{t(c.sub, lang)}</p>
           </div>
         </div>
