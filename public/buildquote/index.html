@@ -128,29 +128,32 @@
         </div>
     </div>
 
-    <!-- MAIN APP WRAPPER (HIDDEN UNTIL LOGIN) -->
+    <!-- MAIN APP WRAPPER -->
     <div id="app-content" class="hidden flex flex-col min-h-screen">
         
-        <!-- Top Administration Bar with Global Language Selector inside -->
+        <!-- Top Administration Bar with Global Language & Tab Selector inside -->
         <header class="bg-dark text-cream/80 py-4 px-6 flex flex-col lg:flex-row justify-between items-center gap-4 shadow-md no-print z-50 sticky top-0 border-b border-zinc-800">
             <div class="flex items-center gap-3">
                 <span class="font-serif-luxury text-xl font-medium tracking-[0.2em] text-cream">SEIVA <span class="text-xs tracking-normal text-gold uppercase ml-1 font-mono">Vault</span></span>
-                <span class="bg-zinc-800 text-gold text-[9px] uppercase tracking-wider px-2 py-0.5 rounded border border-zinc-700 font-mono">Admin Mode</span>
+                <span class="bg-zinc-800 text-gold text-[9px] uppercase tracking-wider px-2 py-0.5 rounded border border-zinc-700 font-mono font-bold">Admin Mode</span>
             </div>
             
-            <div class="flex items-center gap-6">
+            <div class="flex flex-wrap items-center justify-center gap-6">
                 <!-- GLOBAL LANGUAGE SELECTOR -->
                 <div class="flex bg-zinc-950 p-1 rounded border border-zinc-850 font-mono text-[9px] items-center gap-1">
-                    <span class="text-zinc-600 uppercase tracking-widest font-bold text-[8px] px-2">Language:</span>
+                    <span id="lang-label" class="text-zinc-600 uppercase tracking-widest font-bold text-[8px] px-2">Language:</span>
                     <button id="lang-btn-ENG" class="px-2.5 py-1 rounded transition-all text-zinc-400 hover:text-cream">ENG</button>
                     <button id="lang-btn-POR" class="px-2.5 py-1 rounded transition-all text-zinc-400 hover:text-cream">POR</button>
                     <button id="lang-btn-ITA" class="px-2.5 py-1 rounded transition-all text-zinc-400 hover:text-cream">ITA</button>
                 </div>
 
                 <!-- Tab switcher -->
-                <div class="flex bg-zinc-950 p-1 rounded border border-zinc-800">
+                <div class="flex bg-zinc-950 p-1 rounded border border-zinc-800 font-mono">
                     <button id="tab-dashboard" class="px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all bg-gold text-dark">
-                        Analytics
+                        Analytics & Finance
+                    </button>
+                    <button id="tab-crm" class="px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all text-zinc-400 hover:text-cream">
+                        CRM (Clients)
                     </button>
                     <button id="tab-builder" class="px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all text-zinc-400 hover:text-cream">
                         Proposal Builder
@@ -164,7 +167,7 @@
             </div>
         </header>
 
-        <!-- SUB-PAGE: DASHBOARD & LIBRARY -->
+        <!-- SUB-PAGE 1: DASHBOARD & EVENT CLOSURE LEDGER -->
         <div id="view-dashboard" class="flex-1 p-6 md:p-12 space-y-8 max-w-7xl mx-auto w-full no-print">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
@@ -200,22 +203,170 @@
                 </div>
             </div>
 
-            <!-- SEARCH AND LIST -->
-            <div class="bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden">
-                <div class="p-6 border-b border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-4 bg-zinc-950/40">
-                    <h3 id="lib-title" class="text-xs uppercase tracking-[0.2em] font-bold text-cream">Proposal Library & Vault</h3>
-                    <div class="flex gap-2 w-full sm:w-auto">
-                        <input type="text" id="search-proposals" placeholder="Search by Client or Event..." class="bg-zinc-900 text-cream px-4 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded w-full sm:w-64 placeholder:text-zinc-600">
+            <!-- EVENT LEDGER AND CLOSURE EXPENSES -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column: Closed Events & Quick Ledger -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden p-6 space-y-4">
+                        <h3 id="event-closure-ledger-title" class="text-xs uppercase tracking-[0.2em] font-bold text-cream border-b border-zinc-800 pb-3">Event Closures & Margins</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs font-light">
+                                <thead>
+                                    <tr class="text-[9px] uppercase tracking-wider text-zinc-500 border-b border-zinc-800">
+                                        <th class="py-2">Event Reference</th>
+                                        <th class="py-2">Guests</th>
+                                        <th class="py-2">Revenue Charged</th>
+                                        <th class="py-2">Operational Costs</th>
+                                        <th class="py-2">Net Profit</th>
+                                        <th class="py-2 text-right">Margin</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="event-ledger-rows" class="divide-y divide-zinc-800/50">
+                                    <!-- Dynamic rows loaded from State -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- PROPOSAL LIBRARY -->
+                    <div class="bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-4 bg-zinc-950/40">
+                            <h3 id="lib-title" class="text-xs uppercase tracking-[0.2em] font-bold text-cream">Proposal Library & Vault</h3>
+                            <div class="flex gap-2 w-full sm:w-auto">
+                                <input type="text" id="search-proposals" placeholder="Search by Client or Event..." class="bg-zinc-900 text-cream px-4 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded w-full sm:w-64 placeholder:text-zinc-600">
+                            </div>
+                        </div>
+                        <div id="proposals-list" class="divide-y divide-zinc-800 max-h-[300px] overflow-y-auto">
+                            <div class="text-center text-zinc-500 py-12 text-xs uppercase tracking-widest animate-pulse">Syncing with Cloud Vault...</div>
+                        </div>
                     </div>
                 </div>
-                <div id="proposals-list" class="divide-y divide-zinc-800 max-h-[500px] overflow-y-auto">
-                    <!-- Loaded dynamically from Firebase -->
-                    <div class="text-center text-zinc-500 py-12 text-xs uppercase tracking-widest animate-pulse">Syncing with Cloud Vault...</div>
+
+                <!-- Right Column: AI Receipt OCR Itemization & Cash Flow -->
+                <div class="space-y-6">
+                    <div class="bg-zinc-900 border border-zinc-850 p-6 rounded-lg space-y-4">
+                        <h3 id="ocr-module-title" class="text-xs uppercase tracking-[0.2em] font-bold text-cream">AI Invoice OCR & Ledger</h3>
+                        <p id="ocr-desc" class="text-[10px] text-zinc-500 leading-relaxed">Drop or upload your supplier bills, invoices or receipts to run simulated itemization automatically.</p>
+                        
+                        <!-- DROPZONE -->
+                        <div id="ocr-dropzone" class="border-2 border-dashed border-zinc-700 hover:border-gold/60 p-8 rounded-lg text-center cursor-pointer transition-all bg-zinc-950/40">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gold/60 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            <p id="ocr-dropzone-text" class="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">Drag & Drop Receipt PDF / Image</p>
+                            <p class="text-[8px] text-zinc-600 mt-1">Accepts PNG, JPG, PDF (Simulated AI processing)</p>
+                            <input type="file" id="ocr-file-input" class="hidden" accept="image/*,application/pdf">
+                        </div>
+
+                        <!-- PROCESSING LOADER -->
+                        <div id="ocr-loader" class="hidden space-y-2">
+                            <div class="flex justify-between text-[9px] uppercase tracking-widest font-bold text-gold">
+                                <span>Scanning Ledger OCR...</span>
+                                <span id="ocr-progress-pct">0%</span>
+                            </div>
+                            <div class="w-full bg-zinc-950 h-1.5 rounded-full overflow-hidden">
+                                <div id="ocr-progress-bar" class="bg-gold h-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <!-- OCR RESULTS INTERACTIVE WORKSPACE -->
+                        <div id="ocr-results" class="hidden bg-zinc-950/80 p-4 border border-zinc-800 rounded space-y-3 text-xs">
+                            <h4 class="text-[10px] uppercase font-bold text-gold tracking-widest border-b border-zinc-800 pb-1.5">Extracted Invoice Items</h4>
+                            <div class="space-y-1.5 font-mono text-[10px] text-zinc-400">
+                                <div class="flex justify-between"><span>Vendor:</span> <span id="ocr-vendor" class="text-cream font-bold">Chef's Warehouse</span></div>
+                                <div class="flex justify-between"><span>Tax ID (EIN/CNPJ):</span> <span id="ocr-tax-id" class="text-cream">12-3456789</span></div>
+                                <div class="flex justify-between"><span>Phone:</span> <span id="ocr-phone" class="text-cream">(305) 555-0199</span></div>
+                                <div class="flex justify-between"><span>Date:</span> <span id="ocr-date" class="text-cream">2026-06-19</span></div>
+                                <div class="flex justify-between"><span>Address:</span> <span id="ocr-address" class="text-cream">Miami Logistics Center</span></div>
+                            </div>
+                            <!-- SEGMENT CLASSIFIER -->
+                            <div>
+                                <label class="block text-[8px] uppercase tracking-wider text-zinc-500 font-bold mb-1">Expense Allocation Segment</label>
+                                <select id="ocr-allocated-segment" class="w-full bg-zinc-900 text-gold px-2 py-1.5 text-[10px] border border-zinc-800 outline-none rounded">
+                                    <option value="Products">Products (Alimentos & Insumos)</option>
+                                    <option value="Equipments">Equipments (Equipamentos)</option>
+                                    <option value="Furniture">Furniture (Mobiliário & Decor)</option>
+                                    <option value="Staff">Staff (Brigada de Serviço)</option>
+                                    <option value="Logistics">Logistics (Transporte & Frete)</option>
+                                </select>
+                            </div>
+                            <div class="flex justify-between font-bold border-t border-zinc-800 pt-2 text-cream">
+                                <span>Extracted Total:</span>
+                                <span id="ocr-total-val" class="font-mono text-gold">$0.00</span>
+                            </div>
+                            <button id="btn-ocr-approve-expense" class="w-full bg-gold text-dark py-2 font-bold uppercase tracking-wider text-[9px] hover:bg-gold/90 transition-all rounded shadow">
+                                Approve & Append Expense
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Segment Cost Distribution Bar Chart -->
+                    <div class="bg-zinc-900 border border-zinc-850 p-6 rounded-lg space-y-4">
+                        <h3 id="segment-chart-title" class="text-xs uppercase tracking-[0.2em] font-bold text-cream">Cost Breakdown by Segment</h3>
+                        <div class="space-y-3" id="segment-bars-container">
+                            <!-- Injected dynamically -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- SUB-PAGE: BUILDER WORKSPACE (FLEX CONTAINER) -->
+        <!-- SUB-PAGE 2: CRM (CLIENT DIRECTORY) -->
+        <div id="view-crm" class="hidden flex-1 p-6 md:p-12 space-y-8 max-w-7xl mx-auto w-full no-print">
+            <div class="flex justify-between items-center border-b border-zinc-800 pb-5">
+                <div>
+                    <h2 id="crm-title" class="font-serif-luxury text-3xl tracking-wide uppercase">Client Directory & CRM</h2>
+                    <p id="crm-subtitle" class="text-zinc-500 text-xs mt-1">Track high-net-worth client profiles, event history, and aggregate LTV (Lifetime Value).</p>
+                </div>
+                <button id="btn-crm-add-client" class="bg-gold text-dark px-6 py-3 font-bold uppercase tracking-widest text-xs hover:bg-gold/90 transition-all shadow-md">
+                    + Add Client Profile
+                </button>
+            </div>
+
+            <!-- CRM CLIENT CARD FORMS -->
+            <div id="crm-form-container" class="hidden bg-zinc-900 border border-zinc-800 p-6 rounded-lg space-y-4">
+                <h3 class="text-xs uppercase tracking-[0.2em] font-bold text-gold">Create/Edit Client Card</h3>
+                <form id="crm-client-form" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Client Full Name</label>
+                        <input type="text" id="crm-input-name" required placeholder="Alexander Sterling" class="w-full bg-zinc-850 text-cream px-3 py-2 text-xs border border-zinc-700 outline-none rounded">
+                    </div>
+                    <div>
+                        <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Company / Organization</label>
+                        <input type="text" id="crm-input-company" placeholder="Sterling Global Holdings" class="w-full bg-zinc-850 text-cream px-3 py-2 text-xs border border-zinc-700 outline-none rounded">
+                    </div>
+                    <div>
+                        <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Contact Email</label>
+                        <input type="email" id="crm-input-email" required placeholder="alex@sterling.com" class="w-full bg-zinc-850 text-cream px-3 py-2 text-xs border border-zinc-700 outline-none rounded">
+                    </div>
+                    <div class="md:col-span-3 flex justify-end gap-2">
+                        <button type="button" id="btn-crm-cancel" class="bg-zinc-800 text-zinc-400 hover:text-cream text-[10px] uppercase font-bold tracking-widest px-4 py-2 rounded">Cancel</button>
+                        <button type="submit" class="bg-gold text-dark hover:bg-gold/90 text-[10px] uppercase font-bold tracking-widest px-6 py-2 rounded">Save Profile</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- CLIENTS TABLE -->
+            <div class="bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden">
+                <table class="w-full text-left text-xs font-light">
+                    <thead>
+                        <tr class="bg-zinc-950/40 text-[9px] uppercase tracking-wider text-zinc-500 border-b border-zinc-800">
+                            <th class="p-4">Client Name</th>
+                            <th class="p-4">Organization</th>
+                            <th class="p-4">Email</th>
+                            <th class="p-4 text-center">Total Events</th>
+                            <th class="p-4">Lifetime Value (LTV)</th>
+                            <th class="p-4 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="crm-clients-rows" class="divide-y divide-zinc-800">
+                        <!-- Loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SUB-PAGE 3: BUILDER WORKSPACE (FLEX CONTAINER) -->
         <div id="view-builder" class="hidden flex-1 flex relative min-h-[calc(100vh-64px)] overflow-hidden">
             
             <!-- Collapsible Settings Panel -->
@@ -257,12 +408,12 @@
                         <div class="space-y-3">
                             <div>
                                 <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Proposal ID / Reference</label>
-                                <input type="text" id="input-ref" readonly class="w-full bg-zinc-800 text-zinc-500 px-3 py-2 text-xs border border-zinc-700 outline-none rounded font-mono cursor-not-allowed">
+                                <input type="text" id="input-ref" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 outline-none rounded font-mono">
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
                                     <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Date of Issue</label>
-                                    <input type="text" id="input-date-issue" readonly class="w-full bg-zinc-800 text-zinc-500 px-3 py-2 text-xs border border-zinc-700 outline-none rounded cursor-not-allowed">
+                                    <input type="text" id="input-date-issue" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 outline-none rounded">
                                 </div>
                                 <div>
                                     <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Valid Until</label>
@@ -562,93 +713,27 @@
         </div>
     </div>
 
-    <!-- Firebase SDK Scripts -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDocs, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        let db, auth, userId, appId;
-
-        async function init() {
-            try {
-                const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
-                appId = typeof __app_id !== 'undefined' ? __app_id : 'default-seiva-app';
-                
-                if (!firebaseConfig) {
-                    console.error("No Firebase config found. Autosave disabled.");
-                    document.getElementById('autosave-status').textContent = "Cloud disabled";
-                    return;
-                }
-
-                const app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-
-                const token = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-                if (token) {
-                    await signInWithCustomToken(auth, token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-                
-                userId = auth.currentUser?.uid;
-                window.cloudInitialized = true;
-                
-                document.getElementById('autosave-status').textContent = "Cloud Sync Active";
-            } catch (e) {
-                console.error("Firebase init error", e);
-                document.getElementById('autosave-status').textContent = "Offline Mode";
-            }
-        }
-
-        window.cloudSave = async function(docId, data) {
-            const idToSave = docId || crypto.randomUUID();
-            if (!window.cloudInitialized || !userId) {
-                if (!window.localQuotesMap) window.localQuotesMap = {};
-                data.id = idToSave;
-                data.timestamp = Date.now();
-                window.localQuotesMap[idToSave] = JSON.parse(JSON.stringify(data));
-                return idToSave;
-            }
-            try {
-                const docRef = doc(db, 'artifacts', appId, 'users', userId, 'quotes', idToSave);
-                data.timestamp = Date.now();
-                await setDoc(docRef, data);
-                return idToSave;
-            } catch (e) {
-                console.error("Save error", e);
-                return docId;
-            }
-        };
-
-        window.cloudLoadAll = async function() {
-            if (!window.cloudInitialized || !userId) {
-                if (window.localQuotesMap) {
-                    return Object.values(window.localQuotesMap).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-                }
-                return [];
-            }
-            try {
-                const colRef = collection(db, 'artifacts', appId, 'users', userId, 'quotes');
-                const snapshot = await getDocs(colRef);
-                const quotes = [];
-                snapshot.forEach(d => {
-                    quotes.push({ id: d.id, ...d.data() });
-                });
-                return quotes.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-            } catch (e) {
-                console.error("Load error", e);
-                return [];
-            }
-        };
-
-        init();
-    </script>
-
     <!-- App Business Logic & Translators UI Controller -->
     <script>
-        // COMPLETE DICTIONARY INCLUDING GLOBAL ANALYTICS & CRM TRANSLATIONS
+        // MOCK DATA STORAGE TO POPULATE DASHBOARD, CRM & FINANCIAL LEDGER
+        const state = {
+            lang: 'POR',
+            tab: 'dashboard',
+            currentQuoteId: null,
+            clients: [
+                { id: '1', name: "Alexander Sterling", company: "Sterling Global Holdings", email: "alex@sterling.com", eventsCount: 3, ltv: 96780 },
+                { id: '2', name: "Isabella Cavalcanti", company: "Cavalcanti Fine Arts", email: "isabella@finearts.com", eventsCount: 1, ltv: 12500 },
+                { id: '3', name: "Marcus Dupont", company: "Dupont Luxury Brands", email: "marcus@dupont.com", eventsCount: 2, ltv: 45000 }
+            ],
+            quotes: [
+                { id: 'q1', lang: 'POR', status: 'Approved', meta: { ref: 'SV-2026-102', dateIssue: '10 Junho, 2026', dateValid: '17 Junho, 2026', client: 'Alexander Sterling', company: 'Sterling Global Holdings', event: 'Private Executive Gala', eventDate: '14 Agosto, 2026', location: 'Miami Beach Estate', guests: '45 VIPs', format: '5-Course Tasting', concept: 'Gastronomia elemental de altíssimo padrão.', presenter: 'Bernardo Simões', title: 'Executive Chef' }, items: [{ name: 'Custom Gala Dinner Sequence', desc: 'Plated 5-course menu for executives.', hasPrice: true, qty: 45, rate: 350, subItems: [] }] },
+                { id: 'q2', lang: 'POR', status: 'Sent', meta: { ref: 'SV-2026-103', dateIssue: '12 Junho, 2026', dateValid: '19 Junho, 2026', client: 'Isabella Cavalcanti', company: 'Cavalcanti Fine Arts', event: 'Art Exhibition Vernissage', eventDate: '28 Setembro, 2026', location: 'Palm Beach Gallery', guests: '120 Convidados', format: 'Finger Food & Champagne', concept: 'Canapés arquitetônicos e menu minimalista.', presenter: 'Juliana Redoi', title: 'Chef de Cuisine' }, items: [{ name: 'Bespoke Finger Food Platter', desc: 'Elegant cold and hot bites.', hasPrice: true, qty: 120, rate: 95, subItems: [] }] }
+            ],
+            ledger: [
+                { id: 'l1', ref: 'SV-2026-102', client: 'Alexander Sterling', guests: 45, revenue: 16852.50, cost: 6240.00, profit: 10612.50, margin: 63, segments: { Products: 2500, Equipments: 840, Furniture: 1200, Staff: 1200, Logistics: 500 } }
+            ]
+        };
+
         const translations = {
             ENG: {
                 dashboard: {
@@ -662,7 +747,8 @@
                     draftSent: "Draft & Sent",
                     totalLogged: "Total Proposals Logged",
                     closedVsPipeline: "Closed vs Pipeline",
-                    libTitle: "Proposal Library & Vault"
+                    libTitle: "Proposal Library & Vault",
+                    ledgerTitle: "Event Closures & Margins"
                 },
                 meta: {
                     ref: "SV-2026-X",
@@ -679,7 +765,6 @@
                     presenter: "",
                     title: ""
                 },
-                items: [],
                 labels: {
                     btnConfigure: "Configure Proposal",
                     sidebarTitle: "Configure Details",
@@ -732,7 +817,8 @@
                     draftSent: "Rascunho & Enviada",
                     totalLogged: "Total de Propostas Salvas",
                     closedVsPipeline: "Fechado vs Pipeline",
-                    libTitle: "Biblioteca de Propostas & Cofre"
+                    libTitle: "Biblioteca de Propostas & Cofre",
+                    ledgerTitle: "Fechamento de Eventos & Margens"
                 },
                 meta: {
                     ref: "SV-2026-X",
@@ -749,7 +835,6 @@
                     presenter: "",
                     title: ""
                 },
-                items: [],
                 labels: {
                     btnConfigure: "Configurar Proposta",
                     sidebarTitle: "Configurar Detalhes",
@@ -802,7 +887,8 @@
                     draftSent: "Bozza & Spedite",
                     totalLogged: "Totale Proposte Registrate",
                     closedVsPipeline: "Chiuso vs Pipeline",
-                    libTitle: "Libreria Proposte & Vault"
+                    libTitle: "Libreria Proposte & Vault",
+                    ledgerTitle: "Consuntivo Eventi & Margini"
                 },
                 meta: {
                     ref: "SV-2026-X",
@@ -819,7 +905,6 @@
                     presenter: "",
                     title: ""
                 },
-                items: [],
                 labels: {
                     btnConfigure: "Configura Proposta",
                     sidebarTitle: "Configura Dettagli",
@@ -862,200 +947,80 @@
             }
         };
 
-        // Initialize state defaults
-        let currentLang = 'ENG';
-        let items = [];
-        let currentQuoteId = null;
-        let autosaveTimeout = null;
-        let skipAutosave = false;
+        // Custom flutting gold notification system
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `p-4 rounded-lg shadow-lg text-[10px] tracking-widest uppercase font-mono flex items-center gap-2 transform translate-y-2 opacity-0 transition-all duration-300 max-w-sm pointer-events-auto border ${
+                type === 'success' ? 'bg-zinc-950 border-gold text-gold' : 'bg-red-950/90 border-red-500 text-red-200'
+            }`;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
 
-        // Dynamic ID and Issue Date Generator
+        // Setup Proposal ID and Date of Issue
         function generateDefaultMeta() {
             const currentYear = new Date().getFullYear();
-            const randomNum = Math.floor(100 + Math.random() * 900); // 3 digits
+            const randomNum = Math.floor(100 + Math.random() * 900); // SV-2026-XXX
             const ref = `SV-${currentYear}-${randomNum}`;
-            
             const today = new Date();
-            let dateIssueStr = "";
-            let dateValidStr = "";
-            
-            const nextWeek = new Date();
-            nextWeek.setDate(today.getDate() + 7);
-
             const options = { day: 'numeric', month: 'long', year: 'numeric' };
 
-            if (currentLang === 'POR') {
-                dateIssueStr = today.toLocaleDateString('pt-BR', options);
-                dateValidStr = nextWeek.toLocaleDateString('pt-BR', options);
-            } else if (currentLang === 'ITA') {
-                dateIssueStr = today.toLocaleDateString('it-IT', options);
-                dateValidStr = nextWeek.toLocaleDateString('it-IT', options);
-            } else {
-                dateIssueStr = today.toLocaleDateString('en-US', options);
-                dateValidStr = nextWeek.toLocaleDateString('en-US', options);
-            }
-
+            let dateIssueStr = today.toLocaleDateString(state.lang === 'POR' ? 'pt-BR' : state.lang === 'ITA' ? 'it-IT' : 'en-US', options);
+            
             document.getElementById('input-ref').value = ref;
             document.getElementById('input-date-issue').value = dateIssueStr;
-            document.getElementById('input-date-valid').value = dateValidStr;
         }
 
-        // Format currencies beautifully based on language context
-        function formatCurrency(val, lang) {
-            let locale = 'en-US';
-            let currency = 'USD';
-            if (lang === 'POR') {
-                locale = 'pt-BR';
-                currency = 'BRL';
-            } else if (lang === 'ITA') {
-                locale = 'it-IT';
-                currency = 'EUR';
-            }
-            return new Intl.NumberFormat(locale, { style: 'currency', currency: currency }).format(val);
-        }
-
-        // Toggle interactive sidebar smoothly
-        function toggleSidebar() {
-            const sidebar = document.getElementById('editor-sidebar');
-            const floatingBtn = document.getElementById('sidebar-toggle-floating');
-            
-            if (sidebar.classList.contains('hidden')) {
-                sidebar.classList.remove('hidden');
-                floatingBtn.classList.add('hidden');
-            } else {
-                sidebar.classList.add('hidden');
-                floatingBtn.classList.remove('hidden');
-            }
-        }
-
-        // Workspace view routing tabs
+        // Tab routing workflow
         function switchWorkspaceView(viewName) {
-            const views = {
-                dashboard: {
-                    btn: 'tab-dashboard',
-                    container: 'view-dashboard'
-                },
-                builder: {
-                    btn: 'tab-builder',
-                    container: 'view-builder'
-                }
+            state.tab = viewName;
+            const tabs = {
+                dashboard: { btn: 'tab-dashboard', container: 'view-dashboard' },
+                crm: { btn: 'tab-crm', container: 'view-crm' },
+                builder: { btn: 'tab-builder', container: 'view-builder' }
             };
 
-            Object.keys(views).forEach(key => {
-                const config = views[key];
+            Object.keys(tabs).forEach(k => {
+                const config = tabs[k];
                 const btn = document.getElementById(config.btn);
-                const block = document.getElementById(config.container);
-                if (key === viewName) {
+                const view = document.getElementById(config.container);
+                if (k === viewName) {
                     btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all bg-gold text-dark shadow";
-                    block.classList.remove('hidden');
-                    if (key === 'dashboard') {
-                        loadCloudLibraryList();
-                    }
+                    view.classList.remove('hidden');
+                    if (k === 'dashboard') loadCloudLibraryList();
                 } else {
                     btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all text-zinc-400 hover:text-cream bg-zinc-950 hover:bg-zinc-900/50";
-                    block.classList.add('hidden');
+                    view.classList.add('hidden');
                 }
             });
         }
 
-        // Change global active language context and map defaults
+        // Global Translators UI update
         function changeLanguage(langCode) {
-            currentLang = langCode;
+            state.lang = langCode;
             
-            // Highlight active language button in the global top bar header
-            ['ENG', 'POR', 'ITA'].forEach(lang => {
-                const btn = document.getElementById(`lang-btn-${lang}`);
-                if (btn) {
-                    if (lang === langCode) {
-                        btn.className = "px-2.5 py-1 rounded transition-all text-dark bg-gold font-bold shadow";
-                    } else {
-                        btn.className = "px-2.5 py-1 rounded transition-all text-zinc-400 hover:text-cream bg-zinc-950";
-                    }
-                }
+            ['ENG', 'POR', 'ITA'].forEach(l => {
+                const btn = document.getElementById(`lang-btn-${l}`);
+                if (btn) btn.className = l === langCode ? "px-2.5 py-1 rounded transition-all text-dark bg-gold font-bold shadow" : "px-2.5 py-1 rounded transition-all text-zinc-400 hover:text-cream bg-zinc-950";
             });
 
-            // Update default meta inputs based on the selected language structure
-            if (!currentQuoteId) {
-                generateDefaultMeta();
-            }
-
-            // Load translations of labels directly onto the UI element tags
             applyUILabelTranslations();
-            
-            // Sync user changes on metadata inputs & redraw the preview tables
             updateMetadata();
             renderAll();
+            renderLedgerTable();
+            renderCRMTable();
         }
 
-        // Translates static HTML element contents based on chosen locale
-        function applyUILabelTranslations() {
-            const labelsObj = translations[currentLang].labels;
-            const dashObj = translations[currentLang].dashboard;
-
-            const updateText = (id, text) => {
-                const el = document.getElementById(id);
-                if (el && text) el.textContent = text;
-            };
-
-            // Translate Dashboard Analytics Titles
-            updateText('dash-title', dashObj.title);
-            updateText('dash-subtitle', dashObj.subtitle);
-            updateText('card-label-closed-revenue', dashObj.closedRevenue);
-            updateText('card-label-active-pipeline', dashObj.activePipeline);
-            updateText('card-label-active-proposals', dashObj.activeProposals);
-            updateText('card-label-conversion-rate', dashObj.conversionRate);
-            updateText('card-sub-approved', dashObj.fromApproved);
-            updateText('card-sub-pending', dashObj.draftSent);
-            updateText('card-sub-total', dashObj.totalLogged);
-            updateText('card-sub-closed', dashObj.closedVsPipeline);
-            updateText('lib-title', dashObj.libTitle);
-
-            // Left panel labels mapping safely
-            updateText('ui-sidebar-title', labelsObj.sidebarTitle);
-            updateText('ui-sect-doc-info', labelsObj.sectDocInfo);
-            updateText('ui-sect-client-info', labelsObj.sectClientInfo);
-            updateText('ui-sect-event-params', labelsObj.sectEventParams);
-            updateText('ui-sect-creative-concept', labelsObj.sectCreativeConcept);
-            updateText('ui-sect-line-items', labelsObj.sectLineItems);
-            updateText('ui-sect-signature', labelsObj.sectSignature);
-            updateText('ui-btn-add-item', labelsObj.btnAddItem);
-
-            // Document body layout labels
-            updateText('doc-title-main', labelsObj.titleMain);
-            updateText('doc-label-prepared-for', labelsObj.labelPreparedFor);
-            updateText('doc-label-issue-date', labelsObj.labelIssueDate);
-            updateText('doc-label-valid-until', labelsObj.labelValidUntil);
-            updateText('doc-label-event', labelsObj.labelEvent);
-            updateText('doc-label-event-date', labelsObj.labelEventDate);
-            updateText('doc-label-location', labelsObj.labelLocation);
-            updateText('doc-label-guests', labelsObj.labelGuests);
-            updateText('doc-label-format', labelsObj.labelFormat);
-            updateText('doc-label-concept', labelsObj.labelConcept);
-            updateText('doc-label-investment-breakdown', labelsObj.labelInvestmentBreakdown);
-
-            // Table headers
-            updateText('doc-label-th-desc', labelsObj.labelThDesc);
-            updateText('doc-label-th-qty', labelsObj.labelThQty);
-            updateText('doc-label-th-rate', labelsObj.labelThRate);
-            updateText('doc-label-th-total', labelsObj.labelThTotal);
-
-            // Financial block & Footer terms
-            updateText('doc-label-subtotal', labelsObj.labelSubtotal);
-            updateText('doc-label-taxes', labelsObj.labelTaxes);
-            updateText('doc-label-total-per-guest', labelsObj.labelTotalPerGuest);
-            updateText('doc-label-total', labelsObj.labelTotal);
-            updateText('doc-label-next-steps', labelsObj.labelNextSteps);
-            updateText('doc-next-steps-text', labelsObj.labelNextStepsText);
-            updateText('doc-btn-approve', labelsObj.btnApprove);
-            updateText('doc-payment-msg-text', labelsObj.paymentMsgText);
-            updateText('doc-footer-tagline', labelsObj.footerTagline);
-            updateText('doc-footer-locations', labelsObj.footerLocations);
-        }
-
-        // Keep document elements aligned with live editor input tags
+        // Metadatas automatic sync to preview (Responsive fluid layout)
         function updateMetadata() {
-            document.getElementById('doc-ref').textContent = document.getElementById('input-ref').value;
-            document.getElementById('doc-date-issue').textContent = document.getElementById('input-date-issue').value;
+            document.getElementById('doc-ref').textContent = document.getElementById('input-ref').value || '—';
+            document.getElementById('doc-date-issue').textContent = document.getElementById('input-date-issue').value || '—';
             document.getElementById('doc-date-valid').textContent = document.getElementById('input-date-valid').value || '—';
             document.getElementById('doc-client').textContent = document.getElementById('input-client').value || '—';
             document.getElementById('doc-company').textContent = document.getElementById('input-company').value || '—';
@@ -1067,170 +1032,395 @@
             document.getElementById('doc-concept').textContent = document.getElementById('input-concept').value || '...';
             document.getElementById('doc-presenter').textContent = document.getElementById('input-presenter').value || '—';
             document.getElementById('doc-title').textContent = document.getElementById('input-title').value || '—';
-            document.getElementById('doc-collective').textContent = translations[currentLang].labels.collective;
+            document.getElementById('doc-collective').textContent = translations[state.lang].labels.collective;
             
-            // Recompute values in case guest attendance changed
             calculateAndRenderTotals();
         }
 
-        // --- Autosave & Dashboard Logic ---
-        function triggerAutosave() {
-            if (skipAutosave) return;
-            const statusEl = document.getElementById('autosave-status');
-            if (statusEl) statusEl.textContent = "Saving...";
-            clearTimeout(autosaveTimeout);
-            autosaveTimeout = setTimeout(performSave, 2000);
-        }
-
-        async function performSave() {
-            if (!window.cloudSave) return;
-            const payload = {
-                lang: currentLang,
-                status: document.getElementById('input-status').value,
-                meta: {
-                    ref: document.getElementById('input-ref').value,
-                    dateIssue: document.getElementById('input-date-issue').value,
-                    dateValid: document.getElementById('input-date-valid').value,
-                    client: document.getElementById('input-client').value,
-                    company: document.getElementById('input-company').value,
-                    event: document.getElementById('input-event').value,
-                    eventDate: document.getElementById('input-event-date').value,
-                    location: document.getElementById('input-location').value,
-                    guests: document.getElementById('input-guests').value,
-                    format: document.getElementById('input-format').value,
-                    concept: document.getElementById('input-concept').value,
-                    presenter: document.getElementById('input-presenter').value,
-                    title: document.getElementById('input-title').value,
-                },
-                items: items
-            };
-            
-            try {
-                currentQuoteId = await window.cloudSave(currentQuoteId, payload);
-                const statusEl = document.getElementById('autosave-status');
-                if (statusEl) {
-                    const timeStr = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                    statusEl.textContent = `Saved at ${timeStr}`;
-                }
-            } catch (e) {
-                console.error("Autosave failed", e);
-            }
-        }
-
-        async function loadCloudLibraryList(searchQuery = '') {
-            if (!window.cloudLoadAll) return;
-            const listEl = document.getElementById('proposals-list');
-            listEl.innerHTML = '<div class="text-center text-zinc-500 py-12 text-xs uppercase tracking-widest animate-pulse">Syncing...</div>';
-
-            const quotes = await window.cloudLoadAll();
-            const filtered = quotes.filter(q => {
-                const client = (q.meta?.client || '').toLowerCase();
-                const event = (q.meta?.event || '').toLowerCase();
-                const qry = searchQuery.toLowerCase();
-                return client.includes(qry) || event.includes(qry);
+        // Calculation algorithms
+        function calculateAndRenderTotals() {
+            let subtotal = 0;
+            items.forEach(item => {
+                if (item.hasPrice) subtotal += (item.qty * item.rate);
+                item.subItems.forEach(sub => {
+                    if (sub.hasPrice) subtotal += (sub.qty * sub.rate);
+                });
             });
 
-            if (filtered.length === 0) {
-                listEl.innerHTML = '<div class="text-center text-zinc-500 py-12 text-xs">No active proposals found in your vault.</div>';
-                return;
-            }
+            const taxes = subtotal * 0.07;
+            const total = subtotal + taxes;
 
-            listEl.innerHTML = filtered.map(q => {
-                const dateStr = q.timestamp ? new Date(q.timestamp).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' }) : 'Unknown';
-                const clientName = q.meta?.client || 'Untitled Client';
-                const eventName = q.meta?.event || 'Standard Inquire';
-                const ref = q.meta?.ref || 'N/A';
-                const status = q.status || 'Draft';
-                
-                const badgeColors = {
-                    Draft: 'bg-zinc-800 text-zinc-400 border-zinc-750',
-                    Sent: 'bg-blue-950/40 text-blue-400 border-blue-900/30',
-                    Approved: 'bg-emerald-950/40 text-emerald-400 border-emerald-900/30',
-                    Declined: 'bg-red-950/40 text-red-400 border-red-900/30'
-                };
+            const guestStr = document.getElementById('input-guests').value || "";
+            const guestMatch = guestStr.match(/\d+/);
+            const guestCount = guestMatch ? parseInt(guestMatch[0], 10) : 1;
+            const safeDivider = guestCount > 0 ? guestCount : 1;
+            const totalPerGuest = total / safeDivider;
 
-                return `
-                    <div class="p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:bg-zinc-950/30 transition-all group border-b border-zinc-850 last:border-none">
-                        <div class="space-y-1 cursor-pointer flex-1 w-full" data-action="edit-proposal" data-id="${q.id}">
-                            <div class="flex items-center gap-3">
-                                <span class="text-sm font-semibold text-cream tracking-wide group-hover:text-gold transition-colors">${clientName}</span>
-                                <span class="text-[9px] font-mono bg-zinc-800 text-zinc-500 px-1.5 py-0.5 rounded">${ref}</span>
-                                <span class="text-[9px] font-bold tracking-wider uppercase px-2 py-0.5 rounded border ${badgeColors[status] || badgeColors.Draft}">${status}</span>
-                            </div>
-                            <p class="text-xs text-zinc-500 font-light">${eventName} · <span class="font-mono text-[10px]">${dateStr}</span></p>
-                        </div>
-                        <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
-                            <button data-action="dispatch-proposal" data-id="${q.id}" class="bg-zinc-850 hover:bg-gold hover:text-dark text-gold text-[10px] uppercase font-bold tracking-wider px-3 py-2 rounded transition-all">
-                                Send
-                            </button>
-                            <button data-action="delete-proposal" data-id="${q.id}" class="text-zinc-600 hover:text-red-400 p-2 rounded transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </button>
-                        </div>
+            document.getElementById('doc-subtotal').textContent = formatCurrency(subtotal, state.lang);
+            document.getElementById('doc-taxes').textContent = formatCurrency(taxes, state.lang);
+            document.getElementById('doc-total-per-guest').textContent = formatCurrency(totalPerGuest, state.lang);
+            document.getElementById('doc-total').textContent = formatCurrency(total, state.lang);
+            
+            recomputeAnalyticsDashboard();
+        }
+
+        // Sync local ledger and items into dashboard
+        function recomputeAnalyticsDashboard() {
+            let approvedSum = 0;
+            let pipelineSum = 0;
+            let activeProposalsCount = state.quotes.length;
+            let approvedCount = 0;
+
+            state.quotes.forEach(q => {
+                let sub = 0;
+                (q.items || []).forEach(it => {
+                    if (itemHasPrice(it)) sub += (it.qty * it.rate);
+                });
+                const total = sub * 1.07;
+                if (q.status === 'Approved') {
+                    approvedSum += total;
+                    approvedCount++;
+                } else if (q.status === 'Sent' || q.status === 'Draft') {
+                    pipelineSum += total;
+                }
+            });
+
+            // Append mock closed closures into the stats
+            state.ledger.forEach(l => {
+                approvedSum += l.revenue;
+                approvedCount++;
+                activeProposalsCount++;
+            });
+
+            document.getElementById('stat-revenue').textContent = formatCurrency(approvedSum, state.lang);
+            document.getElementById('stat-pipeline').textContent = formatCurrency(pipelineSum, state.lang);
+            document.getElementById('stat-active').textContent = activeProposalsCount;
+            
+            const rate = activeProposalsCount > 0 ? Math.round((approvedCount / activeProposalsCount) * 100) : 0;
+            document.getElementById('stat-conversion').textContent = `${rate}%`;
+
+            renderSegmentBars();
+        }
+
+        function itemHasPrice(it) {
+            return it && it.hasPrice;
+        }
+
+        // Render segment chart for event expenses
+        function renderSegmentBars() {
+            const totals = { Products: 0, Equipments: 0, Furniture: 0, Staff: 0, Logistics: 0 };
+            state.ledger.forEach(l => {
+                if (l.segments) {
+                    Object.keys(totals).forEach(k => {
+                        totals[k] += (l.segments[k] || 0);
+                    });
+                }
+            });
+
+            const overall = Object.values(totals).reduce((a, b) => a + b, 0) || 1;
+            const container = document.getElementById('segment-bars-container');
+            container.innerHTML = '';
+
+            const segmentColors = {
+                Products: 'bg-gold',
+                Equipments: 'bg-amber-600',
+                Furniture: 'bg-zinc-500',
+                Staff: 'bg-emerald-600',
+                Logistics: 'bg-blue-600'
+            };
+
+            Object.keys(totals).forEach(k => {
+                const pct = Math.round((totals[k] / overall) * 100);
+                const bar = document.createElement('div');
+                bar.className = "space-y-1.5";
+                bar.innerHTML = `
+                    <div class="flex justify-between text-[10px] uppercase font-bold tracking-wider">
+                        <span>${k}</span>
+                        <span class="font-mono text-gold">${formatCurrency(totals[k], state.lang)} (${pct}%)</span>
+                    </div>
+                    <div class="w-full bg-zinc-950 h-2 rounded-full overflow-hidden">
+                        <div class="h-full ${segmentColors[k]}" style="width: ${pct}%"></div>
                     </div>
                 `;
-            }).join('');
-
-            window.cachedQuotes = quotes.reduce((acc, q) => { acc[q.id] = q; return acc; }, {});
+                container.appendChild(bar);
+            });
         }
 
-        function editProposal(id) {
-            const q = window.cachedQuotes[id];
-            if (!q) return;
+        // Render Ledger Tables
+        function renderLedgerTable() {
+            const tbody = document.getElementById('event-ledger-rows');
+            tbody.innerHTML = '';
 
-            skipAutosave = true;
-            currentQuoteId = q.id;
-            currentLang = q.lang || 'ENG';
-            document.getElementById('input-status').value = q.status || 'Draft';
-            items = JSON.parse(JSON.stringify(q.items || []));
-
-            const fields = [
-                'ref', 'dateIssue', 'dateValid', 'client', 'company',
-                'event', 'eventDate', 'location', 'guests', 'format',
-                'concept', 'presenter', 'title'
-            ];
-            
-            fields.forEach(f => {
-                const el = document.getElementById(`input-${f}`);
-                if (el && q.meta && q.meta[f] !== undefined) el.value = q.meta[f];
+            state.ledger.forEach(l => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-zinc-800 hover:bg-zinc-950/20";
+                tr.innerHTML = `
+                    <td class="py-3 font-mono font-bold text-gold">${l.ref}</td>
+                    <td class="py-3 font-mono">${l.guests}</td>
+                    <td class="py-3 font-mono">${formatCurrency(l.revenue, state.lang)}</td>
+                    <td class="py-3 font-mono text-red-400">${formatCurrency(l.cost, state.lang)}</td>
+                    <td class="py-3 font-mono text-emerald-400 font-bold">${formatCurrency(l.profit, state.lang)}</td>
+                    <td class="py-3 font-mono text-right text-zinc-500">${l.margin}%</td>
+                `;
+                tbody.appendChild(tr);
             });
+        }
 
-            applyUILabelTranslations();
+        // Render CRM Customers directory list
+        function renderCRMTable() {
+            const tbody = document.getElementById('crm-clients-rows');
+            tbody.innerHTML = '';
+
+            state.clients.forEach(c => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-zinc-950/40";
+                tr.innerHTML = `
+                    <td class="p-4 font-bold text-cream">${c.name}</td>
+                    <td class="p-4 text-zinc-400">${c.company || '—'}</td>
+                    <td class="p-4 text-zinc-400 font-mono">${c.email}</td>
+                    <td class="p-4 text-center font-mono">${c.eventsCount}</td>
+                    <td class="p-4 font-mono text-gold font-semibold">${formatCurrency(c.ltv, state.lang)}</td>
+                    <td class="p-4 text-right space-x-2">
+                        <button onclick="applyCRMToProposal('${c.name}', '${c.company || ''}')" class="text-[9px] uppercase tracking-wider bg-gold text-dark font-bold px-2 py-1 rounded">Build Quote</button>
+                        <button onclick="deleteClient('${c.id}')" class="text-zinc-500 hover:text-red-400">&times;</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Bind client data to proposal form
+        function applyCRMToProposal(name, company) {
+            document.getElementById('input-client').value = name;
+            document.getElementById('input-company').value = company;
             updateMetadata();
-            renderAll();
             switchWorkspaceView('builder');
-
-            setTimeout(() => { skipAutosave = false; }, 800);
+            showToast(`Loaded CRM Card for ${name}`);
         }
 
-        function createNewProposal() {
-            skipAutosave = true;
-            currentQuoteId = null;
-            document.getElementById('input-status').value = 'Draft';
+        function deleteClient(id) {
+            state.clients = state.clients.filter(c => c.id !== id);
+            renderCRMTable();
+            showToast("Customer profile removed");
+        }
+
+        // Simulated Invoice AI OCR scanner dropzone mechanism
+        function triggerSimulatedOCR() {
+            const loader = document.getElementById('ocr-loader');
+            const dropzone = document.getElementById('ocr-dropzone');
+            const results = document.getElementById('ocr-results');
+
+            dropzone.classList.add('hidden');
+            results.classList.add('hidden');
+            loader.classList.remove('hidden');
+
+            let pct = 0;
+            const interval = setInterval(() => {
+                pct += 10;
+                document.getElementById('ocr-progress-pct').textContent = `${pct}%`;
+                document.getElementById('ocr-progress-bar').style.width = `${pct}%`;
+
+                if (pct >= 100) {
+                    clearInterval(interval);
+                    loader.classList.add('hidden');
+                    
+                    // Generate premium mock invoice data matching current lang
+                    const extractedValue = Math.floor(2500 + Math.random() * 5000);
+                    document.getElementById('ocr-total-val').textContent = formatCurrency(extractedValue, state.lang);
+                    document.getElementById('ocr-vendor').textContent = "Bespoke Imports Corp";
+                    document.getElementById('ocr-tax-id').textContent = "EIN-41-5063583";
+                    document.getElementById('ocr-date').value = "2026-06-19";
+                    results.classList.remove('hidden');
+                    showToast("AI OCR scanner analysis complete!");
+                }
+            }, 150);
+        }
+
+        // Save OCR item as manual ledger event closure expense
+        function approveOCRExpense() {
+            const costText = document.getElementById('ocr-total-val').textContent;
+            const numericCost = parseFloat(costText.replace(/[^0-9.-]+/g,"")) || 2500;
+            const segment = document.getElementById('ocr-allocated-segment').value;
+
+            // Rollup mock new event closure
+            const newLedger = {
+                id: crypto.randomUUID(),
+                ref: `SV-2026-${Math.floor(100+Math.random()*900)}`,
+                client: "Inquire Closed Vendor",
+                guests: 50,
+                revenue: numericCost * 2.5, // assuming healthy 60% margins
+                cost: numericCost,
+                profit: (numericCost * 2.5) - numericCost,
+                margin: 60,
+                segments: { Products: 0, Equipments: 0, Furniture: 0, Staff: 0, Logistics: 0 }
+            };
+
+            newLedger.segments[segment] = numericCost;
+            state.ledger.push(newLedger);
             
-            const fields = [
-                'ref', 'dateIssue', 'dateValid', 'client', 'company',
-                'event', 'eventDate', 'location', 'guests', 'format',
-                'concept', 'presenter', 'title'
-            ];
-            fields.forEach(f => {
-                const el = document.getElementById(`input-${f}`);
-                if (el) el.value = '';
-            });
-
-            items = [];
-            changeLanguage('ENG');
-            switchWorkspaceView('builder');
-
-            setTimeout(() => {
-                skipAutosave = false;
-                triggerAutosave();
-            }, 500);
+            document.getElementById('ocr-results').classList.add('hidden');
+            document.getElementById('ocr-dropzone').classList.remove('hidden');
+            
+            renderLedgerTable();
+            recomputeAnalyticsDashboard();
+            showToast("Ledger event cost closing added!");
         }
 
-        // Render dynamic input widgets
+        // Dynamic CRM addition
+        function setupCRMForm() {
+            const card = document.getElementById('crm-form-container');
+            card.classList.toggle('hidden');
+        }
+
+        // PDF Sandbox export fallback if popups are blocked by iFrames
+        function exportDocumentToPDF() {
+            try {
+                const clientName = document.getElementById('doc-client').textContent;
+                const docHTMLContent = document.getElementById('capture-print-area').innerHTML;
+                
+                const printWindow = window.open('', '_blank');
+                if (!printWindow) {
+                    // Fallback to inline print layout switch
+                    showToast("Sandbox Blocked. Toggling body print layout directly...", "success");
+                    window.print();
+                    return;
+                }
+
+                const printTemplate = `
+                    <!DOCTYPE html>
+                    <html lang="${state.lang.toLowerCase()}">
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>${clientName} — SEIVA Proposal</title>
+                        \x3Cscript src="https://cdn.tailwindcss.com"\x3E\x3C/script\x3E
+                        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+                        \x3Cscript\x3E
+                            tailwind.config = {
+                                theme: {
+                                    extend: {
+                                        colors: {
+                                            dark: '#0F0F0F',
+                                            cream: '#F7F5F0',
+                                            platinum: '#E2E0D9',
+                                            gold: '#C5A880'
+                                        },
+                                        fontFamily: {
+                                            serif: ['"Cormorant Garamond"', 'serif'],
+                                            sans: ['"Inter"', 'sans-serif'],
+                                        }
+                                    }
+                                }
+                            }
+                        \x3C/script\x3E
+                        <style>
+                            body {
+                                background-color: #F7F5F0 !important;
+                                color: #0F0F0F;
+                                font-family: 'Inter', sans-serif;
+                                -webkit-font-smoothing: antialiased;
+                                padding: 0;
+                                margin: 0;
+                            }
+                            .font-serif-luxury {
+                                font-family: 'Cormorant Garamond', serif;
+                                letter-spacing: 0.05em;
+                            }
+                            .no-print {
+                                display: none !important;
+                            }
+                            @page {
+                                size: letter portrait;
+                                margin: 25mm !important;
+                            }
+                            .break-inside-avoid {
+                                break-inside: avoid;
+                                page-break-inside: avoid;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="max-w-4xl mx-auto bg-cream">
+                            ${docHTMLContent}
+                        </div>
+                        \x3Cscript\x3E
+                            window.onload = function() {
+                                const interactives = document.querySelectorAll('.no-print');
+                                interactives.forEach(el => el.remove());
+                                setTimeout(() => {
+                                    window.print();
+                                    window.close();
+                                }, 550);
+                            };
+                        \x3C/script\x3E
+                    </body>
+                    </html>
+                `;
+
+                printWindow.document.write(printTemplate);
+                printWindow.document.close();
+                showToast("PDF Export Thread Initiated.");
+            } catch (err) {
+                console.error("PDF engine crash: ", err);
+                window.print();
+            }
+        }
+
+        // Custom dispatch dialog drawer
+        function triggerShareDispatch(proposalId = null) {
+            const activeId = proposalId || state.currentQuoteId || 'SV-2026-X';
+            const client = document.getElementById('input-client').value || "Client";
+            const event = document.getElementById('input-event').value || "Bespoke Event";
+            const total = document.getElementById('doc-total').textContent;
+            const link = `https://seivaculinary.com/proposals/?id=${activeId}`;
+
+            document.getElementById('share-link-input').value = link;
+
+            let draft = "";
+            if (state.lang === 'POR') {
+                draft = `Assunto: Coletivo SEIVA — Proposta para ${event}
+
+Prezado(a) ${client},
+
+É um privilégio compartilhar a proposta gastronômica desenvolvida para a sua "${event}".
+
+Preparamos uma narrativa de etapas focada na contemporaneidade técnica e no frescor de produtores locais para encantar seus convidados seletos.
+
+Acesse o detalhamento oficial e faça a validação da proposta no link seguro abaixo:
+${link}
+
+Resumo do Investimento: ${total}
+
+Ficamos inteiramente à sua disposição para eventuais refinamentos.
+
+Atenciosamente,
+
+Bernardo Simões
+Chef Executivo
+Coletivo SEIVA`;
+            } else {
+                draft = `Subject: SEIVA Collective — Proposal Layout for ${event}
+
+Dear ${client},
+
+It is a privilege to present our tailored culinary layout for your upcoming "${event}". 
+
+Please review your secure proposal blueprint here:
+${link}
+
+Summary of Investment: ${total}
+
+Warmest regards,
+
+Bernardo Simões
+Executive Chef / Partner
+SEIVA Collective`;
+            }
+
+            document.getElementById('dispatch-email-text').value = draft;
+            document.getElementById('dispatch-overlay').classList.remove('hidden');
+        }
+
+        // Dynamic items editor delegation to bypass CSP rules
         function renderEditor() {
             const container = document.getElementById('items-editor-container');
             container.innerHTML = '';
@@ -1307,175 +1497,9 @@
             });
         }
 
-        // Render live beautifully styled preview
-        function renderDocPreview() {
-            const container = document.getElementById('doc-items-container');
-            container.innerHTML = '';
-
-            items.forEach((item) => {
-                const parentTotal = item.qty * item.rate;
-                const parentHasPrice = item.hasPrice;
-
-                const parentRow = document.createElement('div');
-                parentRow.className = "py-6 md:py-8 border-b border-dark/5 last:border-0 break-inside-avoid";
-                
-                parentRow.innerHTML = `
-                    <div class="grid grid-cols-12 gap-4 items-start">
-                        <div class="col-span-6 md:col-span-7">
-                            <p class="font-sans text-[13px] text-zinc-700 font-light tracking-wide leading-relaxed">${item.name}</p>
-                            ${item.desc ? `<p class="font-sans text-[11px] text-zinc-500 font-light mt-1 leading-relaxed tracking-wide">${item.desc}</p>` : ''}
-                        </div>
-                        <div class="col-span-2 md:col-span-1 text-center text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
-                            ${parentHasPrice ? item.qty : '—'}
-                        </div>
-                        <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
-                            ${parentHasPrice ? formatCurrency(item.rate, currentLang) : '—'}
-                        </div>
-                        <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-700 tracking-wider font-semibold">
-                            ${parentHasPrice ? formatCurrency(parentTotal, currentLang) : '—'}
-                        </div>
-                    </div>
-                    <div class="mt-4 space-y-4 pl-4 md:pl-6 border-l border-zinc-200">
-                        ${item.subItems.map(sub => {
-                            const subTotal = sub.qty * sub.rate;
-                            const isPricedSub = sub.hasPrice;
-                            
-                            return `
-                                <div class="grid grid-cols-12 gap-4 items-start">
-                                    <div class="col-span-6 md:col-span-7">
-                                        <p class="font-sans text-[13px] text-zinc-600 font-light leading-relaxed tracking-wide">${sub.name}</p>
-                                    </div>
-                                    <div class="col-span-2 md:col-span-1 text-center text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
-                                        ${isPricedSub ? sub.qty : ''}
-                                    </div>
-                                    <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
-                                        ${isPricedSub ? formatCurrency(sub.rate, currentLang) : ''}
-                                    </div>
-                                    <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-600 tracking-wider font-semibold">
-                                        ${isPricedSub ? formatCurrency(subTotal, currentLang) : ''}
-                                    </div>
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
-                `;
-                container.appendChild(parentRow);
-            });
-
-            calculateAndRenderTotals();
-        }
-
-        // Add blank builder items
-        function addNewItem() {
-            const labelsObj = translations[currentLang].labels;
-            items.push({
-                name: labelsObj.placeholderName,
-                desc: labelsObj.placeholderDesc,
-                hasPrice: true,
-                qty: 1,
-                rate: 100,
-                subItems: []
-            });
-            renderAll();
-        }
-
-        function addNewSubItem(parentIdx) {
-            items[parentIdx].subItems.push({
-                name: "New Sub Item or Course Selection",
-                desc: "",
-                hasPrice: false,
-                qty: 1,
-                rate: 0
-            });
-            renderAll();
-        }
-
-        function handleItemChange(idx, key, val) {
-            if (key === 'qty' || key === 'rate') {
-                items[idx][key] = parseFloat(val) || 0;
-            } else if (key === 'hasPrice') {
-                items[idx][key] = val;
-            } else {
-                items[idx][key] = val;
-            }
-            renderDocPreview();
-        }
-
-        function handleSubItemChange(parentIdx, subIdx, key, val) {
-            if (key === 'qty' || key === 'rate') {
-                items[parentIdx].subItems[subIdx][key] = parseFloat(val) || 0;
-            } else if (key === 'hasPrice') {
-                items[parentIdx].subItems[subIdx][key] = val;
-            } else {
-                items[parentIdx].subItems[subIdx][key] = val;
-            }
-            renderDocPreview();
-        }
-
-        function deleteItem(idx) {
-            items.splice(idx, 1);
-            renderAll();
-        }
-
-        function deleteSubItem(parentIdx, subIdx) {
-            items[parentIdx].subItems.splice(subIdx, 1);
-            renderAll();
-        }
-
-        function renderAll() {
-            renderEditor();
-            renderDocPreview();
-        }
-
-        function calculateAndRenderTotals() {
-            let subtotal = 0;
-            items.forEach((item) => {
-                if (item.hasPrice) {
-                    subtotal += (item.qty * item.rate);
-                }
-                item.subItems.forEach((sub) => {
-                    if (sub.hasPrice) {
-                        subtotal += (sub.qty * sub.rate);
-                    }
-                });
-            });
-
-            const taxes = subtotal * 0.07;
-            const total = subtotal + taxes;
-
-            const guestStr = document.getElementById('input-guests').value || "";
-            const guestMatch = guestStr.match(/\d+/);
-            const guestCount = guestMatch ? parseInt(guestMatch[0], 10) : 1;
-            const safeGuestDivider = guestCount > 0 ? guestCount : 1;
-            const totalPerGuest = total / safeGuestDivider;
-
-            document.getElementById('doc-subtotal').textContent = formatCurrency(subtotal, currentLang);
-            document.getElementById('doc-taxes').textContent = formatCurrency(taxes, currentLang);
-            document.getElementById('doc-total-per-guest').textContent = formatCurrency(totalPerGuest, currentLang);
-            document.getElementById('doc-total').textContent = formatCurrency(total, currentLang);
-        }
-
-        // WhatsApp Direct Dispatch Bypassing SDKs
-        function shareWhatsApp() {
-            const draft = document.getElementById('dispatch-email-text').value;
-            const encodedText = encodeURIComponent(draft);
-            const waUrl = `https://api.whatsapp.com/send?text=${encodedText}`;
-            window.open(waUrl, '_blank');
-            showToast("WhatsApp dispatch intent triggered.");
-        }
-
-        // Direct mailto composer
-        function openMailClient() {
-            const draft = document.getElementById('dispatch-email-text').value;
-            const clientName = document.getElementById('doc-client').textContent;
-            const subject = encodeURIComponent(`SEIVA — Proposal Layout`);
-            const body = encodeURIComponent(draft);
-            window.location.href = `mailto:?subject=${subject}&body=${body}`;
-        }
-
         // Programmatic interactions setup
-        function registerAppHandlers() {
-            // Pin Check gate
+        function registerHandlers() {
+            // Pin Check Gate
             document.getElementById('btn-login-submit').addEventListener('click', () => {
                 const pin = document.getElementById('admin-pin').value;
                 if (pin === 'seiva2026') {
@@ -1483,6 +1507,8 @@
                     document.getElementById('app-content').classList.remove('hidden');
                     showToast("Authentication Unlocked.");
                     loadCloudLibraryList();
+                    renderLedgerTable();
+                    renderCRMTable();
                 } else {
                     showToast("Incorrect Passcode. Access denied.", "error");
                 }
@@ -1490,10 +1516,11 @@
 
             // Tab navigation routers
             document.getElementById('tab-dashboard').addEventListener('click', () => switchWorkspaceView('dashboard'));
+            document.getElementById('tab-crm').addEventListener('click', () => switchWorkspaceView('crm'));
             document.getElementById('tab-builder').addEventListener('click', () => switchWorkspaceView('builder'));
             document.getElementById('btn-dashboard-new-proposal').addEventListener('click', createNewProposal);
 
-            // Settings buttons
+            // Collapsible settings panels
             document.getElementById('sidebar-collapse-btn').addEventListener('click', toggleSidebar);
             document.getElementById('sidebar-toggle-floating').addEventListener('click', toggleSidebar);
             document.getElementById('sidebar-primary-export-btn').addEventListener('click', exportDocumentToPDF);
@@ -1528,7 +1555,7 @@
                 showToast("Email text copied.");
             });
 
-            // Metadata inputs listeners
+            // Metadata inputs listeners for live-update preview
             const metaFields = [
                 'ref', 'date-issue', 'date-valid', 'client', 'company',
                 'event', 'event-date', 'location', 'guests', 'format',
@@ -1546,36 +1573,7 @@
 
             // Status select monitor
             document.getElementById('input-status').addEventListener('change', function() {
-                currentStatus = this.value;
                 triggerAutosave();
-            });
-
-            // Delegated click routing for dynamically populated library cards
-            document.getElementById('proposals-list').addEventListener('click', function(e) {
-                const card = e.target.closest('[data-action="edit-proposal"]');
-                const deleteBtn = e.target.closest('[data-action="delete-proposal"]');
-                const dispatchBtn = e.target.closest('[data-action="dispatch-proposal"]');
-
-                if (card) {
-                    const id = card.getAttribute('data-id');
-                    editProposal(id);
-                } else if (deleteBtn) {
-                    const id = deleteBtn.getAttribute('data-id');
-                    if (window.cloudDelete) {
-                        window.cloudDelete(id).then(() => {
-                            showToast("Proposal Removed.");
-                            loadCloudLibraryList();
-                        });
-                    }
-                } else if (dispatchBtn) {
-                    const id = dispatchBtn.getAttribute('data-id');
-                    triggerShareDispatch(id);
-                }
-            });
-
-            // Global search trigger
-            document.getElementById('search-proposals').addEventListener('input', function() {
-                loadCloudLibraryList(this.value);
             });
 
             // Dynamic items editor delegation to bypass CSP rules
@@ -1636,14 +1634,32 @@
                 }
             });
 
-            document.getElementById('doc-btn-approve').addEventListener('click', () => {
-                document.getElementById('payment-msg').classList.toggle('hidden');
-            });
+            // OCR dropzone trigger click
+            const dropzone = document.getElementById('ocr-dropzone');
+            const fileInput = document.getElementById('ocr-file-input');
+            dropzone.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', triggerSimulatedOCR);
+            
+            document.getElementById('btn-ocr-approve-expense').addEventListener('click', approveOCRExpense);
 
-            document.getElementById('btn-logout').addEventListener('click', () => {
-                document.getElementById('admin-pin').value = '';
-                document.getElementById('app-content').classList.add('hidden');
-                document.getElementById('login-gateway').classList.remove('opacity-0', 'pointer-events-none');
+            // CRM Add Client Profile triggers
+            document.getElementById('btn-crm-add-client').addEventListener('click', setupCRMForm);
+            document.getElementById('btn-crm-cancel').addEventListener('click', setupCRMForm);
+            document.getElementById('crm-client-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const newClient = {
+                    id: crypto.randomUUID(),
+                    name: document.getElementById('crm-input-name').value,
+                    company: document.getElementById('crm-input-company').value,
+                    email: document.getElementById('crm-input-email').value,
+                    eventsCount: 0,
+                    ltv: 0
+                };
+                state.clients.push(newClient);
+                renderCRMTable();
+                document.getElementById('crm-client-form').reset();
+                setupCRMForm();
+                showToast("New client card saved!");
             });
 
             // Dynamic ENG/POR/ITA buttons bindings
@@ -1653,10 +1669,21 @@
                     triggerAutosave();
                 });
             });
+
+            document.getElementById('doc-btn-approve').addEventListener('click', () => {
+                document.getElementById('payment-msg').classList.toggle('hidden');
+            });
+
+            document.getElementById('btn-logout').addEventListener('click', () => {
+                document.getElementById('admin-pin').value = '';
+                document.getElementById('app-content').classList.add('hidden');
+                document.getElementById('login-gateway').classList.remove('opacity-0', 'pointer-events-none');
+            });
         }
 
+        // Initialize template on DOM Content loaded safely
         document.addEventListener('DOMContentLoaded', () => {
-            registerAppHandlers();
+            registerHandlers();
             changeLanguage('POR');
         });
     </script>
