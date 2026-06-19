@@ -25,11 +25,24 @@ import { copy, type Lang } from "@/lib/i18n";
 import { Logo, TriadIcon } from "@/components/Logo";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 
-// new mml SEO otimize
+export const Route = createFileRoute("/")({
+  component: Landing,
+  head: () => ({
+    meta: [
+      { title: "SEIVA | Luxury Private Chef & Bespoke Catering | Miami to West Palm Beach & Brazil" },
+      { name: "description", content: "An international culinary collective of three chefs crafting bespoke private dining, brand activations, and executive retreats across South Florida and Southern Brazil." },
+      { name: "google-site-verification", content: "-2FyTbPMNfbBPbzqcG1Xt_rkLdnpVPZn5HvdKarAAiE" },
+      { property: "og:title", content: "SEIVA — Signature Cuisine, Tailor-Made" },
+      { property: "og:description", content: "A horizontal collective of three chefs crafting bespoke culinary experiences for iconic brands and VIP hosts." },
+    ],
+  }),
+});
+
+function t<T extends { en: any; pt: any }>(obj: T, l: Lang) { return obj[l]; }
+
 function Landing() {
   const [lang, setLang] = useState<Lang>("en");
-  const c = copy;
-
+  
   const schemaData = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -63,12 +76,10 @@ function Landing() {
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-foreground selection:text-background">
-      {/* Injeção Nativa Segura do Schema Markup para Robôs e LLMs */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
       />
-      
       <Nav lang={lang} setLang={setLang} />
       <Hero lang={lang} />
       <Manifesto lang={lang} />
