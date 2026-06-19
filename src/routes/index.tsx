@@ -25,37 +25,54 @@ import { copy, type Lang } from "@/lib/i18n";
 import { Logo, TriadIcon } from "@/components/Logo";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 
+// new mml SEO otimize
 export const Route = createFileRoute("/")({
   component: Landing,
   head: () => ({
     meta: [
-      { title: "SEIVA | Luxury Private Chef & Bespoke Catering | Miami to Boca Raton" },
-      { name: "description", content: "Ultra-luxury culinary collective providing bespoke private dinners, executive catering, and high-end brand activations across South Florida (Miami to Boca Raton)." },
-      { property: "og:title", content: "SEIVA | Signature Cuisine, Tailor-Made" },
-      { property: "og:description", content: "An international collective of three chefs crafting bespoke culinary experiences for iconic brands and VIP hosts." },
+      { title: "SEIVA | Luxury Private Chef & Bespoke Catering | Miami to West Palm Beach & Brazil" },
+      { name: "description", content: "An international culinary collective of three chefs crafting bespoke private dining, brand activations, and executive retreats across South Florida and Southern Brazil." },
       { name: "google-site-verification", content: "-2FyTbPMNfbBPbzqcG1Xt_rkLdnpVPZn5HvdKarAAiE" },
+      { property: "og:title", content: "SEIVA — Signature Cuisine, Tailor-Made" },
+      { property: "og:description", content: "A horizontal collective of three chefs crafting bespoke culinary experiences for iconic brands and VIP hosts." },
     ],
+    script: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": "SEIVA Culinary Collective",
+          "description": "Bespoke high-gastronomy private dining and luxury brand activation catering tailored by an international collective of three chefs.",
+          "url": "https://seivaculinary.com",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Boca Raton",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          },
+          "areaServed": [
+            { "@type": "AdministrativeArea", "name": "Miami, FL, US" },
+            { "@type": "AdministrativeArea", "name": "Aventura, FL, US" },
+            { "@type": "AdministrativeArea", "name": "Pembroke Pines, FL, US" },
+            { "@type": "AdministrativeArea", "name": "Fort Lauderdale, FL, US" },
+            { "@type": "AdministrativeArea", "name": "Pompano Beach, FL, US" },
+            { "@type": "AdministrativeArea", "name": "Deerfield Beach, FL, US" },
+            { "@type": "AdministrativeArea", "name": "Boca Raton, FL, US" },
+            { "@type": "AdministrativeArea", "name": "Delray Beach, FL, US" },
+            { "@type": "AdministrativeArea", "name": "Boynton Beach, FL, US" },
+            { "@type": "AdministrativeArea", "name": "West Palm Beach, FL, US" },
+            { "@type": "AdministrativeArea", "name": "Rio de Janeiro, RJ, BR" },
+            { "@type": "AdministrativeArea", "name": "Florianópolis, SC, BR" },
+            { "@type": "AdministrativeArea", "name": "Balneário Camboriú, SC, BR" },
+            { "@type": "AdministrativeArea", "name": "Itajaí, SC, BR" }
+          ],
+          "priceRange": "$$$$"
+        })
+      }
+    ]
   }),
 });
-
-function t<T extends { en: any; pt: any }>(obj: T, l: Lang) { return obj[l]; }
-
-function Landing() {
-  const [lang, setLang] = useState<Lang>("en");
-
-  return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-foreground selection:text-background font-sans antialiased">
-      <Nav lang={lang} setLang={setLang} />
-      <Hero lang={lang} />
-      <Manifesto lang={lang} />
-      <Chefs lang={lang} />
-      <CaseStudy lang={lang} />
-      <Experiences lang={lang} />
-      <Inquire lang={lang} />
-      <Footer lang={lang} />
-    </div>
-  );
-}
 
 function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
   const c = copy.nav;
