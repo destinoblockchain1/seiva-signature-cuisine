@@ -80,7 +80,7 @@
             }
             @page {
                 size: letter portrait;
-                margin: 1in !important; /* Força margem de 1 polegada nas impressões reais */
+                margin: 1in !important; /* Estrita margem de 1 polegada nas quatro direções */
             }
             .break-inside-avoid {
                 break-inside: avoid;
@@ -407,16 +407,16 @@
                         <h3 id="ui-sect-doc-info" class="text-[10px] uppercase tracking-[0.15em] font-bold text-gold">Document Meta</h3>
                         <div class="space-y-3">
                             <div>
-                                <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Proposal ID / Reference</label>
+                                <label id="label-ref" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Proposal ID / Reference</label>
                                 <input type="text" id="input-ref" readonly class="w-full bg-zinc-800 text-cream/70 px-3 py-2 text-xs border border-zinc-700 outline-none rounded font-mono cursor-default">
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
-                                    <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Date of Issue</label>
+                                    <label id="label-date-issue" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Date of Issue</label>
                                     <input type="text" id="input-date-issue" readonly class="w-full bg-zinc-800 text-cream/70 px-3 py-2 text-xs border border-zinc-700 outline-none rounded cursor-default">
                                 </div>
                                 <div>
-                                    <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Valid Until</label>
+                                    <label id="label-date-valid" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Valid Until</label>
                                     <input type="text" id="input-date-valid" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
                                 </div>
                             </div>
@@ -427,12 +427,12 @@
                         <h3 id="ui-sect-client-info" class="text-[10px] uppercase tracking-[0.15em] font-bold text-gold">Client Information</h3>
                         <div class="space-y-3">
                             <div>
-                                <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Client Name</label>
-                                <input type="text" id="input-client" placeholder="e.g. Alexander Sterling" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
+                                <label id="label-client" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Client Name</label>
+                                <input type="text" id="input-client" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
                             </div>
                             <div>
-                                <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Company / Organization</label>
-                                <input type="text" id="input-company" placeholder="e.g. Sterling Global Holdings" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
+                                <label id="label-company" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Company / Organization</label>
+                                <input type="text" id="input-company" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
                             </div>
                         </div>
                     </div>
@@ -441,27 +441,27 @@
                         <h3 id="ui-sect-event-params" class="text-[10px] uppercase tracking-[0.15em] font-bold text-gold">Event Parameters</h3>
                         <div class="space-y-3">
                             <div>
-                                <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Event Name</label>
-                                <input type="text" id="input-event" placeholder="e.g. Private Executive Gala" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
+                                <label id="label-event" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Event Name</label>
+                                <input type="text" id="input-event" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
-                                    <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Event Date</label>
-                                    <input type="text" id="input-event-date" placeholder="e.g. August 14, 2026" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
+                                    <label id="label-event-date" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Event Date</label>
+                                    <input type="text" id="input-event-date" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
                                 </div>
                                 <div>
-                                    <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Location</label>
-                                    <input type="text" id="input-location" placeholder="e.g. Miami Beach Estate" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
+                                    <label id="label-location" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Location</label>
+                                    <input type="text" id="input-location" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
                                 </div>
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
-                                    <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Guests Attendance</label>
-                                    <input type="text" id="input-guests" placeholder="e.g. 45 VIPs" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
+                                    <label id="label-guests" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Guests Attendance</label>
+                                    <input type="text" id="input-guests" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
                                 </div>
                                 <div>
-                                    <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Menu Format</label>
-                                    <input type="text" id="input-format" placeholder="e.g. 5-Course Tasting" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
+                                    <label id="label-format" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Menu Format</label>
+                                    <input type="text" id="input-format" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-600 font-light">
                                 </div>
                             </div>
                         </div>
@@ -470,8 +470,8 @@
                     <div class="border-t border-zinc-800 pt-5 space-y-4">
                         <h3 id="ui-sect-creative-concept" class="text-[10px] uppercase tracking-[0.15em] font-bold text-gold">Creative Concept</h3>
                         <div>
-                            <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Concept Statement</label>
-                            <textarea id="input-concept" rows="5" placeholder="..." class="w-full bg-zinc-800 text-cream p-3 text-xs border border-zinc-700 focus:border-gold outline-none rounded resize-none leading-relaxed placeholder:text-zinc-600 font-light"></textarea>
+                            <label id="label-concept" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Concept Statement</label>
+                            <textarea id="input-concept" rows="5" class="w-full bg-zinc-800 text-cream p-3 text-xs border border-zinc-700 focus:border-gold outline-none rounded resize-none leading-relaxed placeholder:text-zinc-600 font-light"></textarea>
                         </div>
                     </div>
 
@@ -492,12 +492,12 @@
                         <h3 id="ui-sect-signature" class="text-[10px] uppercase tracking-[0.15em] font-bold text-gold">Sign-Off Config</h3>
                         <div class="space-y-3">
                             <div>
-                                <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Presenter Name</label>
-                                <input type="text" id="input-presenter" placeholder="e.g. Bernardo Simões" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-650 font-light">
+                                <label id="label-presenter" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Presenter Name</label>
+                                <input type="text" id="input-presenter" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-650 font-light">
                             </div>
                             <div>
-                                <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Title</label>
-                                <input type="text" id="input-title" placeholder="e.g. Executive Chef / Partner" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-650 font-light">
+                                <label id="label-title" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Title</label>
+                                <input type="text" id="input-title" class="w-full bg-zinc-800 text-cream px-3 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded placeholder:text-zinc-650 font-light">
                             </div>
                         </div>
                     </div>
@@ -726,8 +726,8 @@
                 { id: '3', name: "Marcus Dupont", company: "Dupont Luxury Brands", email: "marcus@dupont.com", eventsCount: 2, ltv: 45000 }
             ],
             quotes: [
-                { id: 'q1', lang: 'POR', status: 'Approved', meta: { ref: 'SV-2026-102', dateIssue: '10 de Junho, 2026', dateValid: '17 de Junho, 2026', client: 'Alexander Sterling', company: 'Sterling Global Holdings', event: 'Private Executive Gala', eventDate: '14 de Agosto, 2026', location: 'Miami Beach Estate', guests: '45 VIPs', format: '5-Course Tasting', concept: 'Gastronomia elemental de altíssimo padrão.', presenter: 'Bernardo Simões', title: 'Executive Chef' }, items: [{ name: 'Custom Gala Dinner Sequence', desc: 'Plated 5-course menu for executives.', hasPrice: true, qty: 45, rate: 350, subItems: [{ name: "Starters & Canapés", desc: "", hasPrice: false, qty: 1, rate: 0 }, { name: "Feta-stuffed crisp dates with wild-flower honey drizzle", desc: "", hasPrice: false, qty: 1, rate: 0 }] }] },
-                { id: 'q2', lang: 'POR', status: 'Sent', meta: { ref: 'SV-2026-103', dateIssue: '12 de Junho, 2026', dateValid: '19 de Junho, 2026', client: 'Isabella Cavalcanti', company: 'Cavalcanti Fine Arts', event: 'Art Exhibition Vernissage', eventDate: '28 de Setembro, 2026', location: 'Palm Beach Gallery', guests: '120 Convidados', format: 'Finger Food & Champagne', concept: 'Canapés arquitetônicos e menu minimalista.', presenter: 'Juliana Redoi', title: 'Chef de Cuisine' }, items: [{ name: 'Bespoke Finger Food Platter', desc: 'Elegant cold and hot bites.', hasPrice: true, qty: 120, rate: 95, subItems: [] }] }
+                { id: 'q1', lang: 'POR', status: 'Approved', meta: { ref: 'SV-2026-102', dateIssue: '10 Junho, 2026', dateValid: '17 Junho, 2026', client: 'Alexander Sterling', company: 'Sterling Global Holdings', event: 'Private Executive Gala', eventDate: '14 Agosto, 2026', location: 'Miami Beach Estate', guests: '45 VIPs', format: '5-Course Tasting', concept: 'Gastronomia elemental de altíssimo padrão.', presenter: 'Bernardo Simões', title: 'Executive Chef' }, items: [{ name: 'Custom Gala Dinner Sequence', desc: 'Plated 5-course menu for executives.', hasPrice: true, qty: 45, rate: 350, subItems: [{ name: "Starters & Canapés", desc: "", hasPrice: false, qty: 1, rate: 0 }, { name: "Feta-stuffed crisp dates with wild-flower honey drizzle", desc: "", hasPrice: false, qty: 1, rate: 0 }] }] },
+                { id: 'q2', lang: 'POR', status: 'Sent', meta: { ref: 'SV-2026-103', dateIssue: '12 Junho, 2026', dateValid: '19 Junho, 2026', client: 'Isabella Cavalcanti', company: 'Cavalcanti Fine Arts', event: 'Art Exhibition Vernissage', eventDate: '28 Setembro, 2026', location: 'Palm Beach Gallery', guests: '120 Convidados', format: 'Finger Food & Champagne', concept: 'Canapés arquitetônicos e menu minimalista.', presenter: 'Juliana Redoi', title: 'Chef de Cuisine' }, items: [{ name: 'Bespoke Finger Food Platter', desc: 'Elegant cold and hot bites.', hasPrice: true, qty: 120, rate: 95, subItems: [] }] }
             ],
             ledger: [
                 { id: 'l1', ref: 'SV-2026-102', client: 'Alexander Sterling', guests: 45, revenue: 16852.50, cost: 6240.00, profit: 10612.50, margin: 63, segments: { Products: 2500, Equipments: 840, Furniture: 1200, Staff: 1200, Logistics: 500 } }
@@ -753,17 +753,32 @@
                 meta: {
                     ref: "SV-2026-041",
                     dateIssue: "June 19, 2026",
-                    dateValid: "June 26, 2026",
-                    client: "Alexander Sterling",
-                    company: "Sterling Global Holdings",
-                    event: "Private Executive Gala",
-                    eventDate: "August 14, 2026",
-                    location: "Miami Beach Estate",
-                    guests: "45 VIPs",
-                    format: "5-Course Tasting",
-                    concept: "A seamless, high-ticket culinary narrative engineered exclusively for your top-tier executives. Drawing from local micro-farms, pristine coasts, and Piedmontese heritage, our collective will execute a hyper-seasonal narrative scale without compromise.",
-                    presenter: "Bernardo Simões",
-                    title: "Executive Chef / Partner"
+                    dateValid: "e.g. June 26, 2026",
+                    client: "e.g. Alexander Sterling",
+                    company: "e.g. Sterling Global Holdings",
+                    event: "e.g. Private Executive Gala",
+                    eventDate: "e.g. August 14, 2026",
+                    location: "e.g. Miami Beach Estate",
+                    guests: "e.g. 45 VIPs",
+                    format: "e.g. 5-Course Tasting",
+                    concept: "e.g. A seamless, high-ticket culinary narrative engineered exclusively...",
+                    presenter: "e.g. Bernardo Simões",
+                    title: "e.g. Executive Chef / Partner"
+                },
+                subLabels: {
+                    ref: "Proposal ID / Reference",
+                    dateIssue: "Date of Issue",
+                    dateValid: "Valid Until",
+                    client: "Client Name",
+                    company: "Company / Organization",
+                    event: "Event Name",
+                    eventDate: "Event Date",
+                    location: "Location",
+                    guests: "Guests Attendance",
+                    format: "Menu Format",
+                    concept: "Concept Statement",
+                    presenter: "Presenter Name",
+                    title: "Title"
                 },
                 labels: {
                     btnConfigure: "Configure Proposal",
@@ -837,17 +852,32 @@
                 meta: {
                     ref: "SV-2026-041",
                     dateIssue: "19 de Junho, 2026",
-                    dateValid: "26 de Junho, 2026",
-                    client: "Alexander Sterling",
-                    company: "Sterling Global Holdings",
-                    event: "Private Executive Gala",
-                    eventDate: "14 de Agosto, 2026",
-                    location: "Miami Beach Estate",
-                    guests: "45 VIPs",
-                    format: "5-Course Tasting",
-                    concept: "Uma narrativa gastronômica sob medida desenhada para seus convidados mais seletos. Do frescor de microprodutores ao rigor técnico contemporâneo, nosso coletivo cria uma experiência autoral sem paralelos.",
-                    presenter: "Bernardo Simões",
-                    title: "Chef Executivo / Sócio"
+                    dateValid: "ex: 26 de Junho, 2026",
+                    client: "ex: Alexander Sterling",
+                    company: "ex: Sterling Global Holdings",
+                    event: "ex: Gala Executiva Privada",
+                    eventDate: "ex: 14 de Agosto, 2026",
+                    location: "ex: Mansão de Miami Beach",
+                    guests: "ex: 45 VIPs",
+                    format: "ex: Menu de 5 Etapas",
+                    concept: "ex: Uma narrativa gastronômica sob medida desenhada para seus convidados...",
+                    presenter: "ex: Bernardo Simões",
+                    title: "ex: Chef Executivo / Sócio"
+                },
+                subLabels: {
+                    ref: "ID da Proposta / Referência",
+                    dateIssue: "Data de Emissão",
+                    dateValid: "Válido Até",
+                    client: "Nome do Cliente",
+                    company: "Empresa / Organização",
+                    event: "Nome do Evento",
+                    eventDate: "Data do Evento",
+                    location: "Localização",
+                    guests: "Convidados",
+                    format: "Formato do Menu",
+                    concept: "Conceito do Evento",
+                    presenter: "Nome do Apresentador",
+                    title: "Cargo / Título"
                 },
                 labels: {
                     btnConfigure: "Configurar Proposta",
@@ -858,7 +888,7 @@
                     sectCreativeConcept: "Narrativa Conceitual",
                     sectLineItems: "Line Items & Menu",
                     sectSignature: "Assinatura Executiva",
-                    btnAddItem: "+ Adicionar Item",
+                    btnAddItem: "+ Add Item",
                     titleMain: "Proposta",
                     labelPreparedFor: "Preparado Para",
                     labelIssueDate: "Data de Emissão",
@@ -921,17 +951,32 @@
                 meta: {
                     ref: "SV-2026-041",
                     dateIssue: "19 Giugno, 2026",
-                    dateValid: "26 Giugno, 2026",
-                    client: "Alexander Sterling",
-                    company: "Sterling Global Holdings",
-                    event: "Gala Esecutivo Privato",
-                    eventDate: "14 Agosto, 2026",
-                    location: "Tenuta di Miami Beach",
-                    guests: "45 ospiti",
-                    format: "Menu Degustazione Alta Cucina",
-                    concept: "Un'esperienza gastronomica d'élite sviluppata su misura per i vostri partner executive. Dai canapè più raffinati al servizio di sala sincronizzato, curato nei minimi dettagli.",
-                    presenter: "Bernardo Simões",
-                    title: "Executive Chef / Partner"
+                    dateValid: "es: 26 Giugno, 2026",
+                    client: "es: Alexander Sterling",
+                    company: "es: Sterling Global Holdings",
+                    event: "es: Gala Esecutivo Privato",
+                    eventDate: "es: 14 Agosto, 2026",
+                    location: "es: Tenuta di Miami Beach",
+                    guests: "es: 45 ospiti",
+                    format: "es: Menu Degustazione",
+                    concept: "es: Un'esperienza gastronomica d'élite sviluppata su misura per i vostri partner...",
+                    presenter: "es: Bernardo Simões",
+                    title: "es: Executive Chef / Partner"
+                },
+                subLabels: {
+                    ref: "ID Proposta / Riferimento",
+                    dateIssue: "Data di Emissione",
+                    dateValid: "Valido Fino Al",
+                    client: "Nome del Cliente",
+                    company: "Società / Organizzazione",
+                    event: "Nome Evento",
+                    eventDate: "Data Evento",
+                    location: "Luogo dell'Evento",
+                    guests: "Ospiti",
+                    format: "Formato",
+                    concept: "Visione Concettuale",
+                    presenter: "Nome del Presentatore",
+                    title: "Titolo"
                 },
                 labels: {
                     btnConfigure: "Configura Proposta",
@@ -989,7 +1034,24 @@
             }
         };
 
-        // Formats currencies beautifully based on language context
+        // --- TOAST NOTIFICATIONS SYSTEM ---
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `p-4 rounded-lg shadow-lg text-[10px] tracking-widest uppercase font-mono flex items-center gap-2 transform translate-y-2 opacity-0 transition-all duration-300 max-w-sm pointer-events-auto border ${
+                type === 'success' ? 'bg-zinc-950 border-gold text-gold' : 'bg-red-950/90 border-red-500 text-red-200'
+            }`;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // --- FORMAT MONEY VALUES ---
         function formatCurrency(val, lang) {
             let locale = 'en-US';
             let currency = 'USD';
@@ -1003,7 +1065,40 @@
             return new Intl.NumberFormat(locale, { style: 'currency', currency: currency }).format(val);
         }
 
-        // Toggle interactive sidebar smoothly
+        // --- LOCAL STORAGE AUTOSAVE SIMULATION ---
+        function triggerAutosave() {
+            const statusEl = document.getElementById('autosave-status');
+            if (statusEl) statusEl.textContent = "Saving...";
+            
+            // Save state payload safely to localStorage to persist over refreshes
+            const payload = {
+                items: items,
+                meta: {
+                    ref: document.getElementById('input-ref').value,
+                    dateIssue: document.getElementById('input-date-issue').value,
+                    dateValid: document.getElementById('input-date-valid').value,
+                    client: document.getElementById('input-client').value,
+                    company: document.getElementById('input-company').value,
+                    event: document.getElementById('input-event').value,
+                    eventDate: document.getElementById('input-event-date').value,
+                    location: document.getElementById('input-location').value,
+                    guests: document.getElementById('input-guests').value,
+                    format: document.getElementById('input-format').value,
+                    concept: document.getElementById('input-concept').value,
+                    presenter: document.getElementById('input-presenter').value,
+                    title: document.getElementById('input-title').value
+                }
+            };
+            localStorage.setItem('seiva_draft_payload', JSON.stringify(payload));
+            
+            setTimeout(() => {
+                if (statusEl) {
+                    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    statusEl.textContent = `Autosaved at ${time}`;
+                }
+            }, 800);
+        }
+
         function toggleSidebar() {
             const sidebar = document.getElementById('editor-sidebar');
             const floatingBtn = document.getElementById('sidebar-toggle-floating');
@@ -1011,47 +1106,6 @@
                 sidebar.classList.toggle('hidden');
                 floatingBtn.classList.toggle('hidden');
             }
-        }
-
-        // Switch active views on navigation
-        function switchWorkspaceView(viewName) {
-            state.tab = viewName;
-            const tabs = {
-                dashboard: { btn: 'tab-dashboard', container: 'view-dashboard' },
-                crm: { btn: 'tab-crm', container: 'view-crm' },
-                builder: { btn: 'tab-builder', container: 'view-builder' }
-            };
-
-            Object.keys(tabs).forEach(k => {
-                const config = tabs[k];
-                const btn = document.getElementById(config.btn);
-                const view = document.getElementById(config.container);
-                if (k === viewName) {
-                    if (btn) btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all bg-gold text-dark shadow";
-                    if (view) view.classList.remove('hidden');
-                    if (k === 'dashboard') loadCloudLibraryList();
-                } else {
-                    if (btn) btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all text-zinc-400 hover:text-cream bg-zinc-950 hover:bg-zinc-900/50";
-                    if (view) view.classList.add('hidden');
-                }
-            });
-        }
-
-        // Generate proposal ID and Date of Issue
-        function generateDefaultMeta() {
-            const currentYear = new Date().getFullYear();
-            const randomNum = Math.floor(100 + Math.random() * 900); // SV-2026-XXX
-            const ref = `SV-${currentYear}-${randomNum}`;
-            const today = new Date();
-            const options = { day: 'numeric', month: 'long', year: 'numeric' };
-
-            let dateIssueStr = today.toLocaleDateString(state.lang === 'POR' ? 'pt-BR' : state.lang === 'ITA' ? 'it-IT' : 'en-US', options);
-            
-            const refInput = document.getElementById('input-ref');
-            if (refInput) refInput.value = ref;
-
-            const dateInput = document.getElementById('input-date-issue');
-            if (dateInput) dateInput.value = dateIssueStr;
         }
 
         function changeLanguage(langCode) {
@@ -1067,25 +1121,6 @@
             });
 
             applyUILabelTranslations();
-            
-            // Rehydrate default items for selected language
-            items = JSON.parse(JSON.stringify(translations[langCode].items));
-            
-            // Pre-fill meta inputs if they are empty or default placeholder-like
-            const defaultMeta = translations[langCode].meta;
-            const fields = [
-                'ref', 'dateIssue', 'dateValid', 'client', 'company', 'event', 
-                'eventDate', 'location', 'guests', 'format', 'concept', 'presenter', 'title'
-            ];
-            
-            fields.forEach(f => {
-                const inputId = 'input-' + (f === 'dateIssue' ? 'date-issue' : f === 'dateValid' ? 'date-valid' : f === 'eventDate' ? 'event-date' : f);
-                const inputEl = document.getElementById(inputId);
-                if (inputEl) {
-                    inputEl.value = defaultMeta[f];
-                }
-            });
-
             updateMetadata();
             renderAll();
             renderLedgerTable();
@@ -1094,6 +1129,8 @@
 
         function applyUILabelTranslations() {
             const labelsObj = translations[state.lang].labels;
+            const subLabelsObj = translations[state.lang].subLabels;
+            
             const updateText = (id, text) => {
                 const el = document.getElementById(id);
                 if (el && text) el.textContent = text;
@@ -1112,7 +1149,7 @@
             updateText('lib-title', translations[state.lang].dashboard.libTitle);
             updateText('event-closure-ledger-title', translations[state.lang].dashboard.ledgerTitle);
 
-            // Translate sidebar section titles dynamically
+            // Translate Sidebar Sections
             updateText('ui-sidebar-title', labelsObj.sidebarTitle);
             updateText('ui-sect-doc-info', labelsObj.sectDocInfo);
             updateText('ui-sect-client-info', labelsObj.sectClientInfo);
@@ -1122,7 +1159,22 @@
             updateText('ui-sect-signature', labelsObj.sectSignature);
             updateText('ui-btn-add-item', labelsObj.btnAddItem);
             
-            // Translate preview titles dynamically
+            // Translate Sidebar Input Sub-Labels (Fixes 100% translation requirement)
+            updateText('label-ref', subLabelsObj.ref);
+            updateText('label-date-issue', subLabelsObj.dateIssue);
+            updateText('label-date-valid', subLabelsObj.dateValid);
+            updateText('label-client', subLabelsObj.client);
+            updateText('label-company', subLabelsObj.company);
+            updateText('label-event', subLabelsObj.event);
+            updateText('label-event-date', subLabelsObj.eventDate);
+            updateText('label-location', subLabelsObj.location);
+            updateText('label-guests', subLabelsObj.guests);
+            updateText('label-format', subLabelsObj.format);
+            updateText('label-concept', subLabelsObj.concept);
+            updateText('label-presenter', subLabelsObj.presenter);
+            updateText('label-title', subLabelsObj.title);
+
+            // Translate Preview Document Labels
             updateText('doc-title-main', labelsObj.titleMain);
             updateText('doc-label-prepared-for', labelsObj.labelPreparedFor);
             updateText('doc-label-issue-date', labelsObj.labelIssueDate);
@@ -1146,30 +1198,45 @@
             updateText('doc-next-steps-text', labelsObj.labelNextStepsText);
             updateText('doc-btn-approve', labelsObj.btnApprove);
             updateText('doc-payment-msg-text', labelsObj.paymentMsgText);
+
+            // Update ghost placeholders with current active locale examples
+            const ghost = translations[state.lang].meta;
+            document.getElementById('input-date-valid').placeholder = ghost.dateValid;
+            document.getElementById('input-client').placeholder = ghost.client;
+            document.getElementById('input-company').placeholder = ghost.company;
+            document.getElementById('input-event').placeholder = ghost.event;
+            document.getElementById('input-event-date').placeholder = ghost.eventDate;
+            document.getElementById('input-location').placeholder = ghost.location;
+            document.getElementById('input-guests').placeholder = ghost.guests;
+            document.getElementById('input-format').placeholder = ghost.format;
+            document.getElementById('input-concept').placeholder = ghost.concept;
+            document.getElementById('input-presenter').placeholder = ghost.presenter;
+            document.getElementById('input-title').placeholder = ghost.title;
         }
 
         function updateMetadata() {
-            const setPreviewText = (previewId, inputId, fallback = '—') => {
-                const pEl = document.getElementById(previewId);
-                const iEl = document.getElementById(inputId);
-                if (pEl) {
-                    pEl.textContent = (iEl ? iEl.value : '') || fallback;
+            // Sincronização explícita com fallbacks elegantes '—' em caso de input vazio
+            const syncPreview = (pId, iId) => {
+                const iEl = document.getElementById(iId);
+                const pEl = document.getElementById(pId);
+                if (pEl && iEl) {
+                    pEl.textContent = iEl.value.trim() !== "" ? iEl.value.trim() : "—";
                 }
             };
 
-            setPreviewText('doc-ref', 'input-ref');
-            setPreviewText('doc-date-issue', 'input-date-issue');
-            setPreviewText('doc-date-valid', 'input-date-valid');
-            setPreviewText('doc-client', 'input-client');
-            setPreviewText('doc-company', 'input-company');
-            setPreviewText('doc-event', 'input-event');
-            setPreviewText('doc-event-date', 'input-event-date');
-            setPreviewText('doc-location', 'input-location');
-            setPreviewText('doc-guests', 'input-guests');
-            setPreviewText('doc-format', 'input-format');
-            setPreviewText('doc-concept', 'input-concept', '...');
-            setPreviewText('doc-presenter', 'input-presenter');
-            setPreviewText('doc-title', 'input-title');
+            syncPreview('doc-ref', 'input-ref');
+            syncPreview('doc-date-issue', 'input-date-issue');
+            syncPreview('doc-date-valid', 'input-date-valid');
+            syncPreview('doc-client', 'input-client');
+            syncPreview('doc-company', 'input-company');
+            syncPreview('doc-event', 'input-event');
+            syncPreview('doc-event-date', 'input-event-date');
+            syncPreview('doc-location', 'input-location');
+            syncPreview('doc-guests', 'input-guests');
+            syncPreview('doc-format', 'input-format');
+            syncPreview('doc-concept', 'input-concept');
+            syncPreview('doc-presenter', 'input-presenter');
+            syncPreview('doc-title', 'input-title');
 
             const colEl = document.getElementById('doc-collective');
             if (colEl && translations[state.lang]) {
@@ -1179,7 +1246,6 @@
             calculateAndRenderTotals();
         }
 
-        // Financial totals calculation
         function calculateAndRenderTotals() {
             let subtotal = 0;
             items.forEach(item => {
@@ -1192,29 +1258,20 @@
             const taxes = subtotal * 0.07;
             const total = subtotal + taxes;
 
-            const guestsEl = document.getElementById('input-guests');
-            const guestStr = guestsEl ? guestsEl.value : "";
+            const guestStr = document.getElementById('input-guests').value || "";
             const guestMatch = guestStr.match(/\d+/);
             const guestCount = guestMatch ? parseInt(guestMatch[0], 10) : 1;
             const safeDivider = guestCount > 0 ? guestCount : 1;
             const totalPerGuest = total / safeDivider;
 
-            const subtotalEl = document.getElementById('doc-subtotal');
-            if (subtotalEl) subtotalEl.textContent = formatCurrency(subtotal, state.lang);
-
-            const taxesEl = document.getElementById('doc-taxes');
-            if (taxesEl) taxesEl.textContent = formatCurrency(taxes, state.lang);
-
-            const perGuestEl = document.getElementById('doc-total-per-guest');
-            if (perGuestEl) perGuestEl.textContent = formatCurrency(totalPerGuest, state.lang);
-
-            const totalEl = document.getElementById('doc-total');
-            if (totalEl) totalEl.textContent = formatCurrency(total, state.lang);
+            document.getElementById('doc-subtotal').textContent = formatCurrency(subtotal, state.lang);
+            document.getElementById('doc-taxes').textContent = formatCurrency(taxes, state.lang);
+            document.getElementById('doc-total-per-guest').textContent = formatCurrency(totalPerGuest, state.lang);
+            document.getElementById('doc-total').textContent = formatCurrency(total, state.lang);
             
             recomputeAnalyticsDashboard();
         }
 
-        // Recompute business dashboard financials
         function recomputeAnalyticsDashboard() {
             let approvedSum = 0;
             let pipelineSum = 0;
@@ -1261,7 +1318,6 @@
             return it && it.hasPrice;
         }
 
-        // Render segment chart for despesas
         function renderSegmentBars() {
             const totals = { Products: 0, Equipments: 0, Furniture: 0, Staff: 0, Logistics: 0 };
             state.ledger.forEach(l => {
@@ -1431,148 +1487,6 @@
             if (card) card.classList.toggle('hidden');
         }
 
-        // Focus-safe rendering logic: Renders editor inputs ONLY when items are added/deleted.
-        // Prevents cursor focus loss on active keypress.
-        function renderEditor() {
-            const container = document.getElementById('items-editor-container');
-            if (!container) return;
-            container.innerHTML = '';
-
-            items.forEach((item, index) => {
-                const div = document.createElement('div');
-                div.className = "bg-zinc-800 p-5 rounded-lg border border-zinc-700 relative space-y-4";
-                
-                let subHTML = '';
-                (item.subItems || []).forEach((sub, subIdx) => {
-                    subHTML += `
-                        <div class="bg-zinc-900/60 p-3 rounded border border-zinc-750 space-y-2 relative ml-3 border-l-2 border-gold pl-4">
-                            <button data-action="delete-sub" data-parent="${index}" data-sub="${subIdx}" class="absolute top-2.5 right-2.5 text-zinc-500 hover:text-red-400 font-bold transition-all" title="Delete Sub-item">&times;</button>
-                            <div>
-                                <label class="block text-[8px] uppercase tracking-wider text-zinc-500 font-bold mb-1">Sub-Item Name</label>
-                                <input type="text" value="${sub.name}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="name" class="w-full bg-zinc-950 text-cream px-2 py-1.5 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
-                            </div>
-                            <div class="flex items-center gap-2 pt-1">
-                                <input type="checkbox" id="ps-${index}-${subIdx}" ${sub.hasPrice ? 'checked' : ''} data-action="toggle-sub-price" data-parent="${index}" data-sub="${subIdx}" class="rounded text-gold focus:ring-0">
-                                <label for="ps-${index}-${subIdx}" class="text-[8px] uppercase tracking-wider text-zinc-400 font-bold cursor-pointer">Has Custom Price</label>
-                            </div>
-                            <div class="grid grid-cols-2 gap-2 ${sub.hasPrice ? '' : 'hidden'}">
-                                <div>
-                                    <label class="block text-[8px] uppercase tracking-wider text-zinc-500 font-bold mb-0.5">Qty</label>
-                                    <input type="number" value="${sub.qty}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="qty" class="w-full bg-zinc-950 text-cream px-2 py-1 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
-                                </div>
-                                <div>
-                                    <label class="block text-[8px] uppercase tracking-wider text-zinc-500 font-bold mb-0.5">Rate</label>
-                                    <input type="number" value="${sub.rate}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="rate" class="w-full bg-zinc-950 text-cream px-2 py-1 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-
-                div.innerHTML = `
-                    <button data-action="delete-parent" data-index="${index}" class="absolute top-4 right-4 text-zinc-500 hover:text-red-400 transition-colors" title="Delete Primary Item">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                    </button>
-                    <div>
-                        <span class="text-[8px] uppercase font-bold text-gold tracking-widest block mb-1">Primary Item #${index+1}</span>
-                        <label class="block text-[8px] uppercase tracking-wider text-zinc-500 font-bold mb-1">Title / Package</label>
-                        <input type="text" value="${item.name}" data-action="change-parent" data-index="${index}" data-field="name" class="w-full bg-zinc-900 text-cream px-3 py-1.5 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
-                    </div>
-                    <div>
-                        <label class="block text-[8px] uppercase tracking-wider text-zinc-500 font-bold mb-1">Short Description</label>
-                        <input type="text" value="${item.desc}" data-action="change-parent" data-index="${index}" data-field="desc" class="w-full bg-zinc-900 text-cream px-3 py-1.5 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
-                    </div>
-                    <div class="flex items-center gap-2 py-1">
-                        <input type="checkbox" id="pm-${index}" ${item.hasPrice ? 'checked' : ''} data-action="toggle-parent-price" data-index="${index}" class="rounded text-gold focus:ring-0">
-                        <label for="pm-${index}" class="text-[8px] uppercase tracking-wider text-zinc-400 font-bold cursor-pointer">Include Parent Price</label>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2 ${item.hasPrice ? '' : 'hidden'}">
-                        <div>
-                            <label class="block text-[8px] uppercase tracking-wider text-zinc-500 font-bold mb-1">Qty</label>
-                            <input type="number" value="${item.qty}" data-action="change-parent" data-index="${index}" data-field="qty" class="w-full bg-zinc-900 text-cream px-3 py-1.5 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
-                        </div>
-                        <div>
-                            <label class="block text-[8px] uppercase tracking-wider text-zinc-500 font-bold mb-1">Rate</label>
-                            <input type="number" value="${item.rate}" data-action="change-parent" data-index="${index}" data-field="rate" class="w-full bg-zinc-900 text-cream px-3 py-1.5 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
-                        </div>
-                    </div>
-                    
-                    <!-- Sub-items breakdown tree layout inside card -->
-                    <div class="pt-3 border-t border-zinc-750 space-y-3">
-                        <div class="flex justify-between items-center px-1">
-                            <span class="text-[8px] uppercase tracking-wider text-zinc-400 font-bold">Sub-items / Menu Breakdown</span>
-                            <button data-action="add-sub" data-index="${index}" class="text-[8px] uppercase bg-zinc-900 text-gold hover:bg-gold hover:text-dark px-2.5 py-1 rounded transition-all font-bold">+ Add Sub-item</button>
-                        </div>
-                        <div class="space-y-2">
-                            ${subHTML}
-                        </div>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function renderDocPreview() {
-            const container = document.getElementById('doc-items-container');
-            if (!container) return;
-            container.innerHTML = '';
-
-            items.forEach((item) => {
-                const parentTotal = item.qty * item.rate;
-                const parentHasPrice = item.hasPrice;
-
-                const parentRow = document.createElement('div');
-                parentRow.className = "py-6 md:py-8 border-b border-dark/5 last:border-0 break-inside-avoid";
-                
-                parentRow.innerHTML = `
-                    <div class="grid grid-cols-12 gap-4 items-start">
-                        <div class="col-span-6 md:col-span-7">
-                            <p class="font-sans text-[13px] text-zinc-700 font-light tracking-wide leading-relaxed">${item.name}</p>
-                            ${item.desc ? `<p class="font-sans text-[11px] text-zinc-500 font-light mt-1 leading-relaxed tracking-wide">${item.desc}</p>` : ''}
-                        </div>
-                        <div class="col-span-2 md:col-span-1 text-center text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
-                            ${parentHasPrice ? item.qty : '—'}
-                        </div>
-                        <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
-                            ${parentHasPrice ? formatCurrency(item.rate, state.lang) : '—'}
-                        </div>
-                        <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-700 tracking-wider font-semibold">
-                            ${parentHasPrice ? formatCurrency(parentTotal, state.lang) : '—'}
-                        </div>
-                    </div>
-                    <div class="mt-4 space-y-4 pl-4 md:pl-6 border-l border-zinc-200">
-                        ${(item.subItems || []).map(sub => {
-                            const subTotal = sub.qty * sub.rate;
-                            const isPricedSub = sub.hasPrice;
-                            
-                            return `
-                                <div class="grid grid-cols-12 gap-4 items-start">
-                                    <div class="col-span-6 md:col-span-7">
-                                        <p class="font-sans text-[13px] text-zinc-600 font-light leading-relaxed tracking-wide">${sub.name}</p>
-                                    </div>
-                                    <div class="col-span-2 md:col-span-1 text-center text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
-                                        ${isPricedSub ? sub.qty : ''}
-                                    </div>
-                                    <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
-                                        ${isPricedSub ? formatCurrency(sub.rate, state.lang) : ''}
-                                    </div>
-                                    <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-700 tracking-wider font-semibold">
-                                        ${isPricedSub ? formatCurrency(subTotal, state.lang) : ''}
-                                    </div>
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
-                `;
-                container.appendChild(parentRow);
-            });
-
-            calculateAndRenderTotals();
-        }
-
-        // Export fallback mapping perfect print margins
         function exportDocumentToPDF() {
             try {
                 const clientName = document.getElementById('doc-client').textContent;
@@ -1585,7 +1499,7 @@
                     return;
                 }
 
-                // Generates HTML write with explicit 1 inch printable margins all around
+                // Generates HTML write with explicit 1 inch printable margins all around (Fixes proposaal example to fix.pdf)
                 const printTemplate = `
                     <!DOCTYPE html>
                     <html lang="${state.lang.toLowerCase()}">
@@ -1665,55 +1579,245 @@
             }
         }
 
-        function loadCloudLibraryList() {
-            const listEl = document.getElementById('proposals-list');
-            if (!listEl) return;
-            listEl.innerHTML = '';
+        function triggerShareDispatch(proposalId = null) {
+            const activeId = proposalId || state.currentQuoteId || 'SV-2026-X';
+            const client = document.getElementById('input-client').value || "Client";
+            const event = document.getElementById('input-event').value || "Bespoke Event";
+            const total = document.getElementById('doc-total').textContent;
+            const link = `https://seivaculinary.com/proposals/?id=${activeId}`;
 
-            state.quotes.forEach(q => {
-                const row = document.createElement('div');
-                row.className = "p-4 border-b border-zinc-800 hover:bg-zinc-950/20 cursor-pointer flex justify-between items-center";
-                row.innerHTML = `
-                    <div>
-                        <span class="text-xs font-bold text-gold font-mono">${q.meta.ref}</span>
-                        <span class="text-xs text-zinc-500 ml-2">${q.meta.client || '—'} (${q.meta.event || '—'})</span>
-                    </div>
-                    <span class="text-[9px] font-mono px-2 py-0.5 rounded border border-zinc-700 uppercase bg-zinc-950">${q.status}</span>
-                `;
-                row.addEventListener('click', () => {
-                    editProposal(q.id);
+            document.getElementById('share-link-input').value = link;
+
+            let draft = "";
+            if (state.lang === 'POR') {
+                draft = `Assunto: Coletivo SEIVA — Proposta para ${event}
+
+Prezado(a) ${client},
+
+É um privilégio compartilhar a proposta gastronômica desenvolvida para a sua "${event}".
+
+Preparamos uma narrativa de etapas focada na contemporaneidade técnica e no frescor de produtores locais para encantar seus convidados seletos.
+
+Acesse o detalhamento oficial e faça a validação da proposta no link seguro abaixo:
+${link}
+
+Resumo do Investimento: ${total}
+
+Ficamos inteiramente à sua disposição para eventuais refinamentos.
+
+Atenciosamente,
+
+Bernardo Simões
+Chef Executivo
+Coletivo SEIVA`;
+            } else {
+                draft = `Subject: SEIVA Collective — Proposal Layout for ${event}
+
+Dear ${client},
+
+It is a privilege to present our tailored culinary layout for your upcoming "${event}". 
+
+Please review your secure proposal blueprint here:
+${link}
+
+Summary of Investment: ${total}
+
+Warmest regards,
+
+Bernardo Simões
+Executive Chef / Partner
+SEIVA Collective`;
+            }
+
+            document.getElementById('dispatch-email-text').value = draft;
+            document.getElementById('dispatch-overlay').classList.remove('hidden');
+        }
+
+        function shareWhatsApp() {
+            const draftText = encodeURIComponent(document.getElementById('dispatch-email-text').value);
+            window.open(`https://api.whatsapp.com/send?text=${draftText}`, '_blank');
+        }
+
+        function openMailClient() {
+            const email = document.getElementById('crm-input-email')?.value || "";
+            const subject = encodeURIComponent("Coletivo SEIVA — Proposta Gastronômica");
+            const body = encodeURIComponent(document.getElementById('dispatch-email-text').value);
+            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+        }
+
+        // Focused-safe hierarchy builder preventing keyboard cursor focus loss (Ref: image_1fb4fd.png)
+        function renderEditor() {
+            const container = document.getElementById('items-editor-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            items.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = "bg-zinc-800 p-4 rounded border border-zinc-700 relative space-y-3";
+                
+                let subHTML = '';
+                (item.subItems || []).forEach((sub, subIdx) => {
+                    subHTML += `
+                        <div class="bg-zinc-900/60 p-2 rounded border border-zinc-750 space-y-2 relative ml-3 border-l-2 border-gold/30 pl-3">
+                            <button data-action="delete-sub" data-parent="${index}" data-sub="${subIdx}" class="absolute top-1 right-1 text-zinc-500 hover:text-red-400 text-xs font-bold">&times;</button>
+                            <div>
+                                <label class="block text-[8px] uppercase text-zinc-500 font-bold mb-0.5">Sub-item Name</label>
+                                <input type="text" value="${sub.name}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="name" class="w-full bg-zinc-950 text-cream px-2 py-1 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="ps-${index}-${subIdx}" ${sub.hasPrice ? 'checked' : ''} data-action="toggle-sub-price" data-parent="${index}" data-sub="${subIdx}" class="rounded text-gold focus:ring-0">
+                                <label for="ps-${index}-${subIdx}" class="text-[8px] uppercase text-zinc-400 font-bold cursor-pointer">Has Custom Price</label>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 ${sub.hasPrice ? '' : 'hidden'}">
+                                <div>
+                                    <label class="block text-[8px] uppercase text-zinc-500 font-bold">Qty</label>
+                                    <input type="number" value="${sub.qty}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="qty" class="w-full bg-zinc-950 text-cream px-2 py-0.5 text-xs border border-zinc-700 outline-none rounded">
+                                </div>
+                                <div>
+                                    <label class="block text-[8px] uppercase text-zinc-500 font-bold">Rate</label>
+                                    <input type="number" value="${sub.rate}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="rate" class="w-full bg-zinc-950 text-cream px-2 py-0.5 text-xs border border-zinc-700 outline-none rounded">
+                                </div>
+                            </div>
+                        </div>
+                    `;
                 });
-                listEl.appendChild(row);
+
+                div.innerHTML = `
+                    <button data-action="delete-parent" data-index="${index}" class="absolute top-3 right-3 text-zinc-500 hover:text-red-400 transition-colors">
+                        &times;
+                    </button>
+                    <div>
+                        <span class="text-[8px] uppercase font-bold text-gold tracking-widest block mb-1">Primary Item #${index+1}</span>
+                        <label class="block text-[8px] uppercase text-zinc-500 font-bold">Title / Package</label>
+                        <input type="text" value="${item.name}" data-action="change-parent" data-index="${index}" data-field="name" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
+                    </div>
+                    <div>
+                        <label class="block text-[8px] uppercase text-zinc-500 font-bold">Short Scope Description</label>
+                        <input type="text" value="${item.desc}" data-action="change-parent" data-index="${index}" data-field="desc" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="pm-${index}" ${item.hasPrice ? 'checked' : ''} data-action="toggle-parent-price" data-index="${index}" class="rounded text-gold focus:ring-0">
+                        <label for="pm-${index}" class="text-[8px] uppercase text-zinc-400 font-bold cursor-pointer">Include Parent Price</label>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 ${item.hasPrice ? '' : 'hidden'}">
+                        <div>
+                            <label class="block text-[8px] uppercase text-zinc-500 font-bold">Qty</label>
+                            <input type="number" value="${item.qty}" data-action="change-parent" data-index="${index}" data-field="qty" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
+                        </div>
+                        <div>
+                            <label class="block text-[8px] uppercase text-zinc-500 font-bold">Rate</label>
+                            <input type="number" value="${item.rate}" data-index="${index}" data-field="rate" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
+                        </div>
+                    </div>
+                    <div class="pt-2 border-t border-zinc-750 space-y-2">
+                        <div class="flex justify-between items-center px-1">
+                            <span class="text-[8px] uppercase text-zinc-400 font-bold">Sub-Items / Menu Breakdown</span>
+                            <button data-action="add-sub" data-index="${index}" class="text-[8px] uppercase bg-zinc-900 text-gold hover:bg-gold hover:text-dark px-2 py-0.5 rounded transition-all font-semibold">+ Add Sub-item</button>
+                        </div>
+                        <div class="space-y-2">
+                            ${subHTML}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
             });
         }
 
-        function editProposal(id) {
-            const q = state.quotes.find(item => item.id === id);
-            if (!q) return;
+        function renderDocPreview() {
+            const container = document.getElementById('doc-items-container');
+            if (!container) return;
+            container.innerHTML = '';
 
-            state.currentQuoteId = q.id;
-            state.lang = q.lang || 'POR';
-            items = JSON.parse(JSON.stringify(q.items || []));
+            items.forEach((item) => {
+                const parentTotal = item.qty * item.rate;
+                const parentHasPrice = item.hasPrice;
 
-            document.getElementById('input-ref').value = q.meta.ref || '';
-            document.getElementById('input-date-issue').value = q.meta.dateIssue || '';
-            document.getElementById('input-date-valid').value = q.meta.dateValid || '';
-            document.getElementById('input-client').value = q.meta.client || '';
-            document.getElementById('input-company').value = q.meta.company || '';
-            document.getElementById('input-event').value = q.meta.event || '';
-            document.getElementById('input-event-date').value = q.meta.eventDate || '';
-            document.getElementById('input-location').value = q.meta.location || '';
-            document.getElementById('input-guests').value = q.meta.guests || '';
-            document.getElementById('input-format').value = q.meta.format || '';
-            document.getElementById('input-concept').value = q.meta.concept || '';
-            document.getElementById('input-presenter').value = q.meta.presenter || '';
-            document.getElementById('input-title').value = q.meta.title || '';
+                const parentRow = document.createElement('div');
+                parentRow.className = "py-6 md:py-8 border-b border-dark/5 last:border-0 break-inside-avoid";
+                
+                parentRow.innerHTML = `
+                    <div class="grid grid-cols-12 gap-4 items-start">
+                        <div class="col-span-6 md:col-span-7">
+                            <p class="font-sans text-[13px] text-zinc-700 font-light tracking-wide leading-relaxed">${item.name}</p>
+                            ${item.desc ? `<p class="font-sans text-[11px] text-zinc-500 font-light mt-1 leading-relaxed tracking-wide">${item.desc}</p>` : ''}
+                        </div>
+                        <div class="col-span-2 md:col-span-1 text-center text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
+                            ${parentHasPrice ? item.qty : '—'}
+                        </div>
+                        <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
+                            ${parentHasPrice ? formatCurrency(item.rate, state.lang) : '—'}
+                        </div>
+                        <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-700 tracking-wider font-semibold">
+                            ${parentHasPrice ? formatCurrency(parentTotal, state.lang) : '—'}
+                        </div>
+                    </div>
+                    <div class="mt-4 space-y-4 pl-4 md:pl-6 border-l border-zinc-200">
+                        ${(item.subItems || []).map(sub => {
+                            const subTotal = sub.qty * sub.rate;
+                            const isPricedSub = sub.hasPrice;
+                            
+                            return `
+                                <div class="grid grid-cols-12 gap-4 items-start">
+                                    <div class="col-span-6 md:col-span-7">
+                                        <p class="font-sans text-[13px] text-zinc-600 font-light leading-relaxed tracking-wide">${sub.name}</p>
+                                    </div>
+                                    <div class="col-span-2 md:col-span-1 text-center text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
+                                        ${isPricedSub ? sub.qty : ''}
+                                    </div>
+                                    <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
+                                        ${isPricedSub ? formatCurrency(sub.rate, state.lang) : ''}
+                                    </div>
+                                    <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-700 tracking-wider font-semibold">
+                                        ${isPricedSub ? formatCurrency(subTotal, state.lang) : ''}
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+                container.appendChild(parentRow);
+            });
 
-            document.getElementById('input-status').value = q.status || 'Draft';
+            calculateAndRenderTotals();
+        }
 
-            changeLanguage(state.lang);
-            switchWorkspaceView('builder');
-            showToast("Draft Loaded.");
+        function switchWorkspaceView(viewName) {
+            state.tab = viewName;
+            const tabs = {
+                dashboard: { btn: 'tab-dashboard', container: 'view-dashboard' },
+                crm: { btn: 'tab-crm', container: 'view-crm' },
+                builder: { btn: 'tab-builder', container: 'view-builder' }
+            };
+
+            Object.keys(tabs).forEach(k => {
+                const config = tabs[k];
+                const btn = document.getElementById(config.btn);
+                const view = document.getElementById(config.container);
+                if (k === viewName) {
+                    if (btn) btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all bg-gold text-dark shadow";
+                    if (view) view.classList.remove('hidden');
+                    if (k === 'dashboard') loadCloudLibraryList();
+                } else {
+                    if (btn) btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all text-zinc-400 hover:text-cream bg-zinc-950 hover:bg-zinc-900/50";
+                    if (view) view.classList.add('hidden');
+                }
+            });
+        }
+
+        function generateDefaultMeta() {
+            const currentYear = new Date().getFullYear();
+            const randomNum = Math.floor(100 + Math.random() * 900); // SV-2026-XXX
+            const ref = `SV-${currentYear}-${randomNum}`;
+            const today = new Date();
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+
+            let dateIssueStr = today.toLocaleDateString(state.lang === 'POR' ? 'pt-BR' : state.lang === 'ITA' ? 'it-IT' : 'en-US', options);
+            
+            const refInput = document.getElementById('input-ref');
+            if (refInput) refInput.value = ref;
+
+            const dateInput = document.getElementById('input-date-issue');
+            if (dateInput) dateInput.value = dateIssueStr;
         }
 
         function createNewProposal() {
@@ -1748,25 +1852,26 @@
         }
 
         function registerHandlers() {
+            // Password verification gate supporting keydown 'Enter'
             const submitBtn = document.getElementById('btn-login-submit');
             const pinInput = document.getElementById('admin-pin');
             
-            if (submitBtn && pinInput) {
-                const handlePasscodeCheck = () => {
-                    const pin = pinInput.value.trim();
-                    if (pin === 'seiva2026') {
-                        document.getElementById('login-gateway').classList.add('opacity-0', 'pointer-events-none');
-                        document.getElementById('app-content').classList.remove('hidden');
-                        showToast("Authentication Unlocked.");
-                        loadCloudLibraryList();
-                        renderLedgerTable();
-                        renderCRMTable();
-                    } else {
-                        showToast("Incorrect Passcode. Access denied.", "error");
-                    }
-                };
+            const handlePasscodeCheck = () => {
+                const pin = pinInput.value.trim();
+                if (pin === 'seiva2026') {
+                    document.getElementById('login-gateway').classList.add('opacity-0', 'pointer-events-none');
+                    document.getElementById('app-content').classList.remove('hidden');
+                    showToast("Authentication Unlocked.");
+                    loadCloudLibraryList();
+                    renderLedgerTable();
+                    renderCRMTable();
+                } else {
+                    showToast("Incorrect Passcode. Access denied.", "error");
+                }
+            };
 
-                submitBtn.addEventListener('click', handlePasscodeCheck);
+            if (submitBtn) submitBtn.addEventListener('click', handlePasscodeCheck);
+            if (pinInput) {
                 pinInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter') handlePasscodeCheck();
                 });
@@ -1812,6 +1917,7 @@
                 });
             }
 
+            // Delegated click routers for tables
             const crmClientsRows = document.getElementById('crm-clients-rows');
             if (crmClientsRows) {
                 crmClientsRows.addEventListener('click', (e) => {
@@ -1847,7 +1953,6 @@
                 });
             }
 
-            // Real-time synchronization event layout for Line Items & Menu
             const editor = document.getElementById('items-editor-container');
             if (editor) {
                 editor.addEventListener('input', function(e) {
@@ -1907,6 +2012,7 @@
                 });
             }
 
+            // OCR Dropzone
             const dropzone = document.getElementById('ocr-dropzone');
             const fileInput = document.getElementById('ocr-file-input');
             if (dropzone && fileInput) {
@@ -1919,6 +2025,7 @@
                 btnOcrApproveExpense.addEventListener('click', approveOCRExpense);
             }
 
+            // CRM Add Client Profile trigger
             const btnCrmAddClient = document.getElementById('btn-crm-add-client');
             if (btnCrmAddClient) btnCrmAddClient.addEventListener('click', setupCRMForm);
             
@@ -2027,7 +2134,7 @@
             changeLanguage('POR');
         }
 
-        // Initialize template on DOM Content loaded safely
+        // Initialize template on DOM Content loaded safely with direct execution fallback
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initApp);
         } else {
