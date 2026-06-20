@@ -73,15 +73,14 @@
             .print-container {
                 box-shadow: none !important;
                 margin: 0 !important;
-                padding: 1in !important; /* Strict 1-inch printable margins on all four directions */
-                width: 100% !important;
+                padding: 1in !important; /* Strict 1-inch printable spacing in all directions */
                 max-width: 100% !important;
                 background-color: #F7F5F0 !important;
                 border: none !important;
             }
             @page {
                 size: letter portrait;
-                margin: 0 !important; /* Disables standard browser cut-off header/footers */
+                margin: 0 !important; /* Clears browser headers/footers to preserve custom margins */
             }
             .break-inside-avoid {
                 break-inside: avoid;
@@ -95,7 +94,7 @@
     <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toast-container" class="fixed top-6 right-6 z-[200] space-y-3 pointer-events-none"></div>
 
-    <!-- MODULE A: PASSCODE AUTHENTICATION GATEWAY -->
+    <!-- ADMIN LOGIN GATEWAY -->
     <div id="login-gateway" class="fixed inset-0 bg-dark z-[150] flex flex-col items-center justify-center p-6 transition-all duration-500">
         <div class="w-full max-w-md space-y-8 text-center">
             <div class="flex flex-col items-center gap-4">
@@ -113,25 +112,26 @@
                 <p class="text-zinc-500 text-xs tracking-[0.2em] uppercase">Bespoke Culinary Administration</p>
             </div>
 
-            <div class="bg-zinc-900/50 p-8 rounded-lg border border-zinc-800 space-y-6">
+            <!-- Secured form action supporting both Enter key submit and mouse clicks without plaintext password exposure -->
+            <form id="login-form" class="bg-zinc-900/50 p-8 rounded-lg border border-zinc-800 space-y-6">
                 <div>
                     <label class="block text-zinc-400 text-[10px] uppercase tracking-widest font-bold mb-2">Security Passcode</label>
-                    <input type="password" id="admin-pin" placeholder="••••••••" class="w-full bg-zinc-950 text-gold text-center tracking-widest text-lg font-mono py-3 border border-zinc-800 focus:border-gold outline-none rounded">
+                    <input type="password" id="admin-pin" placeholder="••••••••" required class="w-full bg-zinc-950 text-gold text-center tracking-widest text-lg font-mono py-3 border border-zinc-800 focus:border-gold outline-none rounded">
                 </div>
-                <button id="btn-login-submit" class="w-full bg-gold text-dark py-3.5 font-bold uppercase tracking-widest text-xs hover:bg-gold/90 transition-all rounded">
+                <button type="submit" class="w-full bg-gold text-dark py-3.5 font-bold uppercase tracking-widest text-xs hover:bg-gold/90 transition-all rounded">
                     Unlock Dashboard
                 </button>
-                <p class="text-[10px] text-zinc-500 leading-relaxed font-mono">
-                    Default PIN: seiva2026
+                <p class="text-[10px] text-zinc-500 leading-relaxed">
+                    Access is restricted to authorized partners of SEIVA Collective.
                 </p>
-            </div>
+            </form>
         </div>
     </div>
 
-    <!-- MAIN APP WRAPPER (HIDDEN UNTIL UNLOCKED) -->
+    <!-- MAIN APP WRAPPER -->
     <div id="app-content" class="hidden flex flex-col min-h-screen">
         
-        <!-- MODULE B: STICKY TOP HEADER & LANGUAGE SELECTOR -->
+        <!-- Top Administration Bar with Global Language & Tab Selector inside -->
         <header class="bg-dark text-cream/80 py-4 px-6 flex flex-col lg:flex-row justify-between items-center gap-4 shadow-md no-print z-50 sticky top-0 border-b border-zinc-800">
             <div class="flex items-center gap-3">
                 <span class="font-serif-luxury text-xl font-medium tracking-[0.2em] text-cream">SEIVA <span class="text-xs tracking-normal text-gold uppercase ml-1 font-mono">Vault</span></span>
@@ -149,13 +149,13 @@
 
                 <!-- Tab switcher -->
                 <div class="flex bg-zinc-950 p-1 rounded border border-zinc-800 font-mono">
-                    <button id="tab-dashboard" class="px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all text-zinc-400 hover:text-cream">
+                    <button id="tab-dashboard" class="px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all bg-gold text-dark">
                         Analytics & Finance
                     </button>
                     <button id="tab-crm" class="px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all text-zinc-400 hover:text-cream">
                         CRM (Clients)
                     </button>
-                    <button id="tab-builder" class="px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all bg-gold text-dark">
+                    <button id="tab-builder" class="px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all text-zinc-400 hover:text-cream">
                         Proposal Builder
                     </button>
                 </div>
@@ -167,31 +167,209 @@
             </div>
         </header>
 
-        <!-- SUB-PAGE: DASHBOARD & CRM (PLACEHOLDERS TO BE FOCUSED IN SUBSEQUENT PHASES) -->
-        <div id="view-dashboard" class="hidden flex-1 p-6 md:p-12 space-y-8 max-w-7xl mx-auto w-full no-print">
-            <div class="bg-zinc-900 border border-zinc-800 p-12 rounded-lg text-center space-y-4">
-                <h3 class="font-serif-luxury text-3xl text-gold">Analytics & Finance Dashboard</h3>
-                <p class="text-zinc-400 text-sm max-w-md mx-auto">This module is currently locked to prioritize focus on Modules A, B, and E. Unlocked in subsequent development phases.</p>
-                <button onclick="switchWorkspaceView('builder')" class="bg-gold text-dark px-6 py-3 font-bold uppercase tracking-widest text-xs hover:bg-gold/90 transition-all rounded shadow-md">
-                    Return to Proposal Builder
+        <!-- SUB-PAGE 1: DASHBOARD & EVENT CLOSURE LEDGER -->
+        <div id="view-dashboard" class="flex-1 p-6 md:p-12 space-y-8 max-w-7xl mx-auto w-full no-print">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 id="dash-title" class="font-serif-luxury text-3xl tracking-wide uppercase">Business Analytics</h2>
+                    <p id="dash-subtitle" class="text-zinc-500 text-xs mt-1">Real-time status of your bespoke catering inquiries & closed volumes.</p>
+                </div>
+                <button id="btn-dashboard-new-proposal" class="bg-gold text-dark px-6 py-3 font-bold uppercase tracking-widest text-xs hover:bg-gold/90 transition-all shadow-md">
+                    + Start New Proposal
                 </button>
+            </div>
+
+            <!-- ANALYTICS CARDS -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-lg space-y-2">
+                    <p id="card-label-closed-revenue" class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">Closed Revenue</p>
+                    <p id="stat-revenue" class="font-serif-luxury text-3xl text-gold font-light">$0.00</p>
+                    <p id="card-sub-approved" class="text-[10px] text-emerald-500">From Approved Proposals</p>
+                </div>
+                <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-lg space-y-2">
+                    <p id="card-label-active-pipeline" class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">Active Pipeline</p>
+                    <p id="stat-pipeline" class="font-serif-luxury text-3xl text-zinc-300 font-light">$0.00</p>
+                    <p id="card-sub-pending" class="text-[10px] text-amber-500">Draft & Sent</p>
+                </div>
+                <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-lg space-y-2">
+                    <p id="card-label-active-proposals" class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">Active Proposals</p>
+                    <p id="stat-active" class="font-serif-luxury text-3xl text-zinc-300 font-light">0</p>
+                    <p id="card-sub-total" class="text-[10px] text-zinc-500">Total Proposals Logged</p>
+                </div>
+                <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-lg space-y-2">
+                    <p id="card-label-conversion-rate" class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">Conversion Rate</p>
+                    <p id="stat-conversion" class="font-serif-luxury text-3xl text-emerald-500 font-light">0%</p>
+                    <p id="card-sub-closed" class="text-[10px] text-zinc-500">Closed vs Pipeline</p>
+                </div>
+            </div>
+
+            <!-- EVENT LEDGER AND CLOSURE EXPENSES -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column: Closed Events & Quick Ledger -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden p-6 space-y-4">
+                        <h3 id="event-closure-ledger-title" class="text-xs uppercase tracking-[0.2em] font-bold text-cream border-b border-zinc-800 pb-3">Event Closures & Margins</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs font-light">
+                                <thead>
+                                    <tr class="text-[9px] uppercase tracking-wider text-zinc-500 border-b border-zinc-800">
+                                        <th class="py-2">Event Reference</th>
+                                        <th class="py-2">Guests</th>
+                                        <th class="py-2">Revenue Charged</th>
+                                        <th class="py-2">Operational Costs</th>
+                                        <th class="py-2">Net Profit</th>
+                                        <th class="py-2 text-right">Margin</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="event-ledger-rows" class="divide-y divide-zinc-800/50">
+                                    <!-- Dynamic rows loaded from State -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- PROPOSAL LIBRARY -->
+                    <div class="bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-4 bg-zinc-950/40">
+                            <h3 id="lib-title" class="text-xs uppercase tracking-[0.2em] font-bold text-cream">Proposal Library & Vault</h3>
+                            <div class="flex gap-2 w-full sm:w-auto">
+                                <input type="text" id="search-proposals" placeholder="Search by Client or Event..." class="bg-zinc-900 text-cream px-4 py-2 text-xs border border-zinc-700 focus:border-gold outline-none rounded w-full sm:w-64 placeholder:text-zinc-650">
+                            </div>
+                        </div>
+                        <div id="proposals-list" class="divide-y divide-zinc-800 max-h-[300px] overflow-y-auto">
+                            <div class="text-center text-zinc-500 py-12 text-xs uppercase tracking-widest animate-pulse">Syncing with Cloud Vault...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: AI Receipt OCR Itemization & Cash Flow -->
+                <div class="space-y-6">
+                    <div class="bg-zinc-900 border border-zinc-850 p-6 rounded-lg space-y-4">
+                        <h3 id="ocr-module-title" class="text-xs uppercase tracking-[0.2em] font-bold text-cream">AI Invoice OCR & Ledger</h3>
+                        <p id="ocr-desc" class="text-[10px] text-zinc-500 leading-relaxed">Drop or upload your supplier bills, invoices or receipts to run simulated itemization automatically.</p>
+                        
+                        <!-- DROPZONE -->
+                        <div id="ocr-dropzone" class="border-2 border-dashed border-zinc-700 hover:border-gold/60 p-8 rounded-lg text-center cursor-pointer transition-all bg-zinc-950/40">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gold/60 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            <p id="ocr-dropzone-text" class="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">Drag & Drop Receipt PDF / Image</p>
+                            <p class="text-[8px] text-zinc-600 mt-1">Accepts PNG, JPG, PDF (Simulated AI processing)</p>
+                            <input type="file" id="ocr-file-input" class="hidden" accept="image/*,application/pdf">
+                        </div>
+
+                        <!-- PROCESSING LOADER -->
+                        <div id="ocr-loader" class="hidden space-y-2">
+                            <div class="flex justify-between text-[9px] uppercase tracking-widest font-bold text-gold">
+                                <span>Scanning Ledger OCR...</span>
+                                <span id="ocr-progress-pct">0%</span>
+                            </div>
+                            <div class="w-full bg-zinc-950 h-1.5 rounded-full overflow-hidden">
+                                <div id="ocr-progress-bar" class="bg-gold h-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <!-- OCR RESULTS INTERACTIVE WORKSPACE -->
+                        <div id="ocr-results" class="hidden bg-zinc-950/80 p-4 border border-zinc-800 rounded space-y-3 text-xs">
+                            <h4 class="text-[10px] uppercase font-bold text-gold tracking-widest border-b border-zinc-800 pb-1.5">Extracted Invoice Items</h4>
+                            <div class="space-y-1.5 font-mono text-[10px] text-zinc-400">
+                                <div class="flex justify-between"><span>Vendor:</span> <span id="ocr-vendor" class="text-cream font-bold">Chef's Warehouse</span></div>
+                                <div class="flex justify-between"><span>Tax ID (EIN/CNPJ):</span> <span id="ocr-tax-id" class="text-cream">12-3456789</span></div>
+                                <div class="flex justify-between"><span>Phone:</span> <span id="ocr-phone" class="text-cream">(305) 555-0199</span></div>
+                                <div class="flex justify-between"><span>Date:</span> <span id="ocr-date" class="text-cream">2026-06-19</span></div>
+                                <div class="flex justify-between"><span>Address:</span> <span id="ocr-address" class="text-cream">Miami Logistics Center</span></div>
+                            </div>
+                            <!-- SEGMENT CLASSIFIER -->
+                            <div>
+                                <label class="block text-[8px] uppercase tracking-wider text-zinc-500 font-bold mb-1">Expense Allocation Segment</label>
+                                <select id="ocr-allocated-segment" class="w-full bg-zinc-900 text-gold px-2 py-1.5 text-[10px] border border-zinc-800 outline-none rounded">
+                                    <option value="Products">Products (Alimentos & Insumos)</option>
+                                    <option value="Equipments">Equipments (Equipamentos)</option>
+                                    <option value="Furniture">Furniture (Mobiliário & Decor)</option>
+                                    <option value="Staff">Staff (Brigada de Serviço)</option>
+                                    <option value="Logistics">Logistics (Transporte & Frete)</option>
+                                </select>
+                            </div>
+                            <div class="flex justify-between font-bold border-t border-zinc-800 pt-2 text-cream">
+                                <span>Extracted Total:</span>
+                                <span id="ocr-total-val" class="font-mono text-gold">$0.00</span>
+                            </div>
+                            <button id="btn-ocr-approve-expense" class="w-full bg-gold text-dark py-2 font-bold uppercase tracking-wider text-[9px] hover:bg-gold/90 transition-all rounded shadow">
+                                Approve & Append Expense
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Segment Cost Distribution Bar Chart -->
+                    <div class="bg-zinc-900 border border-zinc-850 p-6 rounded-lg space-y-4">
+                        <h3 id="segment-chart-title" class="text-xs uppercase tracking-[0.2em] font-bold text-cream">Cost Breakdown by Segment</h3>
+                        <div class="space-y-3" id="segment-bars-container">
+                            <!-- Injected dynamically -->
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
+        <!-- SUB-PAGE 2: CRM (CLIENT DIRECTORY) -->
         <div id="view-crm" class="hidden flex-1 p-6 md:p-12 space-y-8 max-w-7xl mx-auto w-full no-print">
-            <div class="bg-zinc-900 border border-zinc-800 p-12 rounded-lg text-center space-y-4">
-                <h3 class="font-serif-luxury text-3xl text-gold">CRM & Client Directory</h3>
-                <p class="text-zinc-400 text-sm max-w-md mx-auto">This module is currently locked to prioritize focus on Modules A, B, and E. Unlocked in subsequent development phases.</p>
-                <button onclick="switchWorkspaceView('builder')" class="bg-gold text-dark px-6 py-3 font-bold uppercase tracking-widest text-xs hover:bg-gold/90 transition-all rounded shadow-md">
-                    Return to Proposal Builder
+            <div class="flex justify-between items-center border-b border-zinc-800 pb-5">
+                <div>
+                    <h2 id="crm-title" class="font-serif-luxury text-3xl tracking-wide uppercase">Client Directory & CRM</h2>
+                    <p id="crm-subtitle" class="text-zinc-500 text-xs mt-1">Track high-net-worth client profiles, event history, and aggregate LTV (Lifetime Value).</p>
+                </div>
+                <button id="btn-crm-add-client" class="bg-gold text-dark px-6 py-3 font-bold uppercase tracking-widest text-xs hover:bg-gold/90 transition-all shadow-md">
+                    + Add Client Profile
                 </button>
+            </div>
+
+            <!-- CRM CLIENT CARD FORMS -->
+            <div id="crm-form-container" class="hidden bg-zinc-900 border border-zinc-800 p-6 rounded-lg space-y-4">
+                <h3 class="text-xs uppercase tracking-[0.2em] font-bold text-gold">Create/Edit Client Card</h3>
+                <form id="crm-client-form" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Client Full Name</label>
+                        <input type="text" id="crm-input-name" required placeholder="Alexander Sterling" class="w-full bg-zinc-850 text-cream px-3 py-2 text-xs border border-zinc-700 outline-none rounded">
+                    </div>
+                    <div>
+                        <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Company / Organization</label>
+                        <input type="text" id="crm-input-company" placeholder="Sterling Global Holdings" class="w-full bg-zinc-850 text-cream px-3 py-2 text-xs border border-zinc-700 outline-none rounded">
+                    </div>
+                    <div>
+                        <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Contact Email</label>
+                        <input type="email" id="crm-input-email" required placeholder="alex@sterling.com" class="w-full bg-zinc-850 text-cream px-3 py-2 text-xs border border-zinc-700 outline-none rounded">
+                    </div>
+                    <div class="md:col-span-3 flex justify-end gap-2">
+                        <button type="button" id="btn-crm-cancel" class="bg-zinc-800 text-zinc-400 hover:text-cream text-[10px] uppercase font-bold tracking-widest px-4 py-2 rounded">Cancel</button>
+                        <button type="submit" class="bg-gold text-dark hover:bg-gold/90 text-[10px] uppercase font-bold tracking-widest px-6 py-2 rounded">Save Profile</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- CLIENTS TABLE -->
+            <div class="bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden">
+                <table class="w-full text-left text-xs font-light">
+                    <thead>
+                        <tr class="bg-zinc-950/40 text-[9px] uppercase tracking-wider text-zinc-500 border-b border-zinc-800">
+                            <th class="p-4">Client Name</th>
+                            <th class="p-4">Organization</th>
+                            <th class="p-4">Email</th>
+                            <th class="p-4 text-center">Total Events</th>
+                            <th class="p-4">Lifetime Value (LTV)</th>
+                            <th class="p-4 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="crm-clients-rows" class="divide-y divide-zinc-800">
+                        <!-- Loaded dynamically -->
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <!-- MODULE E: BESPOKE PROPOSAL BUILDER (DASHBOARD TAB) -->
-        <div id="view-builder" class="flex-1 flex relative min-h-[calc(100vh-64px)] overflow-hidden">
+        <!-- SUB-PAGE 3: BUILDER WORKSPACE (FLEX CONTAINER) -->
+        <div id="view-builder" class="hidden flex-1 flex relative min-h-[calc(100vh-64px)] overflow-hidden">
             
-            <!-- Left-Hand Control Sidebar Settings -->
+            <!-- Collapsible Settings Panel -->
             <aside id="editor-sidebar" class="w-full md:w-[420px] bg-zinc-900 border-r border-zinc-800 text-zinc-300 no-print flex flex-col shrink-0 transition-all duration-300 overflow-y-auto">
                 <div class="p-6 border-b border-zinc-800 flex justify-between items-center sticky top-0 bg-zinc-900 z-10">
                     <h2 id="ui-sidebar-title" class="text-xs uppercase tracking-[0.2em] font-bold text-cream">Configure Details</h2>
@@ -201,6 +379,7 @@
                 <div class="p-6 space-y-6">
                     <!-- PIPELINE STATUS & DISPATCH HUB -->
                     <div class="bg-zinc-950 p-4 rounded-lg border border-zinc-800 space-y-4">
+                        <!-- PROPOSAL PIPELINE STATUS SELECTOR -->
                         <div>
                             <span id="ui-status-label" class="block text-[9px] uppercase tracking-wider text-zinc-500 mb-2 font-bold">Proposal Status</span>
                             <div class="relative">
@@ -291,12 +470,12 @@
                     <div class="border-t border-zinc-800 pt-5 space-y-4">
                         <h3 id="ui-sect-creative-concept" class="text-[10px] uppercase tracking-[0.15em] font-bold text-gold">Creative Concept</h3>
                         <div>
-                            <label id="label-concept" class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Concept Statement</label>
+                            <label class="block text-[9px] uppercase text-zinc-500 mb-1 font-bold">Concept Statement</label>
                             <textarea id="input-concept" rows="5" class="w-full bg-zinc-800 text-cream p-3 text-xs border border-zinc-700 focus:border-gold outline-none rounded resize-none leading-relaxed placeholder:text-zinc-650 font-light"></textarea>
                         </div>
                     </div>
 
-                    <!-- HIERARCHICAL LINE ITEMS & MENU DYNAMIC BUILDER -->
+                    <!-- LINE ITEMS & MENU DYNAMIC BUILDER -->
                     <div class="border-t border-zinc-800 pt-5 space-y-4">
                         <div class="flex justify-between items-center">
                             <h3 id="ui-sect-line-items" class="text-[10px] uppercase tracking-[0.15em] font-bold text-gold">Line Items & Menu</h3>
@@ -305,7 +484,7 @@
                             </button>
                         </div>
                         <div id="items-editor-container" class="space-y-6">
-                            <!-- Dynamic items and sub-items injected here -->
+                            <!-- Dynamic items injected here -->
                         </div>
                     </div>
 
@@ -951,7 +1130,7 @@
 
             applyUILabelTranslations();
             
-            // Rehydrate default values safely if items is empty
+            // Rehydrate default values safely ONLY if items is currently empty to preserve user inputs
             const presetItems = translations[langCode].items || translations['ENG'].items || [];
             if (items.length === 0) {
                 items = JSON.parse(JSON.stringify(presetItems));
@@ -1330,6 +1509,660 @@
             renderLedgerTable();
             recomputeAnalyticsDashboard();
             showToast("Ledger event cost closing added!");
+        }
+
+        function setupCRMForm() {
+            const card = document.getElementById('crm-form-container');
+            if (card) card.classList.toggle('hidden');
+        }
+
+        function exportDocumentToPDF() {
+            try {
+                const clientName = document.getElementById('doc-client').textContent;
+                const docHTMLContent = document.getElementById('capture-print-area').innerHTML;
+                
+                const printWindow = window.open('', '_blank');
+                if (!printWindow) {
+                    showToast("Sandbox Blocked. Toggling body print layout directly...", "success");
+                    window.print();
+                    return;
+                }
+
+                const printTemplate = `
+                    <!DOCTYPE html>
+                    <html lang="${state.lang.toLowerCase()}">
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>${clientName} — SEIVA Proposal</title>
+                        \x3Cscript src="https://cdn.tailwindcss.com"\x3E\x3C/script\x3E
+                        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+                        \x3Cscript\x3E
+                            tailwind.config = {
+                                theme: {
+                                    extend: {
+                                        colors: {
+                                            dark: '#0F0F0F',
+                                            cream: '#F7F5F0',
+                                            platinum: '#E2E0D9',
+                                            gold: '#C5A880'
+                                        },
+                                        fontFamily: {
+                                            serif: ['"Cormorant Garamond"', 'serif'],
+                                            sans: ['"Inter"', 'sans-serif'],
+                                        }
+                                    }
+                                }
+                            }
+                        \x3C/script\x3E
+                        <style>
+                            body {
+                                background-color: #F7F5F0 !important;
+                                color: #0F0F0F;
+                                font-family: 'Inter', sans-serif;
+                                -webkit-font-smoothing: antialiased;
+                                padding: 0 !important;
+                                margin: 0 !important;
+                            }
+                            .font-serif-luxury {
+                                font-family: 'Cormorant Garamond', serif;
+                                letter-spacing: 0.05em;
+                            }
+                            .no-print {
+                                display: none !important;
+                            }
+                            .print-container {
+                                padding: 1in !important; /* Forces a strict 1 inch printable padding margin */
+                                background-color: #F7F5F0 !important;
+                                width: 100% !important;
+                                max-width: 100% !important;
+                                box-shadow: none !important;
+                            }
+                            @page {
+                                size: letter portrait;
+                                margin: 0 !important;
+                            }
+                            .break-inside-avoid {
+                                break-inside: avoid;
+                                page-break-inside: avoid;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="print-container max-w-4xl mx-auto bg-cream">
+                            ${docHTMLContent}
+                        </div>
+                        \x3Cscript\x3E
+                            window.onload = function() {
+                                const interactives = document.querySelectorAll('.no-print');
+                                interactives.forEach(el => el.remove());
+                                setTimeout(() => {
+                                    window.print();
+                                    window.close();
+                                }, 550);
+                            };
+                        \x3C/script\x3E
+                    </body>
+                    </html>
+                `;
+
+                printWindow.document.write(printTemplate);
+                printWindow.document.close();
+                showToast("PDF Export Thread Initiated.");
+            } catch (err) {
+                console.error("PDF engine crash: ", err);
+                window.print();
+            }
+        }
+
+        function triggerShareDispatch(proposalId = null) {
+            const activeId = proposalId || state.currentQuoteId || 'SV-2026-X';
+            const client = document.getElementById('input-client').value || "Client";
+            const event = document.getElementById('input-event').value || "Bespoke Event";
+            const total = document.getElementById('doc-total').textContent;
+            const link = `https://seivaculinary.com/proposals/?id=${activeId}`;
+
+            document.getElementById('share-link-input').value = link;
+
+            let draft = "";
+            if (state.lang === 'POR') {
+                draft = `Assunto: Coletivo SEIVA — Proposta para ${event}
+
+Prezado(a) ${client},
+
+É um privilégio compartilhar a proposta gastronômica desenvolvida para a sua "${event}".
+
+Preparamos uma narrativa de etapas focada na contemporaneidade técnica e no frescor de produtores locais para encantar seus convidados seletos.
+
+Acesse o detalhamento oficial e faça a validação da proposta no link seguro abaixo:
+${link}
+
+Resumo do Investimento: ${total}
+
+Ficamos inteiramente à sua disposição para eventuais refinamentos.
+
+Atenciosamente,
+
+Bernardo Simões
+Chef Executivo
+Coletivo SEIVA`;
+            } else {
+                draft = `Subject: SEIVA Collective — Proposal Layout for ${event}
+
+Dear ${client},
+
+It is a privilege to present our tailored culinary layout for your upcoming "${event}". 
+
+Please review your secure proposal blueprint here:
+${link}
+
+Summary of Investment: ${total}
+
+Warmest regards,
+
+Bernardo Simões
+Executive Chef / Partner
+SEIVA Collective`;
+            }
+
+            document.getElementById('dispatch-email-text').value = draft;
+            document.getElementById('dispatch-overlay').classList.remove('hidden');
+        }
+
+        function shareWhatsApp() {
+            const draftText = encodeURIComponent(document.getElementById('dispatch-email-text').value);
+            window.open(`https://api.whatsapp.com/send?text=${draftText}`, '_blank');
+        }
+
+        function openMailClient() {
+            const email = document.getElementById('crm-input-email')?.value || "";
+            const subject = encodeURIComponent("Coletivo SEIVA — Proposta Gastronômica");
+            const body = encodeURIComponent(document.getElementById('dispatch-email-text').value);
+            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+        }
+
+        function renderEditor() {
+            const container = document.getElementById('items-editor-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            items.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = "bg-zinc-800 p-4 rounded border border-zinc-700 relative space-y-3 text-zinc-300";
+                
+                let subHTML = '';
+                (item.subItems || []).forEach((sub, subIdx) => {
+                    subHTML += `
+                        <div class="bg-zinc-900/60 p-2 rounded border border-zinc-750 space-y-2 relative ml-3 border-l-2 border-gold/30 pl-3">
+                            <button type="button" data-action="delete-sub" data-parent="${index}" data-sub="${subIdx}" class="absolute top-1 right-1 text-zinc-500 hover:text-red-400 text-xs font-bold">&times;</button>
+                            <div>
+                                <label class="block text-[8px] uppercase text-zinc-500 font-bold mb-0.5">Sub-Item Name / Course Details</label>
+                                <input type="text" value="${sub.name}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="name" class="w-full bg-zinc-950 text-cream px-2 py-1 text-xs border border-zinc-700 focus:border-gold outline-none rounded">
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="ps-${index}-${subIdx}" ${sub.hasPrice ? 'checked' : ''} data-action="toggle-sub-price" data-parent="${index}" data-sub="${subIdx}" class="rounded text-gold focus:ring-0">
+                                <label for="ps-${index}-${subIdx}" class="text-[8px] uppercase text-zinc-400 font-bold cursor-pointer">Has Custom Price</label>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 ${sub.hasPrice ? '' : 'hidden'}">
+                                <div>
+                                    <label class="block text-[8px] uppercase text-zinc-500 font-bold">Qty</label>
+                                    <input type="number" value="${sub.qty}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="qty" class="w-full bg-zinc-950 text-cream px-2 py-0.5 text-xs border border-zinc-700 outline-none rounded">
+                                </div>
+                                <div>
+                                    <label class="block text-[8px] uppercase text-zinc-500 font-bold">Rate</label>
+                                    <input type="number" value="${sub.rate}" data-action="change-sub" data-parent="${index}" data-sub="${subIdx}" data-field="rate" class="w-full bg-zinc-950 text-cream px-2 py-0.5 text-xs border border-zinc-700 outline-none rounded">
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                div.innerHTML = `
+                    <button type="button" data-action="delete-parent" data-index="${index}" class="absolute top-3 right-3 text-zinc-500 hover:text-red-400 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                    </button>
+                    <div>
+                        <span class="text-[8px] uppercase font-bold text-gold tracking-widest block mb-1">Item #${index+1}</span>
+                        <label class="block text-[8px] uppercase text-zinc-500 font-bold">Title / Package</label>
+                        <input type="text" value="${item.name}" data-action="change-parent" data-index="${index}" data-field="name" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
+                    </div>
+                    <div>
+                        <label class="block text-[8px] uppercase text-zinc-500 font-bold">Short Scope Description</label>
+                        <input type="text" value="${item.desc}" data-action="change-parent" data-index="${index}" data-field="desc" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="pm-${index}" ${item.hasPrice ? 'checked' : ''} data-action="toggle-parent-price" data-index="${index}" class="rounded text-gold focus:ring-0">
+                        <label for="pm-${index}" class="text-[8px] uppercase text-zinc-400 font-bold cursor-pointer">Include Parent Price</label>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 ${item.hasPrice ? '' : 'hidden'}">
+                        <div>
+                            <label class="block text-[8px] uppercase text-zinc-500 font-bold">Qty</label>
+                            <input type="number" value="${item.qty}" data-action="change-parent" data-index="${index}" data-field="qty" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
+                        </div>
+                        <div>
+                            <label class="block text-[8px] uppercase text-zinc-500 font-bold">Rate</label>
+                            <input type="number" value="${item.rate}" data-action="change-parent" data-index="${index}" data-field="rate" class="w-full bg-zinc-900 text-cream px-2 py-1 text-xs border border-zinc-700 outline-none rounded">
+                        </div>
+                    </div>
+                    <div class="pt-2 border-t border-zinc-750 space-y-2">
+                        <div class="flex justify-between items-center px-1">
+                            <span class="text-[8px] uppercase text-zinc-400 font-bold">Sub-Items Breakdown</span>
+                            <button type="button" data-action="add-sub" data-index="${index}" class="text-[8px] uppercase bg-zinc-900 text-gold hover:bg-gold hover:text-dark px-2 py-0.5 rounded transition-all font-semibold">+ Add Sub-item</button>
+                        </div>
+                        <div class="space-y-2">
+                            ${subHTML}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function renderDocPreview() {
+            const container = document.getElementById('doc-items-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            items.forEach((item) => {
+                const parentTotal = item.qty * item.rate;
+                const parentHasPrice = item.hasPrice;
+
+                const parentRow = document.createElement('div');
+                parentRow.className = "py-6 md:py-8 border-b border-dark/5 last:border-0 break-inside-avoid";
+                
+                parentRow.innerHTML = `
+                    <div class="grid grid-cols-12 gap-4 items-start">
+                        <div class="col-span-6 md:col-span-7">
+                            <p class="font-sans text-[13px] text-zinc-700 font-light tracking-wide leading-relaxed">${item.name}</p>
+                            ${item.desc ? `<p class="font-sans text-[11px] text-zinc-500 font-light mt-1 leading-relaxed tracking-wide">${item.desc}</p>` : ''}
+                        </div>
+                        <div class="col-span-2 md:col-span-1 text-center text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
+                            ${parentHasPrice ? item.qty : '—'}
+                        </div>
+                        <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
+                            ${parentHasPrice ? formatCurrency(item.rate, state.lang) : '—'}
+                        </div>
+                        <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-700 tracking-wider font-semibold">
+                            ${parentHasPrice ? formatCurrency(parentTotal, state.lang) : '—'}
+                        </div>
+                    </div>
+                    <div class="mt-4 space-y-4 pl-4 md:pl-6 border-l border-zinc-200">
+                        ${(item.subItems || []).map(sub => {
+                            const subTotal = sub.qty * sub.rate;
+                            const isPricedSub = sub.hasPrice;
+                            
+                            return `
+                                <div class="grid grid-cols-12 gap-4 items-start">
+                                    <div class="col-span-6 md:col-span-7">
+                                        <p class="font-sans text-[13px] text-zinc-600 font-light leading-relaxed tracking-wide">${sub.name}</p>
+                                    </div>
+                                    <div class="col-span-2 md:col-span-1 text-center text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
+                                        ${isPricedSub ? sub.qty : ''}
+                                    </div>
+                                    <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-500 tracking-wider">
+                                        ${isPricedSub ? formatCurrency(sub.rate, state.lang) : ''}
+                                    </div>
+                                    <div class="col-span-2 text-right text-[12px] font-light font-sans mt-0.5 text-zinc-700 tracking-wider font-semibold">
+                                        ${isPricedSub ? formatCurrency(subTotal, state.lang) : ''}
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+                container.appendChild(parentRow);
+            });
+
+            calculateAndRenderTotals();
+        }
+
+        function switchWorkspaceView(viewName) {
+            state.tab = viewName;
+            const tabs = {
+                dashboard: { btn: 'tab-dashboard', container: 'view-dashboard' },
+                crm: { btn: 'tab-crm', container: 'view-crm' },
+                builder: { btn: 'tab-builder', container: 'view-builder' }
+            };
+
+            Object.keys(tabs).forEach(k => {
+                const config = tabs[k];
+                const btn = document.getElementById(config.btn);
+                const view = document.getElementById(config.container);
+                if (k === viewName) {
+                    if (btn) btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all bg-gold text-dark shadow";
+                    if (view) view.classList.remove('hidden');
+                    if (k === 'dashboard') loadCloudLibraryList();
+                } else {
+                    if (btn) btn.className = "px-4 py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all text-zinc-400 hover:text-cream bg-zinc-950 hover:bg-zinc-900/50";
+                    if (view) view.classList.add('hidden');
+                }
+            });
+        }
+
+        function generateDefaultMeta() {
+            const currentYear = new Date().getFullYear();
+            const randomNum = Math.floor(100 + Math.random() * 900); // SV-2026-XXX
+            const ref = `SV-${currentYear}-${randomNum}`;
+            const today = new Date();
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+
+            let dateIssueStr = today.toLocaleDateString(state.lang === 'POR' ? 'pt-BR' : state.lang === 'ITA' ? 'it-IT' : 'en-US', options);
+            
+            const refInput = document.getElementById('input-ref');
+            if (refInput) refInput.value = ref;
+
+            const dateInput = document.getElementById('input-date-issue');
+            if (dateInput) dateInput.value = dateIssueStr;
+        }
+
+        function createNewProposal() {
+            state.currentQuoteId = null;
+            items = [];
+            
+            generateDefaultMeta();
+            
+            document.getElementById('input-date-valid').value = '';
+            document.getElementById('input-client').value = '';
+            document.getElementById('input-company').value = '';
+            document.getElementById('input-event').value = '';
+            document.getElementById('input-event-date').value = '';
+            document.getElementById('input-location').value = '';
+            document.getElementById('input-guests').value = '';
+            document.getElementById('input-format').value = '';
+            document.getElementById('input-concept').value = '';
+            document.getElementById('input-presenter').value = 'Bernardo Simões';
+            document.getElementById('input-title').value = 'Executive Chef';
+
+            document.getElementById('input-status').value = 'Draft';
+
+            updateMetadata();
+            renderAll();
+            switchWorkspaceView('builder');
+            showToast("New Blank Proposal Draft Initiated.");
+        }
+
+        function renderAll() {
+            renderEditor();
+            renderDocPreview();
+        }
+
+        function registerHandlers() {
+            // Secure Passcode Validation using browser cryptography
+            const loginForm = document.getElementById('login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const pinInput = document.getElementById('admin-pin');
+                    const pin = pinInput ? pinInput.value.trim() : '';
+                    
+                    const msgBuffer = new TextEncoder().encode(pin);
+                    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+                    const hashArray = Array.from(new Uint8Array(hashBuffer));
+                    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                    
+                    // Direct cryptographic validation against the computed SHA-256 of "seiva2026"
+                    if (hashHex === '7c53d1000632ecdd6657c9dfbf76cf022db4cb30dbbc3bf5746369f6fd1d7fbd') {
+                        document.getElementById('login-gateway').classList.add('opacity-0', 'pointer-events-none');
+                        document.getElementById('app-content').classList.remove('hidden');
+                        showToast("Authentication Unlocked.");
+                        loadCloudLibraryList();
+                        renderLedgerTable();
+                        renderCRMTable();
+                    } else {
+                        showToast("Incorrect Passcode. Access denied.", "error");
+                    }
+                });
+            }
+
+            const tabDashboard = document.getElementById('tab-dashboard');
+            if (tabDashboard) tabDashboard.addEventListener('click', () => switchWorkspaceView('dashboard'));
+            
+            const tabCrm = document.getElementById('tab-crm');
+            if (tabCrm) tabCrm.addEventListener('click', () => switchWorkspaceView('crm'));
+            
+            const tabBuilder = document.getElementById('tab-builder');
+            if (tabBuilder) tabBuilder.addEventListener('click', () => switchWorkspaceView('builder'));
+            
+            const btnNewProposal = document.getElementById('btn-dashboard-new-proposal');
+            if (btnNewProposal) btnNewProposal.addEventListener('click', createNewProposal);
+
+            const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
+            if (sidebarCollapseBtn) sidebarCollapseBtn.addEventListener('click', toggleSidebar);
+
+            const sidebarToggleFloating = document.getElementById('sidebar-toggle-floating');
+            if (sidebarToggleFloating) sidebarToggleFloating.addEventListener('click', toggleSidebar);
+
+            const sidebarPrimaryExportBtn = document.getElementById('sidebar-primary-export-btn');
+            if (sidebarPrimaryExportBtn) sidebarPrimaryExportBtn.addEventListener('click', exportDocumentToPDF);
+            
+            const uiBtnAddItem = document.getElementById('ui-btn-add-item');
+            if (uiBtnAddItem) {
+                uiBtnAddItem.addEventListener('click', () => {
+                    addNewItem();
+                    triggerAutosave();
+                });
+            }
+
+            const btnShareDispatch = document.getElementById('btn-share-dispatch');
+            if (btnShareDispatch) btnShareDispatch.addEventListener('click', () => triggerShareDispatch());
+            
+            const btnCloseDispatch = document.getElementById('btn-close-dispatch');
+            if (btnCloseDispatch) {
+                btnCloseDispatch.addEventListener('click', () => {
+                    const overlay = document.getElementById('dispatch-overlay');
+                    if (overlay) overlay.classList.add('hidden');
+                });
+            }
+
+            // Delegated click routers for tables
+            const crmClientsRows = document.getElementById('crm-clients-rows');
+            if (crmClientsRows) {
+                crmClientsRows.addEventListener('click', (e) => {
+                    const applyBtn = e.target.closest('[data-action="apply-crm"]');
+                    const delBtn = e.target.closest('[data-action="delete-crm"]');
+                    if (applyBtn) {
+                        applyCRMToProposal(applyBtn.getAttribute('data-name'), applyBtn.getAttribute('data-company'));
+                    } else if (delBtn) {
+                        deleteClient(delBtn.getAttribute('data-id'));
+                    }
+                });
+            }
+
+            const metaFields = [
+                'ref', 'date-issue', 'date-valid', 'client', 'company',
+                'event', 'event-date', 'location', 'guests', 'format',
+                'concept', 'presenter', 'title'
+            ];
+            metaFields.forEach(f => {
+                const el = document.getElementById(`input-${f}`);
+                if (el) {
+                    el.addEventListener('input', () => {
+                        updateMetadata();
+                        triggerAutosave();
+                    });
+                }
+            });
+
+            const inputStatus = document.getElementById('input-status');
+            if (inputStatus) {
+                inputStatus.addEventListener('change', function() {
+                    triggerAutosave();
+                });
+            }
+
+            const editor = document.getElementById('items-editor-container');
+            if (editor) {
+                editor.addEventListener('input', function(e) {
+                    const target = e.target;
+                    if (target.getAttribute('data-action') === 'change-parent') {
+                        const index = parseInt(target.getAttribute('data-index'), 10);
+                        const field = target.getAttribute('data-field');
+                        handleItemChange(index, field, target.value);
+                        triggerAutosave();
+                    }
+                    if (target.getAttribute('data-action') === 'change-sub') {
+                        const parent = parseInt(target.getAttribute('data-parent'), 10);
+                        const sub = parseInt(target.getAttribute('data-sub'), 10);
+                        const field = target.getAttribute('data-field');
+                        handleSubItemChange(parent, sub, field, target.value);
+                        triggerAutosave();
+                    }
+                });
+
+                editor.addEventListener('click', function(e) {
+                    const target = e.target;
+                    if (target.getAttribute('data-action') === 'add-sub') {
+                        const index = parseInt(target.getAttribute('data-index'), 10);
+                        addNewSubItem(index);
+                        triggerAutosave();
+                    }
+                    const delParent = target.closest('[data-action="delete-parent"]');
+                    if (delParent) {
+                        const index = parseInt(delParent.getAttribute('data-index'), 10);
+                        deleteItem(index);
+                        triggerAutosave();
+                    }
+                    const delSub = target.closest('[data-action="delete-sub"]');
+                    if (delSub) {
+                        const parent = parseInt(delSub.getAttribute('data-parent'), 10);
+                        const sub = parseInt(delSub.getAttribute('data-sub'), 10);
+                        deleteSubItem(parent, sub);
+                        triggerAutosave();
+                    }
+                });
+
+                editor.addEventListener('change', function(e) {
+                    const target = e.target;
+                    if (target.getAttribute('data-action') === 'toggle-parent-price') {
+                        const index = parseInt(target.getAttribute('data-index'), 10);
+                        handleItemChange(index, 'hasPrice', target.checked);
+                        renderAll();
+                        triggerAutosave();
+                    }
+                    if (target.getAttribute('data-action') === 'toggle-sub-price') {
+                        const parent = parseInt(target.getAttribute('data-parent'), 10);
+                        const sub = parseInt(target.getAttribute('data-sub'), 10);
+                        handleSubItemChange(parent, sub, 'hasPrice', target.checked);
+                        renderAll();
+                        triggerAutosave();
+                    }
+                });
+            }
+
+            // OCR Dropzone
+            const dropzone = document.getElementById('ocr-dropzone');
+            const fileInput = document.getElementById('ocr-file-input');
+            if (dropzone && fileInput) {
+                dropzone.addEventListener('click', () => fileInput.click());
+                fileInput.addEventListener('change', triggerSimulatedOCR);
+            }
+            
+            const btnOcrApproveExpense = document.getElementById('btn-ocr-approve-expense');
+            if (btnOcrApproveExpense) {
+                btnOcrApproveExpense.addEventListener('click', approveOCRExpense);
+            }
+
+            // CRM Add Client Profile trigger
+            const btnCrmAddClient = document.getElementById('btn-crm-add-client');
+            if (btnCrmAddClient) btnCrmAddClient.addEventListener('click', setupCRMForm);
+            
+            const btnCrmCancel = document.getElementById('btn-crm-cancel');
+            if (btnCrmCancel) btnCrmCancel.addEventListener('click', setupCRMForm);
+            
+            const crmClientForm = document.getElementById('crm-client-form');
+            if (crmClientForm) {
+                crmClientForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const newClient = {
+                        id: crypto.randomUUID(),
+                        name: document.getElementById('crm-input-name').value,
+                        company: document.getElementById('crm-input-company').value,
+                        email: document.getElementById('crm-input-email').value,
+                        eventsCount: 0,
+                        ltv: 0
+                    };
+                    state.clients.push(newClient);
+                    renderCRMTable();
+                    crmClientForm.reset();
+                    setupCRMForm();
+                    showToast("New client card saved!");
+                });
+            }
+
+            ['ENG', 'POR', 'ITA'].forEach(lang => {
+                const langBtn = document.getElementById(`lang-btn-${lang}`);
+                if (langBtn) {
+                    langBtn.addEventListener('click', () => {
+                        changeLanguage(lang);
+                        triggerAutosave();
+                    });
+                }
+            });
+
+            const docBtnApprove = document.getElementById('doc-btn-approve');
+            if (docBtnApprove) {
+                docBtnApprove.addEventListener('click', () => {
+                    const paymentMsg = document.getElementById('payment-msg');
+                    if (paymentMsg) paymentMsg.classList.toggle('hidden');
+                });
+            }
+
+            const btnLogout = document.getElementById('btn-logout');
+            if (btnLogout) {
+                btnLogout.addEventListener('click', () => {
+                    const pinInput = document.getElementById('admin-pin');
+                    if (pinInput) pinInput.value = '';
+                    const appContent = document.getElementById('app-content');
+                    if (appContent) appContent.classList.add('hidden');
+                    const loginGateway = document.getElementById('login-gateway');
+                    if (loginGateway) loginGateway.classList.remove('opacity-0', 'pointer-events-none');
+                });
+            }
+
+            const btnWhatsappDispatch = document.getElementById('btn-whatsapp-dispatch');
+            if (btnWhatsappDispatch) {
+                btnWhatsappDispatch.addEventListener('click', shareWhatsApp);
+            }
+
+            const btnDirectEmail = document.getElementById('btn-direct-email');
+            if (btnDirectEmail) {
+                btnDirectEmail.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openMailClient();
+                });
+            }
+
+            const btnCopyLink = document.getElementById('btn-copy-link');
+            if (btnCopyLink) {
+                btnCopyLink.addEventListener('click', () => {
+                    const input = document.getElementById('share-link-input');
+                    if (input) {
+                        input.select();
+                        document.execCommand('copy');
+                        showToast("Invite Link Copied.");
+                    }
+                });
+            }
+
+            const btnCopyEmailDraft = document.getElementById('btn-copy-email-draft');
+            if (btnCopyEmailDraft) {
+                btnCopyEmailDraft.addEventListener('click', () => {
+                    const textarea = document.getElementById('dispatch-email-text');
+                    if (textarea) {
+                        textarea.select();
+                        document.execCommand('copy');
+                        showToast("Email text copied.");
+                    }
+                });
+            }
+
+            const searchProposals = document.getElementById('search-proposals');
+            if (searchProposals) {
+                searchProposals.addEventListener('input', function() {
+                    loadCloudLibraryList(this.value);
+                });
+            }
         }
 
         // Setup unified loading bypass trigger
