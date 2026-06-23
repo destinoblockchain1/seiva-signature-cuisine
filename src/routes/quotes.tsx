@@ -20,6 +20,10 @@ import { Logo, TriadIcon } from "@/components/Logo";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/quotes")({
+  validateSearch: (search) => ({
+    leadId: typeof search.leadId === "string" ? search.leadId : undefined,
+    quoteId: typeof search.quoteId === "string" ? search.quoteId : undefined,
+  }),
   component: ProposalsPage,
   head: () => ({
     meta: [
@@ -51,6 +55,7 @@ type LineItem = {
 };
 
 type ProposalDraft = {
+  inquiryId: string | null;
   language: Lang;
   proposalReference: string;
   issueDate: string;
@@ -72,6 +77,7 @@ type ProposalRow = {
   id: string;
   created_at: string;
   updated_at: string;
+  inquiry_id: string | null;
   proposal_number?: number;
   proposal_reference: string;
   issue_date: string;
@@ -88,6 +94,19 @@ type ProposalRow = {
   presenter_name: string | null;
   presenter_title: string | null;
   items: unknown;
+};
+
+type InquiryRow = {
+  id: string;
+  created_at: string;
+  name: string | null;
+  email: string | null;
+  company: string | null;
+  date: string | null;
+  location: string | null;
+  guests: string | number | null;
+  vision: string | null;
+  status?: string | null;
 };
 
 const db = supabase as any;
@@ -611,6 +630,7 @@ function LoginRequired() {
 }
 
 function ProposalBuilder({ session }: { session: Session }) {
+  const search = Route.useSearch();
   const [draft, setDraft] = useState(() =>
     createDraftFromPreset("POR", {
       proposalReference: "SV-2026-000",
@@ -624,19 +644,38 @@ function ProposalBuilder({ session }: { session: Session }) {
   const [library, setLibrary] = useState<ProposalRow[]>([]);
   const [libraryLoading, setLibraryLoading] = useState(false);
   const [paymentVisible, setPaymentVisible] = useState(false);
+  const [leadSuggestions, setLeadSuggestions] = useState<InquiryRow[]>([]);
+  const [leadSuggestionsOpen, setLeadSuggestionsOpen] = useState(false);
+  const [leadSuggestionLoading, setLeadSuggestionLoading] = useState(false);
   const [mockMode, setMockMode] = useState(true);
   const skipNextSave = useRef(true);
+  const leadSuggestionArmed = useRef(false);
   const saveTimer = useRef<number | null>(null);
 
   const labels = LABELS[draft.language];
   const totals = useMemo(() => calculateTotals(draft), [draft]);
 
   useEffect(() => {
-    void createNewProposal({ initial: true });
+    void bootProposal();
     return () => {
       if (saveTimer.current) window.clearTimeout(saveTimer.current);
     };
   }, []);
+
+  useEffect(() => {
+    const term = draft.clientName.trim();
+    if (booting || !leadSuggestionArmed.current || term.length < 2) {
+      setLeadSuggestions([]);
+      setLeadSuggestionsOpen(false);
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      void fetchLeadSuggestions(term);
+    }, 220);
+
+    return () => window.clearTimeout(timer);
+  }, [draft.clientName, booting]);
 
   useEffect(() => {
     if (!proposalId || booting) return;
@@ -653,11 +692,51 @@ function ProposalBuilder({ session }: { session: Session }) {
     }, 850);
   }, [draft, proposalId, booting]);
 
-  async function createNewProposal(options?: { initial?: boolean }) {
-    const nextDraft = createDraftFromPreset(draft.language, {
+  async function bootProposal() {
+    setBooting(true);
+
+    if (search.quoteId) {
+      try {
+        const { data, error } = await db.from("proposals").select("*").eq("id", search.quoteId).single();
+        if (error) throw error;
+
+        skipNextSave.current = true;
+        setProposalId(data.id);
+        setDraft(rowToDraft(data as ProposalRow));
+        setMockMode(false);
+        setPaymentVisible(false);
+        setSaveStatus("Orçamento carregado");
+        return;
+      } catch (err) {
+        console.error(err);
+        toast.error("Não consegui carregar este orçamento. Vou abrir um novo draft.");
+      } finally {
+        setBooting(false);
+      }
+    }
+
+    if (search.leadId) {
+      try {
+        const lead = await fetchLead(search.leadId);
+        await createNewProposal({ initial: true, lead });
+        return;
+      } catch (err) {
+        console.error(err);
+        toast.error("Não consegui carregar este lead. Vou abrir um orçamento modelo.");
+      }
+    }
+
+    await createNewProposal({ initial: true });
+  }
+
+  async function createNewProposal(options?: { initial?: boolean; lead?: InquiryRow | null }) {
+    let nextDraft = createDraftFromPreset(draft.language, {
       proposalReference: "SV-2026-000",
       issueDate: todayISO(),
     });
+    if (options?.lead) {
+      nextDraft = applyLeadToDraft(nextDraft, options.lead);
+    }
 
     if (options?.initial) setBooting(true);
     setSaveStatus("Criando referência...");
@@ -675,9 +754,12 @@ function ProposalBuilder({ session }: { session: Session }) {
       skipNextSave.current = true;
       setProposalId(data.id);
       setDraft(rowDraft);
-      setMockMode(true);
+      setMockMode(!options?.lead);
       setPaymentVisible(false);
       setSaveStatus("Draft criado");
+      if (options?.lead?.id) {
+        await supabase.from("inquiries").update({ status: "proposal" }).eq("id", options.lead.id);
+      }
     } catch (err: any) {
       console.error(err);
       const fallback = createDraftFromPreset("POR", {
@@ -692,6 +774,39 @@ function ProposalBuilder({ session }: { session: Session }) {
       toast.error("Não consegui criar o draft no Supabase. A tela continua funcionando em modo local.");
     } finally {
       setBooting(false);
+    }
+  }
+
+  async function fetchLead(id: string) {
+    const { data, error } = await supabase
+      .from("inquiries")
+      .select("id, created_at, name, email, company, date, location, guests, vision, status")
+      .eq("id", id)
+      .single();
+
+    if (error) throw error;
+    return data as InquiryRow;
+  }
+
+  async function fetchLeadSuggestions(term: string) {
+    setLeadSuggestionLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from("inquiries")
+        .select("id, created_at, name, email, company, date, location, guests, vision, status")
+        .ilike("name", `%${term.trim()}%`)
+        .order("created_at", { ascending: false })
+        .limit(5);
+
+      if (error) throw error;
+      setLeadSuggestions((data || []) as InquiryRow[]);
+      setLeadSuggestionsOpen(Boolean(data?.length));
+    } catch (err) {
+      console.error(err);
+      setLeadSuggestions([]);
+      setLeadSuggestionsOpen(false);
+    } finally {
+      setLeadSuggestionLoading(false);
     }
   }
 
@@ -769,6 +884,22 @@ function ProposalBuilder({ session }: { session: Session }) {
   function updateField<K extends keyof ProposalDraft>(field: K, value: ProposalDraft[K]) {
     setMockMode(false);
     setDraft((current) => ({ ...current, [field]: value }));
+  }
+
+  function handleClientNameChange(value: string) {
+    leadSuggestionArmed.current = true;
+    updateField("clientName", value);
+    if (value.trim().length >= 2) {
+      setLeadSuggestionsOpen(true);
+    }
+  }
+
+  function applyLeadSelection(lead: InquiryRow) {
+    setMockMode(false);
+    leadSuggestionArmed.current = false;
+    setLeadSuggestions([]);
+    setLeadSuggestionsOpen(false);
+    setDraft((current) => applyLeadToDraft(current, lead));
   }
 
   function changeLanguage(language: Lang) {
@@ -999,11 +1130,42 @@ function ProposalBuilder({ session }: { session: Session }) {
 
             <SidebarSection title={labels.clientInfo}>
               <EditorField label="Client Name">
-                <input
-                  value={draft.clientName}
-                  onChange={(event) => updateField("clientName", event.target.value)}
-                  className={INPUT_CLASS}
-                />
+                <div className="relative">
+                  <input
+                    value={draft.clientName}
+                    onChange={(event) => handleClientNameChange(event.target.value)}
+                    onFocus={() => {
+                      if (leadSuggestions.length) setLeadSuggestionsOpen(true);
+                    }}
+                    className={INPUT_CLASS}
+                  />
+                  {leadSuggestionsOpen && (leadSuggestions.length > 0 || leadSuggestionLoading) && (
+                    <div className="absolute left-0 right-0 top-full z-30 mt-1 border border-[#C5A880]/50 bg-[#111812] shadow-2xl">
+                      {leadSuggestionLoading ? (
+                        <div className="px-3 py-2 text-xs text-background/60">Buscando leads...</div>
+                      ) : (
+                        leadSuggestions.map((lead) => (
+                          <button
+                            key={lead.id}
+                            type="button"
+                            onMouseDown={(event) => {
+                              event.preventDefault();
+                              applyLeadSelection(lead);
+                            }}
+                            className="w-full border-b border-background/10 px-3 py-2 text-left transition hover:bg-background/10 last:border-b-0"
+                          >
+                            <span className="block text-sm font-medium text-background">{lead.name}</span>
+                            <span className="block truncate text-[0.68rem] text-background/60">
+                              {[lead.company, lead.email, lead.date ? formatLongDate(lead.date, draft.language) : ""]
+                                .filter(Boolean)
+                                .join(" · ")}
+                            </span>
+                          </button>
+                        ))
+                      )}
+                    </div>
+                  )}
+                </div>
               </EditorField>
               <EditorField label="Client Organization">
                 <input
@@ -1731,6 +1893,7 @@ function createDraftFromPreset(
   const mock = MOCKS[language];
 
   return {
+    inquiryId: null,
     language,
     proposalReference: options.proposalReference,
     issueDate: options.issueDate,
@@ -1749,6 +1912,33 @@ function createDraftFromPreset(
   };
 }
 
+function applyLeadToDraft(draft: ProposalDraft, lead: InquiryRow): ProposalDraft {
+  const leadName = lead.name?.trim();
+  const company = lead.company?.trim();
+  const formattedEventDate = lead.date ? formatLongDate(lead.date, draft.language) : draft.eventDate;
+  const guestCount = lead.guests ? String(lead.guests).trim() : "";
+  const guestLabel =
+    guestCount && draft.language === "ENG"
+      ? `${guestCount} guests`
+      : guestCount && draft.language === "ITA"
+        ? `${guestCount} ospiti`
+        : guestCount
+          ? `${guestCount} convidados`
+          : draft.guestAttendance;
+
+  return {
+    ...draft,
+    inquiryId: lead.id,
+    clientName: leadName || draft.clientName,
+    clientOrganization: company || draft.clientOrganization,
+    eventName: company ? `${company} Event` : leadName ? `${leadName} Event` : draft.eventName,
+    eventDate: formattedEventDate,
+    eventLocation: lead.location?.trim() || draft.eventLocation,
+    guestAttendance: guestLabel,
+    conceptStatement: lead.vision?.trim() || draft.conceptStatement,
+  };
+}
+
 function rowToDraft(row: ProposalRow): ProposalDraft {
   const language = isLang(row.language) ? row.language : "POR";
   const fallback = createDraftFromPreset(language, {
@@ -1757,6 +1947,7 @@ function rowToDraft(row: ProposalRow): ProposalDraft {
   });
 
   return {
+    inquiryId: row.inquiry_id || null,
     language,
     proposalReference: row.proposal_reference || fallback.proposalReference,
     issueDate: row.issue_date || fallback.issueDate,
@@ -1777,6 +1968,7 @@ function rowToDraft(row: ProposalRow): ProposalDraft {
 
 function toDbPayload(draft: ProposalDraft) {
   return {
+    inquiry_id: draft.inquiryId,
     issue_date: draft.issueDate,
     language: draft.language,
     valid_until: draft.validUntil,

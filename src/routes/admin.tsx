@@ -165,13 +165,14 @@ function LoginView() {
 const COLUMNS = [
   { id: "new", label: "New Leads", actionLabel: "Send Email", color: "border-t-accent" },
   { id: "contacted", label: "Contacted", actionLabel: "Invite to Call", color: "border-t-amber-700/60" },
-  { id: "scheduled", label: "Scheduled", actionLabel: "Send Proposal", color: "border-t-blue-700/60" },
+  { id: "scheduled", label: "Scheduled", actionLabel: "Criar Orçamento", color: "border-t-blue-700/60" },
   { id: "proposal", label: "Proposal", actionLabel: "Confirm Booking", color: "border-t-purple-700/60" },
   { id: "confirmed", label: "Confirmed", actionLabel: "Archive Lead", color: "border-t-emerald-700/60" },
 ];
 
 function DashboardView({ session }: { session: Session }) {
   const [inquiries, setInquiries] = useState<any[]>([]);
+  const [proposalsByInquiryId, setProposalsByInquiryId] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -252,6 +253,16 @@ function DashboardView({ session }: { session: Session }) {
     document.body.removeChild(link);
   };
 
+  const openQuoteForInquiry = (inquiry: any, proposal?: any) => {
+    const params = new URLSearchParams();
+    if (proposal?.id) {
+      params.set("quoteId", proposal.id);
+    } else {
+      params.set("leadId", inquiry.id);
+    }
+    window.location.href = `/quotes?${params.toString()}`;
+  };
+
   const handleCopyEmail = async (e: React.MouseEvent, email: string, id: string) => {
     e.stopPropagation();
     try {
@@ -283,12 +294,7 @@ function DashboardView({ session }: { session: Session }) {
         updateStatus(inquiry.id, "scheduled");
       }, 500);
     } else if (currentStatus === "scheduled") {
-      const subject = "Custom Menu Proposal - SEIVA Signature Cuisine";
-      const body = `Dear ${inquiry.name},\n\nWe have drafted a custom menu proposal for your event. Let us know if you would like to review it together.\n\nWarm regards,\nSEIVA Culinary Team`;
-      triggerMailto(inquiry.email, subject, body);
-      setTimeout(() => {
-        updateStatus(inquiry.id, "proposal");
-      }, 500);
+      openQuoteForInquiry(inquiry, proposalsByInquiryId[inquiry.id]);
     } else if (currentStatus === "proposal") {
       if (confirm(`Confirm booking for ${inquiry.name}?`)) {
         await updateStatus(inquiry.id, "confirmed");
@@ -333,12 +339,43 @@ function DashboardView({ session }: { session: Session }) {
         toast.error("Failed to load inquiries.");
         console.error(error);
       } else {
-        setInquiries(data || []);
+        const rows = data || [];
+        setInquiries(rows);
+        await fetchLinkedProposals(rows);
       }
     } catch (err) {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchLinkedProposals = async (items: any[]) => {
+    const ids = items.map((item) => item.id).filter(Boolean);
+    if (!ids.length) {
+      setProposalsByInquiryId({});
+      return;
+    }
+
+    try {
+      const { data, error } = await (supabase as any)
+        .from("proposals")
+        .select("id, inquiry_id, proposal_reference, updated_at")
+        .in("inquiry_id", ids)
+        .order("updated_at", { ascending: false });
+
+      if (error) throw error;
+
+      const map = (data || []).reduce((acc: Record<string, any>, proposal: any) => {
+        if (proposal.inquiry_id && !acc[proposal.inquiry_id]) {
+          acc[proposal.inquiry_id] = proposal;
+        }
+        return acc;
+      }, {});
+      setProposalsByInquiryId(map);
+    } catch (err) {
+      console.error(err);
+      setProposalsByInquiryId({});
     }
   };
 
@@ -549,6 +586,11 @@ function DashboardView({ session }: { session: Session }) {
                         ) : (
                           columnInquiries.map((inquiry) => {
                             const isExpanded = expandedCardId === inquiry.id;
+                            const linkedProposal = proposalsByInquiryId[inquiry.id];
+                            const actionLabel =
+                              column.id === "scheduled" && linkedProposal
+                                ? "Ver Orçamento"
+                                : column.actionLabel;
                             return (
                               <div
                                 key={inquiry.id}
@@ -639,14 +681,29 @@ function DashboardView({ session }: { session: Session }) {
                                   <button
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      handleAction(inquiry, column.id);
+                                      if (column.id === "scheduled" && linkedProposal) {
+                                        openQuoteForInquiry(inquiry, linkedProposal);
+                                      } else {
+                                        handleAction(inquiry, column.id);
+                                      }
                                     }}
                                     className="eyebrow w-full flex items-center justify-center gap-2 border border-foreground/30 py-2 text-[0.6rem] tracking-wider transition-all hover:bg-foreground hover:text-background active:scale-[0.98]"
                                   >
-                                    {column.actionLabel}
+                                    {actionLabel}
                                     <ArrowRight size={10} />
                                   </button>
                                 </div>
+                                {linkedProposal && column.id !== "scheduled" && (
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      openQuoteForInquiry(inquiry, linkedProposal);
+                                    }}
+                                    className="eyebrow mt-2 w-full border border-accent/60 py-2 text-[0.6rem] tracking-wider text-accent transition-all hover:bg-accent hover:text-background active:scale-[0.98]"
+                                  >
+                                    Ver Orçamento
+                                  </button>
+                                )}
                               </div>
                             );
                           })
