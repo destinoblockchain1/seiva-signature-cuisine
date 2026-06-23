@@ -1355,7 +1355,7 @@ function ProposalDocument({
       <div className="pointer-events-none absolute right-0 top-0 h-64 w-64 translate-x-1/2 -translate-y-1/2 rounded-full bg-[#E2E0D9]/50 blur-3xl" />
 
       <div>
-        <header className="mb-16 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
+        <header className="proposal-doc-header mb-16 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
           <ProposalLogo />
           <div className="text-left sm:text-right">
             <h1 className="font-serif text-4xl font-light uppercase tracking-widest text-[#0F0F0F] sm:text-5xl">
@@ -1367,7 +1367,7 @@ function ProposalDocument({
           </div>
         </header>
 
-        <section className="mb-16 grid grid-cols-1 gap-12 md:grid-cols-2">
+        <section className="proposal-meta-section mb-16 grid grid-cols-1 gap-12 md:grid-cols-2">
           <div className="space-y-6">
             <div>
               <h3 className="mb-1 text-[9px] font-bold uppercase tracking-[0.3em] text-[#0F0F0F]/40">
@@ -1404,7 +1404,7 @@ function ProposalDocument({
           </div>
         </section>
 
-        <section className="mb-16">
+        <section className="proposal-concept-section mb-16">
           <h3 className="mb-4 border-b border-[#0F0F0F]/10 pb-2 text-[9px] font-bold uppercase tracking-[0.3em] text-[#0F0F0F]/40">
             {labels.conceptLabel}
           </h3>
@@ -1413,7 +1413,7 @@ function ProposalDocument({
           </p>
         </section>
 
-        <section className="mb-12">
+        <section className="proposal-investment-section mb-12">
           <h3 className="mb-6 border-b border-[#0F0F0F]/10 pb-2 text-[9px] font-bold uppercase tracking-[0.3em] text-[#0F0F0F]/40">
             {labels.investment}
           </h3>
@@ -1433,8 +1433,8 @@ function ProposalDocument({
         </section>
       </div>
 
-      <div className="break-inside-avoid">
-        <section className="mb-16 flex justify-end">
+      <div className="proposal-closing-block">
+        <section className="proposal-totals-section mb-16 flex justify-end">
           <div className="w-full space-y-3 sm:w-1/2">
             <TotalRow label={labels.subtotal} value={formatCurrency(totals.subtotal, draft.language)} />
             <TotalRow label={labels.taxes} value={formatCurrency(totals.taxes, draft.language)} />
@@ -1455,7 +1455,7 @@ function ProposalDocument({
           </div>
         </section>
 
-        <section className="grid grid-cols-1 gap-12 border-t border-[#0F0F0F]/10 pt-8 md:grid-cols-2">
+        <section className="proposal-next-section grid grid-cols-1 gap-12 border-t border-[#0F0F0F]/10 pt-8 md:grid-cols-2">
           <div>
             <h3 className="mb-3 text-[9px] font-bold uppercase tracking-[0.3em] text-[#0F0F0F]">
               {labels.nextSteps}
@@ -1496,7 +1496,7 @@ function ProposalDocument({
           </div>
         </section>
 
-        <footer className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-[#0F0F0F]/10 pt-6 sm:flex-row">
+        <footer className="proposal-doc-footer mt-16 flex flex-col items-center justify-between gap-4 border-t border-[#0F0F0F]/10 pt-6 sm:flex-row">
           <p className="text-center text-[8px] font-bold uppercase tracking-[0.3em] text-[#0F0F0F]/30 sm:text-left">
             {labels.footerTagline}
           </p>
@@ -1557,7 +1557,7 @@ function ProposalLineItem({ item, lang }: { item: LineItem; lang: Lang }) {
   const parentTotal = item.qty * item.rate;
 
   return (
-    <div className="break-inside-avoid border-b border-[#0F0F0F]/5 py-6 last:border-0 md:py-8">
+    <div className="proposal-line-item break-inside-avoid border-b border-[#0F0F0F]/5 py-6 last:border-0 md:py-8">
       <div className="grid grid-cols-12 items-start gap-4">
         <div className="col-span-6 md:col-span-7">
           <p className="font-sans text-[13px] font-light leading-relaxed tracking-wide text-zinc-700">
@@ -1580,7 +1580,7 @@ function ProposalLineItem({ item, lang }: { item: LineItem; lang: Lang }) {
         </div>
       </div>
 
-      <div className="mt-4 space-y-4 border-l border-zinc-200 pl-4 md:pl-6">
+      <div className="proposal-sub-items mt-4 space-y-4 border-l border-zinc-200 pl-4 md:pl-6">
         {item.subItems.map((sub) => {
           const subTotal = sub.qty * sub.rate;
 
