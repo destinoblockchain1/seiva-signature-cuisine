@@ -6,7 +6,7 @@ import { Toaster, toast } from "sonner";
 import { Resend } from "resend";
 import Autoplay from "embla-carousel-autoplay";
 
-import chefsImg from "@/assets/chefs-collective.jpg";
+import chefsImg from "@/assets/chefs-collective.webp";
 import matchpoint1 from "@/assets/matchpoint-1.jpg";
 import matchpoint2 from "@/assets/matchpoint-2.jpg";
 import matchpoint3 from "@/assets/matchpoint-3.jpg";
@@ -15,11 +15,11 @@ import matchpoint5 from "@/assets/matchpoint-5.jpg";
 import matchpoint6 from "@/assets/matchpoint-6.jpg";
 import matchpoint7 from "@/assets/matchpoint-7.jpg";
 
-import img6589 from "@/assets/IMG_6589.jpg";
-import img6608 from "@/assets/IMG_6608.jpg";
-import img7088 from "@/assets/IMG_7088.jpg";
-import img7145 from "@/assets/IMG_7145.jpg";
-import img8396 from "@/assets/IMG_8396.jpg";
+import img6589 from "@/assets/IMG_6589.webp";
+import img6608 from "@/assets/IMG_6608.webp";
+import img7088 from "@/assets/IMG_7088.webp";
+import img7145 from "@/assets/IMG_7145.webp";
+import img8396 from "@/assets/IMG_8396.webp";
 import logoSeiva from "@/assets/logo seiva.webp";
 
 import { copy, type Lang } from "@/lib/i18n";
