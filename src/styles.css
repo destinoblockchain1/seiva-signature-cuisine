@@ -138,7 +138,7 @@
     width: 100% !important;
     min-height: 0 !important;
     overflow: visible !important;
-    padding: 12mm 14mm !important;
+    padding: 9mm 14mm !important;
     background: #f7f5f0 !important;
   }
 
@@ -180,6 +180,11 @@
     padding-top: 3mm !important;
   }
 
+  .proposal-line-item:last-child {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
   .proposal-line-item p {
     line-height: 1.35 !important;
   }
@@ -212,6 +217,7 @@
 
   @page {
     size: letter portrait;
-    margin: 0;
+    margin: 6mm 0;
+    background: #f7f5f0;
   }
 }
