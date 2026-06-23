@@ -122,7 +122,7 @@ function Hero({ lang }: { lang: Lang }) {
           {t(customHeadline, lang)}
         </h1>
         <div className="mt-4">
-          <img src={logoSeiva} alt="SEIVA Logo" className="h-16 w-auto" />
+          <img src={logoSeiva} alt="SEIVA Logo" className="h-80 w-auto" />
         </div>
         <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-12">
           <div className="md:col-span-5 md:col-start-7">
