@@ -266,6 +266,12 @@ function DashboardView({ session }: { session: Session }) {
             <span className="hidden text-xs text-muted-foreground md:inline-block">
               Authenticated as: <strong className="text-foreground">{session.user?.email}</strong>
             </span>
+            <a
+              href="/quotes"
+              className="eyebrow flex items-center gap-2 border border-foreground bg-foreground px-4 py-2 text-[0.65rem] text-background transition-all hover:bg-background hover:text-foreground"
+            >
+              <FileText size={12} /> Criar Orçamento
+            </a>
             <button
               onClick={handleSignOut}
               className="eyebrow flex items-center gap-2 border border-foreground/30 px-4 py-2 text-[0.65rem] transition-all hover:bg-foreground hover:text-background"

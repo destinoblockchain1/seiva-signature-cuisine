@@ -90,3 +90,50 @@
   height: 1px;
   width: 100%;
 }
+
+@media print {
+  body {
+    background: #f7f5f0 !important;
+    color: #0f0f0f !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  [data-print-hidden="true"],
+  .proposal-no-print {
+    display: none !important;
+  }
+
+  .proposal-workspace {
+    display: block !important;
+    min-height: 0 !important;
+  }
+
+  .proposal-preview-shell {
+    display: block !important;
+    overflow: visible !important;
+    background: #f7f5f0 !important;
+    padding: 0 !important;
+  }
+
+  .proposal-print-container {
+    box-shadow: none !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+  }
+
+  .break-inside-avoid,
+  header,
+  footer,
+  section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  @page {
+    size: letter portrait;
+    margin: 25mm;
+  }
+}
