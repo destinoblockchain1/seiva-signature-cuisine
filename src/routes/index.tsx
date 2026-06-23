@@ -15,6 +15,7 @@ import matchpoint7 from "@/assets/matchpoint-7.jpg";
 import { copy, type Lang } from "@/lib/i18n";
 import { Logo, TriadIcon } from "@/components/Logo";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/")({
   component: Landing,
@@ -455,6 +456,21 @@ function Inquire({ lang }: { lang: Lang }) {
     }
 
     try {
+      const guestsNum = data.guests ? parseInt(data.guests, 10) : null;
+      const { error: dbError } = await supabase.from("inquiries").insert({
+        name: data.name,
+        company: data.company || null,
+        email: data.email,
+        date: data.date || null,
+        location: data.location || null,
+        guests: isNaN(guestsNum as number) ? null : guestsNum,
+        vision: data.vision || null,
+      });
+
+      if (dbError) {
+        console.error("Error saving inquiry to database:", dbError);
+      }
+
       const res = await sendInquiryEmail({ data });
       if (res && res.success) {
         setSubmitted(true);
