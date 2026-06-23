@@ -47,8 +47,7 @@ pt: [
         "De galas exclusivas harmonizadas com vinhos para marcas icônicas como BMW e La Roche-Posay a celebrações íntimas de momentos inesquecíveis, nós lidamos com a pressão e entregamos a experiência, para que você possa desfrutar da tranquilidade.",
         "Respeitamos o produtor. Honramos as estações. Somos obcecados pela técnica, temperatura, textura, linhagem do vinho e geometria do prato. Mas, acima de tudo, respeitamos a confiança que você coloca em nossas mãos. Ao sentar-se à nossa mesa, você está provando uma jornada sensorial, repleta de histórias, arte, texturas e sabores complexos.",
       ],
-    },
-    },
+        },
     signoff: { en: "SEIVA. Signature Cuisine, Tailor-Made.", pt: "SEIVA. Alta Gastronomia, Sob Medida." },
   },
   chefs: {
