@@ -27,26 +27,27 @@ export const copy = {
   manifesto: {
     eyebrow: { en: "The Manifesto", pt: "O Manifesto" },
     pull: {
-      en: "Nature does not rush, yet everything is accomplished. We bring that exact harmony to the table.",
-      pt: "A natureza não tem pressa, e ainda assim tudo se realiza. Levamos essa exata harmonia para a mesa.",
+      en: "Nature does not rush, yet everything is done perfectly. We bring that exact harmonic experience to the table.",
+      pt: "A natureza não tem pressa, e ainda assim tudo é feito perfeitamente. Levamos essa exata experiência harmônica para a mesa.",
     },
     body: {
       en: [
-        "In nature, seiva is the quiet, vital force that flows beneath the surface. It carries the purest essence of the earth upward, sustaining life, fueling growth, and transforming raw elements into something magnificent. We chose this name because it is exactly what we do.",
-        "SEIVA is a horizontal, international collective of three chefs. We are three distinct culinary lifelines that have crossed borders, cultures and oceans to merge into a single, uncompromising vision. We bring the rigorous, time-honored discipline of the Piedmontese hills in Italy; the vibrant, soulful precision of the litorals and hills of Southern Brazil; and the sharp, high-performance execution honed in the culinary capitals of the United States.",
-        "We are not a traditional catering company. We do not mass-produce, and we do not compromise. We are a chef-driven culinary house built exclusively for those who view a gathering not just as an event, but as an art form.",
-        "For our private clients, we bring the intimacy of an authorial, Michelin-caliber restaurant directly into the sanctuary of your home. For our corporate partners, we translate your brand's prestige into a tailored sensory narrative, proving that we can execute with surgical, high-volume logistics for thousands without ever losing the delicate touch of a hand-placed micro-green.",
-        "From exclusive wine-paired galas for iconic brands like BMW and La Roche-Posay to intimate milestone celebrations, we handle the pressure so you can inherit the peace.",
-        "We respect the farmer. We honor the micro-season. We obsess over the temperature, the texture, the lineage of the wine, and the geometry of the plate. But above all, we respect the trust you place in our hands. When you sit at a SEIVA table, you are tasting a global journey, executed in flawless harmony.",
+        "In nature, seiva is the quiet, vital force that flows beneath the surface. It carries the purest essence of the earth upward, sustaining life, fueling growth, and transforming raw elements into something magnificent. That's exactly what we do.",
+        "SEIVA Culinary is a horizontal, international collective of three chefs. We are three distinct culinary lifelines that have crossed borders, cultures and oceans to merge into a single signature. We bring the rigorous, time-honored discipline of the Piedmontese hills in Italy; the vibrant, soulful precision of the litorals and hills of Southern Brazil; and the sharp, high-performance execution honed in the culinary capitals of the United States.",
+        "We are not a traditional catering company. We do not mass-produce, and we do not buy frozen food service pre made products. We are a chef-driven culinary house built exclusively for those who view a gathering as an experience of food in art form.",
+        "For our private clients, we bring the intimacy of an authorial, Michelin-caliber restaurant directly into the sanctuary of your home. For our corporate partners, we translate your brand's prestige into a tailored sensory narrative, surgically executed either for dozens, hundreds or high-volume logistics for thousands of guests without ever losing the delicate touch of a chef hand-placing ingredients on a plate and drawing his art.",
+        "From exclusive wine-paired galas for iconic brands like BMW and La Roche-Posay to intimate milestone celebrations, we handle the pressure and deliver the experience, so you can inherit the peace.",
+        "We respect the farmer. We honor the seasons. We obsess over the tecnique, temperature, the texture, the lineage of the wine, and the geometry of the plate. But above all, we respect the trust you place in our hands. When you sit at a table in our diner, you are tasting a sensorial journey, with tales, art, textures and rich flavours.",
       ],
-      pt: [
-        "Na natureza, a seiva é a força silenciosa e vital que flui sob a superfície. Ela conduz a essência mais pura da terra para cima, sustentando a vida, alimentando o crescimento e transformando elementos brutos em algo magnífico. Escolhemos este nome porque é exatamente o que fazemos.",
-        "SEIVA é um coletivo horizontal e internacional de três chefs. Somos três linhas culinárias distintas que cruzaram fronteiras, culturas e oceanos para se unirem em uma visão única e intransigente. Trazemos a disciplina rigorosa e atemporal das colinas do Piemonte, na Itália; a precisão vibrante e cheia de alma do litoral e das serras do Sul do Brasil; e a execução afiada e de alta performance forjada nas capitais culinárias dos Estados Unidos.",
-        "Não somos uma empresa tradicional de catering. Não produzimos em massa e não fazemos concessões. Somos uma casa culinária conduzida pelos chefs, construída exclusivamente para quem enxerga um encontro não como um evento, mas como uma forma de arte.",
-        "Para nossos clientes privados, levamos a intimidade de um restaurante autoral, em nível Michelin, diretamente para o santuário da sua casa. Para nossos parceiros corporativos, traduzimos o prestígio da sua marca em uma narrativa sensorial sob medida, provando que sabemos executar com logística cirúrgica e alto volume para milhares de convidados sem jamais perder o toque delicado de um microgreen colocado à mão.",
-        "De jantares de gala harmonizados para marcas icônicas como BMW e La Roche-Posay até celebrações íntimas de marcos pessoais, assumimos a pressão para que você herde a serenidade.",
-        "Respeitamos o produtor. Honramos a micro-estação. Somos obcecados pela temperatura, pela textura, pela linhagem do vinho e pela geometria do prato. Mas, acima de tudo, respeitamos a confiança depositada em nossas mãos. Quando você se senta a uma mesa SEIVA, está provando uma jornada global, executada em perfeita harmonia.",
+pt: [
+        "Na natureza, a seiva é a força vital e silenciosa que flui sob a superfície. Ela transporta a essência mais pura da terra para cima, sustentando a vida, impulsionando o crescimento e transformando elementos brutos em algo magnífico. É exatamente isso que fazemos.",
+        "A SEIVA Culinary é um coletivo internacional horizontal de três chefs. Somos três trajetórias culinárias distintas que atravessaram fronteiras, culturas e oceanos para fundirem-se em uma única assinatura. Trazemos a disciplina rigorosa e secular das colinas do Piemonte, na Itália; a precisão vibrante e profunda do litoral e das serras do Sul do Brasil; e a execução técnica de alta performance aprimorada nas capitais gastronômicas dos Estados Unidos.",
+        "Não somos uma empresa de catering tradicional. Não produzimos em massa e não compramos produtos prontos de food service. Somos uma casa culinária guiada por chefs, construída exclusivamente para aqueles que enxergam uma reunião como uma experiência gastronômica como forma de arte.",
+        "Para nossos clientes privados, levamos a intimidade de um restaurante autoral de calibre Michelin diretamente para o santuário do seu lar. Para nossos parceiros corporativos, traduzimos o prestígio da sua marca em uma narrativa sensorial sob medida, executada cirurgicamente para dezenas, centenas ou com logística de alto volume para milhares de convidados, sem nunca perder o toque delicado de um chef que posiciona manualmente os ingredientes no prato e desenha a sua arte.",
+        "De galas exclusivas harmonizadas com vinhos para marcas icônicas como BMW e La Roche-Posay a celebrações íntimas de momentos inesquecíveis, nós lidamos com a pressão e entregamos a experiência, para que você possa desfrutar da tranquilidade.",
+        "Respeitamos o produtor. Honramos as estações. Somos obcecados pela técnica, temperatura, textura, linhagem do vinho e geometria do prato. Mas, acima de tudo, respeitamos a confiança que você coloca em nossas mãos. Ao sentar-se à nossa mesa, você está provando uma jornada sensorial, repleta de histórias, arte, texturas e sabores complexos."
       ],
+    },
     },
     signoff: { en: "SEIVA. Signature Cuisine, Tailor-Made.", pt: "SEIVA. Alta Gastronomia, Sob Medida." },
   },
@@ -91,8 +92,8 @@ export const copy = {
     eyebrow: { en: "Case Study", pt: "Estudo de Caso" },
     title: { en: "Match Point Mansion\nRio Open", pt: "Match Point Mansion\nRio Open" },
     lede: {
-      en: "An exclusive hospitality venue at the heart of the ATP Rio Open. SEIVA composed the entire culinary program, a study in operating at scale without forfeiting refinement.",
-      pt: "Um espaço de hospitalidade exclusivo no coração do ATP Rio Open. A SEIVA assinou o programa culinário inteiro, uma demonstração de operar em escala sem abrir mão do requinte.",
+      en: "An exclusive hospitality venue at the heart of the ATP Rio Open. SEIVA composed the entire culinary program, a study in operating at scale without forfeiting refinement on a luxury experience.",
+      pt: "Um espaço de hospitalidade exclusivo no coração do ATP Rio Open. A SEIVA assinou o programa culinário inteiro, uma demonstração de operar em escala sem abrir mão do requinte em uma experiência luxuosa.",
     },
     stats: [
       { n: "9 / 30", l: { en: "9 Days, 30 Menus executed with perfection", pt: "9 Dias, 30 Menus executados com perfeição" } },
@@ -139,7 +140,7 @@ export const copy = {
       vision: { en: "Your vision for the event", pt: "Sua visão para o evento" },
     },
     submit: { en: "Submit the Brief", pt: "Enviar o Briefing" },
-    success: { en: "Thank you. A member of our atelier will respond within forty-eight hours.", pt: "Obrigado. Um membro do nosso ateliê responderá em até quarenta e oito horas." },
+    success: { en: "Thank you. A Chef from our team will respond within forty-eight hours.", pt: "Obrigado. Um Chef da nossa equipe responderá em até quarenta e oito horas." },
   },
   footer: {
     tag: { en: "Signature Cuisine, Tailor-Made.", pt: "Alta Gastronomia, Sob Medida." },
