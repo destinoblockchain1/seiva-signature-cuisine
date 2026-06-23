@@ -20,7 +20,7 @@ import img6608 from "@/assets/IMG_6608.jpg";
 import img7088 from "@/assets/IMG_7088.jpg";
 import img7145 from "@/assets/IMG_7145.jpg";
 import img8396 from "@/assets/IMG_8396.jpg";
-import logoSeiva from "@/assets/logo seiva.png";
+import logoSeiva from "@/assets/logo seiva.webp";
 
 import { copy, type Lang } from "@/lib/i18n";
 import { Logo, TriadIcon } from "@/components/Logo";
