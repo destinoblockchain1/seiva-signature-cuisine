@@ -47,14 +47,7 @@ export const Route = createFileRoute("/")({
             { "@type": "AdministrativeArea", "name": "Miami, FL, US" },
             { "@type": "AdministrativeArea", "name": "Rio de Janeiro, RJ, BR" },
             { "@type": "AdministrativeArea", "name": "Itajaí, SC, BR" }
-            { "@type": "AdministrativeArea", "name": "Florianópolis, SC, BR" }
-            { "@type": "AdministrativeArea", "name": "Boca Raton, FL, US" }
-            { "@type": "AdministrativeArea", "name": "Boca Raton" }
-            { "@type": "AdministrativeArea", "name": "Miami" }
-            { "@type": "AdministrativeArea", "name": "West Palm Beach" }
-            { "@type": "AdministrativeArea", "name": "Delray Beach" }
-            { "@type": "AdministrativeArea", "name": "West Palm Beach, FL, US" }
-            { "@type": "AdministrativeArea", "name": "Delray Beach, FL, US" }
+
             // ... adicione as outras cidades aqui
           ],
           "priceRange": "$$$$"
