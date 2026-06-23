@@ -45,7 +45,7 @@ pt: [
         "Não somos uma empresa de catering tradicional. Não produzimos em massa e não compramos produtos prontos de food service. Somos uma casa culinária guiada por chefs, construída exclusivamente para aqueles que enxergam uma reunião como uma experiência gastronômica como forma de arte.",
         "Para nossos clientes privados, levamos a intimidade de um restaurante autoral de calibre Michelin diretamente para o santuário do seu lar. Para nossos parceiros corporativos, traduzimos o prestígio da sua marca em uma narrativa sensorial sob medida, executada cirurgicamente para dezenas, centenas ou com logística de alto volume para milhares de convidados, sem nunca perder o toque delicado de um chef que posiciona manualmente os ingredientes no prato e desenha a sua arte.",
         "De galas exclusivas harmonizadas com vinhos para marcas icônicas como BMW e La Roche-Posay a celebrações íntimas de momentos inesquecíveis, nós lidamos com a pressão e entregamos a experiência, para que você possa desfrutar da tranquilidade.",
-        "Respeitamos o produtor. Honramos as estações. Somos obcecados pela técnica, temperatura, textura, linhagem do vinho e geometria do prato. Mas, acima de tudo, respeitamos a confiança que você coloca em nossas mãos. Ao sentar-se à nossa mesa, você está provando uma jornada sensorial, repleta de histórias, arte, texturas e sabores complexos."
+        "Respeitamos o produtor. Honramos as estações. Somos obcecados pela técnica, temperatura, textura, linhagem do vinho e geometria do prato. Mas, acima de tudo, respeitamos a confiança que você coloca em nossas mãos. Ao sentar-se à nossa mesa, você está provando uma jornada sensorial, repleta de histórias, arte, texturas e sabores complexos.",
       ],
     },
     },
