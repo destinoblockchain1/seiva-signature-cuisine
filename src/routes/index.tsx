@@ -1,10 +1,12 @@
+// new html file
 import { createFileRoute } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { useState, useRef, useEffect, type FormEvent } from "react";
 import { Toaster, toast } from "sonner";
 import { Resend } from "resend";
 import Autoplay from "embla-carousel-autoplay";
-import chefsImg from "@/assets/chefs-collective.jpg";
+
+import chefsImg from "@/assets/chefs-collective.webp";
 import matchpoint1 from "@/assets/matchpoint-1.jpg";
 import matchpoint2 from "@/assets/matchpoint-2.jpg";
 import matchpoint3 from "@/assets/matchpoint-3.jpg";
@@ -12,6 +14,14 @@ import matchpoint4 from "@/assets/matchpoint-4.jpg";
 import matchpoint5 from "@/assets/matchpoint-5.jpg";
 import matchpoint6 from "@/assets/matchpoint-6.jpg";
 import matchpoint7 from "@/assets/matchpoint-7.jpg";
+
+import img6589 from "@/assets/IMG_6589.webp";
+import img6608 from "@/assets/IMG_6608.webp";
+import img7088 from "@/assets/IMG_7088.webp";
+import img7145 from "@/assets/IMG_7145.webp";
+import img8396 from "@/assets/IMG_8396.webp";
+import logoSeiva from "@/assets/logo seiva.webp";
+
 import { copy, type Lang } from "@/lib/i18n";
 import { Logo, TriadIcon } from "@/components/Logo";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
@@ -21,11 +31,41 @@ export const Route = createFileRoute("/")({
   component: Landing,
   head: () => ({
     meta: [
-      { title: "SEIVA — Signature Cuisine, Tailor-Made" },
-      { name: "description", content: "An international collective of three chefs. Private dinners, brand activations and exclusive celebrations across Brazil, Italy and the USA." },
-      { property: "og:title", content: "SEIVA — Signature Cuisine, Tailor-Made" },
-      { property: "og:description", content: "A horizontal collective of three chefs crafting bespoke culinary experiences for iconic brands and VIP hosts." },
+      { title: "SEIVA | Luxury Private Chef & Bespoke Catering | South Florida & Brazil" },
+      { name: "description", content: "SEIVA is an international culinary collective offering luxury catering, bespoke dining, and private chef services for private dining, brand activation catering, and luxury weddings." },
+      { property: "og:title", content: "SEIVA | Signature Cuisine, Tailor-Made" },
+      { property: "og:description", content: "Ultra-luxury catering and private chef services. Specializing in bespoke dining, brand activation catering, and luxury weddings." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://seivaculinary.com" },
+      { property: "og:image", content: "https://seivaculinary.com/chefs-collective.jpg" }
     ],
+    // Injeção segura de Schema JSON-LD no <head> com SEO Local e MML otimizado
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": ["LocalBusiness", "FoodService"],
+          "name": "SEIVA Culinary Collective",
+          "image": "https://seivaculinary.com/chefs-collective.jpg",
+          "description": "SEIVA offers high-end luxury catering, bespoke dining, and private chef services. We specialize in exclusive private dining, luxury weddings, and brand activation catering.",
+          "url": "https://seivaculinary.com",
+          "priceRange": "$$$$",
+          "servesCuisine": "Signature Cuisine, Tailor-Made",
+          "areaServed": [
+            { "@type": "City", "name": "Miami", "addressRegion": "FL", "addressCountry": "US" },
+            { "@type": "City", "name": "Boca Raton", "addressRegion": "FL", "addressCountry": "US" },
+            { "@type": "City", "name": "Delray Beach", "addressRegion": "FL", "addressCountry": "US" },
+            { "@type": "City", "name": "West Palm Beach", "addressRegion": "FL", "addressCountry": "US" },
+            { "@type": "City", "name": "Coral Springs", "addressRegion": "FL", "addressCountry": "US" },
+            { "@type": "City", "name": "Rio de Janeiro", "addressRegion": "RJ", "addressCountry": "BR" },
+            { "@type": "City", "name": "Florianópolis", "addressRegion": "SC", "addressCountry": "BR" },
+            { "@type": "City", "name": "Balneário Camboriú", "addressRegion": "SC", "addressCountry": "BR" },
+            { "@type": "City", "name": "Itajaí", "addressRegion": "SC", "addressCountry": "BR" }
+          ]
+        })
+      }
+    ]
   }),
 });
 
@@ -33,10 +73,10 @@ function t<T extends { en: any; pt: any }>(obj: T, l: Lang) { return obj[l]; }
 
 function Landing() {
   const [lang, setLang] = useState<Lang>("en");
-  const c = copy;
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-foreground selection:text-background">
+      {/* O Schema JSON-LD foi movido com segurança para a definição da 'Route' no topo do arquivo */}
       <Nav lang={lang} setLang={setLang} />
       <Hero lang={lang} />
       <Manifesto lang={lang} />
@@ -57,9 +97,8 @@ function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
   return (
     <header className="fixed top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-5 md:px-12">
-        <a href="#top" className="flex items-center gap-3 text-foreground">
-          <TriadIcon size={20} />
-          <span className="font-serif text-xl tracking-[0.5em] leading-none">SEIVA</span>
+        <a href="#top" className="flex items-center gap-3 text-foreground transition-opacity hover:opacity-80">
+          <img src={logoSeiva} alt="SEIVA Logo" className="h-16 md:h-20 w-auto" />
         </a>
         <nav className="hidden items-center gap-10 md:flex">
           {link("#manifesto", t(c.manifesto, lang))}
@@ -69,9 +108,9 @@ function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
           {link("#inquire", t(c.inquire, lang))}
         </nav>
         <div className="flex items-center gap-3 text-[0.7rem] tracking-[0.2em]">
-          <button onClick={() => setLang("en")} className={lang === "en" ? "text-foreground" : "text-muted-foreground"}>EN</button>
+          <button onClick={() => setLang("en")} className={lang === "en" ? "text-foreground font-medium" : "text-muted-foreground"}>EN</button>
           <span className="text-muted-foreground">/</span>
-          <button onClick={() => setLang("pt")} className={lang === "pt" ? "text-foreground" : "text-muted-foreground"}>PT</button>
+          <button onClick={() => setLang("pt")} className={lang === "pt" ? "text-foreground font-medium" : "text-muted-foreground"}>PT</button>
         </div>
       </div>
     </header>
@@ -80,16 +119,24 @@ function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
 
 function Hero({ lang }: { lang: Lang }) {
   const c = copy.hero;
+  
+  const customHeadline = {
+    en: "Signature Cuisine,\nTailor-Made.",
+    pt: "Alta Gastronomia,\nSob Medida."
+  };
+
   return (
     <section id="top" className="relative flex min-h-screen items-end overflow-hidden px-6 pb-24 pt-40 md:px-12 md:pb-32">
-      {/* Decorative serif glyph */}
-      <div aria-hidden className="pointer-events-none absolute -right-20 top-32 select-none editorial-display text-[28rem] leading-none text-secondary md:text-[44rem]">S</div>
+      <div aria-hidden className="pointer-events-none absolute -right-20 top-32 select-none font-serif text-[28rem] leading-none text-secondary md:text-[44rem] opacity-30">S</div>
       <div className="relative mx-auto w-full max-w-[1400px]">
         <p className="eyebrow text-muted-foreground">{t(c.eyebrow, lang)}</p>
-        <h1 className="editorial-display mt-10 whitespace-pre-line text-[14vw] md:text-[9.5rem]">
-          {t(c.headline, lang)}
+        <h1 className="editorial-display mt-10 whitespace-pre-line text-[14vw] md:text-[9.5rem] leading-tight">
+          {t(customHeadline, lang)}
         </h1>
-        <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-12">
+        <div className="mt-4 md:mt-8 grid grid-cols-1 gap-8 md:grid-cols-12 items-center">
+          <div className="md:col-span-5">
+            <img src={logoSeiva} alt="SEIVA Logo" className="h-72 md:h-[24rem] max-h-[35vh] opacity-40 w-auto max-w-full object-contain object-left" />
+          </div>
           <div className="md:col-span-5 md:col-start-7">
             <p className="text-base font-light leading-relaxed text-muted-foreground md:text-lg">
               {t(c.sub, lang)}
@@ -106,24 +153,74 @@ function Hero({ lang }: { lang: Lang }) {
 
 function Manifesto({ lang }: { lang: Lang }) {
   const c = copy.manifesto;
+  const bodyParagraphs = t(c.body, lang);
+  
   return (
-    <section id="manifesto" className="border-t border-border px-6 py-32 md:px-12 md:py-48">
+    <section id="manifesto" className="border-t border-border px-6 py-32 md:px-12 md:py-48 overflow-hidden">
       <div className="mx-auto max-w-[1400px]">
-        <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-12 md:col-span-3">
-            <p className="eyebrow text-muted-foreground">{t(c.eyebrow, lang)}</p>
+        <div className="grid grid-cols-12 gap-8 md:gap-16 items-start">
+          
+          {/* Left Lateral Column: Expanded to col-span-3 for a larger editorial layout representation */}
+          <div className="hidden md:flex col-span-3 flex-col gap-16 mt-20">
+            <ScrollColoredImage 
+              src={img8396} 
+              alt="SEIVA Gastronomy - Raw Crudo Caviar Detail" 
+              aspectClass="aspect-[3/4] w-full" 
+            />
+            <ScrollColoredImage 
+              src={img6589} 
+              alt="SEIVA Gastronomy - Seared Tuna Crudo Detail" 
+              aspectClass="aspect-[3/4] w-full" 
+            />
           </div>
-          <div className="col-span-12 md:col-span-9">
-            <p className="editorial-display text-3xl italic md:text-5xl">
+          
+          {/* Center Column: Reduced from 8 to 6 to fit the larger side grid precisely (3 + 6 + 3 = 12) */}
+          <div className="col-span-12 md:col-span-6">
+            <p className="eyebrow text-muted-foreground mb-8">{t(c.eyebrow, lang)}</p>
+            <p className="editorial-display text-3xl italic md:text-5xl leading-tight">
               "{t(c.pull, lang)}"
             </p>
-            <div className="mt-16 max-w-3xl space-y-6 text-base font-light leading-[1.8] text-foreground/85 md:text-lg">
-              {t(c.body, lang).map((p: string, i: number) => (
+            
+            {/* Displaying first two paragraphs */}
+            <div className="mt-16 space-y-6 text-base font-light leading-[1.8] text-foreground/85 md:text-lg">
+              {bodyParagraphs.slice(0, 2).map((p: string, i: number) => (
                 <p key={i}>{p}</p>
               ))}
             </div>
+
+            {/* Content separating visual break */}
+            <div className="my-14 overflow-hidden rounded-sm bg-neutral-950 border border-border/10 shadow-lg">
+              <ScrollColoredImage 
+                src={img7088} 
+                alt="SEIVA Gastronomy - Cucumber Ribbon Presentation Detail" 
+                aspectClass="aspect-[16/10] w-full" 
+              />
+            </div>
+
+            {/* Displaying final four paragraphs */}
+            <div className="space-y-6 text-base font-light leading-[1.8] text-foreground/85 md:text-lg">
+              {bodyParagraphs.slice(2).map((p: string, i: number) => (
+                <p key={i + 2}>{p}</p>
+              ))}
+            </div>
+            
             <p className="editorial-display mt-16 text-xl italic text-accent">{t(c.signoff, lang)}</p>
           </div>
+
+          {/* Right Lateral Column: Expanded to col-span-3 for a larger editorial layout representation */}
+          <div className="hidden md:flex col-span-3 flex-col gap-16 mt-36">
+            <ScrollColoredImage 
+              src={img6608} 
+              alt="SEIVA Gastronomy - Elegant Seafood Plating Detail" 
+              aspectClass="aspect-[3/4] w-full" 
+            />
+            <ScrollColoredImage 
+              src={img7145} 
+              alt="SEIVA Gastronomy - Finished Fine Plating Detail" 
+              aspectClass="aspect-[3/4] w-full" 
+            />
+          </div>
+
         </div>
       </div>
     </section>
@@ -148,6 +245,7 @@ function ScrollColoredImage({
   const containerRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -167,7 +265,7 @@ function ScrollColoredImage({
         setInView(entry.isIntersecting);
       },
       {
-        threshold: 0.6,
+        threshold: 0.5,
       }
     );
 
@@ -180,17 +278,33 @@ function ScrollColoredImage({
     };
   }, [isMobile]);
 
-  const imageClass = `${objectCover ? "h-full w-full object-cover" : ""} transition-all duration-700 ease-out transform ${
-    isMobile
-      ? inView
-        ? "grayscale-0 contrast-100 scale-105"
-        : "grayscale contrast-125"
-      : "grayscale contrast-125 group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105"
-  } ${className}`;
+  const active = isMobile ? inView : isHovered;
 
   return (
-    <div ref={containerRef} className={`group relative overflow-hidden ${aspectClass}`}>
-      <img src={src} alt={alt} loading={loading} className={imageClass} />
+    <div 
+      ref={containerRef} 
+      onMouseEnter={() => !isMobile && setIsHovered(true)}
+      onMouseLeave={() => !isMobile && setIsHovered(false)}
+      className="group relative overflow-hidden bg-neutral-950 border border-border/10 rounded-sm shadow-xl transition-all duration-700"
+    >
+      <div className={aspectClass}>
+        <img 
+          src={src} 
+          alt={alt} 
+          loading={loading} 
+          className={`transition-all duration-1000 ease-out transform ${objectCover ? "h-full w-full object-cover" : "h-auto w-full"} ${className}`} 
+          style={{
+            filter: active
+              ? "grayscale(0%) sepia(0%) contrast(0.94) saturate(95%) brightness(1.0)"
+              : "grayscale(100%) sepia(12%) contrast(1.04) saturate(70%) brightness(0.85)",
+            transform: active ? "scale(1.04)" : "scale(1)"
+          }}
+        />
+        <div 
+          className="absolute inset-0 bg-neutral-900/10 mix-blend-multiply pointer-events-none transition-opacity duration-1000"
+          style={{ opacity: active ? 0 : 1 }}
+        />
+      </div>
     </div>
   );
 }
@@ -205,7 +319,7 @@ function Chefs({ lang }: { lang: Lang }) {
             <p className="eyebrow text-muted-foreground">{t(c.eyebrow, lang)}</p>
           </div>
           <div className="col-span-12 md:col-span-9">
-            <h2 className="editorial-display whitespace-pre-line text-5xl md:text-7xl">{t(c.title, lang)}</h2>
+            <h2 className="editorial-display whitespace-pre-line text-5xl md:text-7xl leading-tight">{t(c.title, lang)}</h2>
             <p className="mt-8 max-w-xl text-base font-light leading-relaxed text-muted-foreground md:text-lg">{t(c.intro, lang)}</p>
           </div>
         </div>
@@ -252,7 +366,7 @@ function CaseStudy({ lang }: { lang: Lang }) {
             <p className="eyebrow text-muted-foreground">{t(c.eyebrow, lang)}</p>
           </div>
           <div className="col-span-12 md:col-span-9">
-            <h2 className="editorial-display whitespace-pre-line text-5xl md:text-7xl">{t(c.title, lang)}</h2>
+            <h2 className="editorial-display whitespace-pre-line text-5xl md:text-7xl leading-tight">{t(c.title, lang)}</h2>
             <p className="mt-10 max-w-2xl text-base font-light leading-relaxed text-foreground/85 md:text-lg">{t(c.lede, lang)}</p>
           </div>
         </div>
@@ -301,7 +415,7 @@ function CaseStudyGallery({ lang }: { lang: Lang }) {
       setSelectedIndex(api.selectedScrollSnap());
     };
 
-    onSelect(); // Set initial selected index
+    onSelect();
     api.on("select", onSelect);
     api.on("reInit", onSelect);
 
@@ -350,14 +464,14 @@ function CaseStudyGallery({ lang }: { lang: Lang }) {
 function Experiences({ lang }: { lang: Lang }) {
   const c = copy.experiences;
   return (
-    <section id="experiences" className="border-t border-border bg-foreground px-6 py-32 text-background md:px-12 md:py-48">
+    <section id="experiences" className="border-t border-border bg-foreground px-6 py-32 text-background md:px-12 md:py-48 font-sans">
       <div className="mx-auto max-w-[1400px]">
         <div className="grid grid-cols-12 gap-8">
           <div className="col-span-12 md:col-span-3">
             <p className="eyebrow text-background/50">{t(c.eyebrow, lang)}</p>
           </div>
           <div className="col-span-12 md:col-span-9">
-            <h2 className="editorial-display whitespace-pre-line text-5xl md:text-7xl">{t(c.title, lang)}</h2>
+            <h2 className="editorial-display whitespace-pre-line text-5xl md:text-7xl leading-tight">{t(c.title, lang)}</h2>
           </div>
         </div>
 
@@ -505,7 +619,7 @@ function Inquire({ lang }: { lang: Lang }) {
             <p className="eyebrow text-muted-foreground">{t(c.eyebrow, lang)}</p>
           </div>
           <div className="col-span-12 md:col-span-9">
-            <h2 className="editorial-display whitespace-pre-line text-5xl md:text-7xl">{t(c.title, lang)}</h2>
+            <h2 className="editorial-display whitespace-pre-line text-5xl md:text-7xl leading-tight">{t(c.title, lang)}</h2>
             <p className="mt-10 max-w-2xl text-base font-light leading-relaxed text-muted-foreground md:text-lg">{t(c.sub, lang)}</p>
           </div>
         </div>
@@ -565,7 +679,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 function Footer({ lang }: { lang: Lang }) {
   const c = copy.footer;
   return (
-    <footer className="border-t border-border px-6 py-16 md:px-12">
+    <footer className="border-t border-border px-6 py-16 md:px-12 bg-neutral-950">
       <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-8 md:flex-row md:items-center">
         <div>
           <Logo
