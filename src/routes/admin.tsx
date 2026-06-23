@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Logo, TriadIcon } from "@/components/Logo";
 import { toast, Toaster } from "sonner";
@@ -14,7 +14,6 @@ import {
   Search, 
   Trash2, 
   ChevronRight, 
-  X,
   FileText,
   RefreshCw
 } from "lucide-react";
@@ -162,7 +161,7 @@ function DashboardView({ session }: { session: Session }) {
   const [inquiries, setInquiries] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedInquiry, setSelectedInquiry] = useState<any | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const fetchInquiries = async () => {
     setLoading(true);
@@ -213,8 +212,8 @@ function DashboardView({ session }: { session: Session }) {
       } else {
         toast.success("Inquiry deleted successfully.");
         setInquiries(inquiries.filter((item) => item.id !== id));
-        if (selectedInquiry?.id === id) {
-          setSelectedInquiry(null);
+        if (expandedId === id) {
+          setExpandedId(null);
         }
       }
     } catch (err) {
@@ -311,9 +310,8 @@ function DashboardView({ session }: { session: Session }) {
         </div>
 
         {/* Dashboard Grid */}
-        <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
-          {/* Inquiries List */}
-          <div className={`lg:col-span-${selectedInquiry ? "7" : "12"} transition-all duration-300`}>
+        <div className="mt-8 grid grid-cols-1 gap-8">
+          <div className="col-span-12">
             {loading && inquiries.length === 0 ? (
               <div className="flex h-64 items-center justify-center border border-dashed border-border">
                 <span className="eyebrow text-xs text-muted-foreground animate-pulse">Fetching records...</span>
@@ -339,129 +337,140 @@ function DashboardView({ session }: { session: Session }) {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border/60">
-                    {filteredInquiries.map((inquiry) => (
-                      <tr
-                        key={inquiry.id}
-                        onClick={() => setSelectedInquiry(inquiry)}
-                        className={`group cursor-pointer transition-colors hover:bg-secondary/30 ${
-                          selectedInquiry?.id === inquiry.id ? "bg-secondary/40" : ""
-                        }`}
-                      >
-                        <td className="p-4 text-xs font-light text-muted-foreground whitespace-nowrap">
-                          {formatDateTime(inquiry.created_at)}
-                        </td>
-                        <td className="p-4">
-                          <div className="font-serif text-base text-foreground font-medium">{inquiry.name}</div>
-                          <div className="text-xs text-muted-foreground font-light">{inquiry.email}</div>
-                          {inquiry.company && (
-                            <div className="mt-0.5 text-[0.65rem] uppercase tracking-wider text-accent font-semibold">{inquiry.company}</div>
+                    {filteredInquiries.map((inquiry) => {
+                      const isExpanded = expandedId === inquiry.id;
+                      return (
+                        <React.Fragment key={inquiry.id}>
+                          <tr
+                            onClick={() => setExpandedId(isExpanded ? null : inquiry.id)}
+                            className={`group cursor-pointer transition-colors hover:bg-secondary/30 ${
+                              isExpanded ? "bg-secondary/20" : ""
+                            }`}
+                          >
+                            <td className="p-4 text-xs font-light text-muted-foreground whitespace-nowrap">
+                              {formatDateTime(inquiry.created_at)}
+                            </td>
+                            <td className="p-4">
+                              <div className="font-serif text-base text-foreground font-medium">{inquiry.name}</div>
+                              <div className="text-xs text-muted-foreground font-light">{inquiry.email}</div>
+                              {inquiry.company && (
+                                <div className="mt-0.5 text-[0.65rem] uppercase tracking-wider text-accent font-semibold">{inquiry.company}</div>
+                              )}
+                            </td>
+                            <td className="p-4 text-xs font-light whitespace-nowrap">
+                              {formatDate(inquiry.date)}
+                            </td>
+                            <td className="p-4 text-xs font-light whitespace-nowrap">
+                              {inquiry.location || "—"}
+                            </td>
+                            <td className="p-4 text-xs font-light">
+                              {inquiry.guests || "—"}
+                            </td>
+                            <td className="p-4 text-right whitespace-nowrap">
+                              <div className="flex items-center justify-end gap-2">
+                                <button
+                                  onClick={(e) => handleDelete(inquiry.id, e)}
+                                  className="opacity-0 group-hover:opacity-100 p-1.5 text-muted-foreground hover:text-destructive transition-all"
+                                  title="Delete record"
+                                >
+                                  <Trash2 size={14} />
+                                </button>
+                                <ChevronRight 
+                                  size={16} 
+                                  className={`text-muted-foreground/60 transition-transform duration-300 ${
+                                    isExpanded ? "rotate-90" : ""
+                                  }`} 
+                                />
+                              </div>
+                            </td>
+                          </tr>
+                          {isExpanded && (
+                            <tr className="bg-secondary/10 border-b border-border/80">
+                              <td colSpan={6} className="p-6">
+                                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 text-sm">
+                                  {/* Info Columns */}
+                                  <div className="md:col-span-4 space-y-4">
+                                    <div>
+                                      <div className="eyebrow text-[0.55rem] text-muted-foreground">Full Name</div>
+                                      <div className="font-serif text-xl font-medium mt-1">{inquiry.name}</div>
+                                    </div>
+                                    <div>
+                                      <div className="eyebrow text-[0.55rem] text-muted-foreground">Email</div>
+                                      <div className="font-light mt-1">
+                                        <a href={`mailto:${inquiry.email}`} className="hover:underline text-accent font-medium">
+                                          {inquiry.email}
+                                        </a>
+                                      </div>
+                                    </div>
+                                    {inquiry.company && (
+                                      <div>
+                                        <div className="eyebrow text-[0.55rem] text-muted-foreground">Company / Host</div>
+                                        <div className="mt-1">
+                                          <span className="inline-block text-[0.65rem] uppercase tracking-wider text-background bg-foreground py-1 px-2.5 font-semibold">
+                                            {inquiry.company}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  {/* Details */}
+                                  <div className="md:col-span-3 grid grid-cols-2 gap-4">
+                                    <div className="space-y-1">
+                                      <span className="eyebrow text-[0.55rem] text-muted-foreground flex items-center gap-1.5">
+                                        <Calendar size={10} /> Event Date
+                                      </span>
+                                      <span className="text-sm font-light text-foreground">{formatDate(inquiry.date)}</span>
+                                    </div>
+                                    <div className="space-y-1">
+                                      <span className="eyebrow text-[0.55rem] text-muted-foreground flex items-center gap-1.5">
+                                        <MapPin size={10} /> Location
+                                      </span>
+                                      <span className="text-sm font-light text-foreground">{inquiry.location || "—"}</span>
+                                    </div>
+                                    <div className="space-y-1">
+                                      <span className="eyebrow text-[0.55rem] text-muted-foreground flex items-center gap-1.5">
+                                        <Users size={10} /> Guests
+                                      </span>
+                                      <span className="text-sm font-light text-foreground">{inquiry.guests || "—"}</span>
+                                    </div>
+                                    <div className="space-y-1">
+                                      <span className="eyebrow text-[0.55rem] text-muted-foreground flex items-center gap-1.5">
+                                        <FileText size={10} /> Submitted At
+                                      </span>
+                                      <span className="text-xs font-light text-muted-foreground">{formatDateTime(inquiry.created_at)}</span>
+                                    </div>
+                                  </div>
+
+                                  {/* Vision & Actions */}
+                                  <div className="md:col-span-5 space-y-4">
+                                    <div>
+                                      <div className="eyebrow text-[0.55rem] text-muted-foreground mb-2">Vision & Message</div>
+                                      <div className="bg-background/60 p-4 border border-border text-sm font-light leading-relaxed text-foreground/90 whitespace-pre-wrap font-sans">
+                                        {inquiry.vision || <span className="italic text-muted-foreground">No custom vision provided.</span>}
+                                      </div>
+                                    </div>
+                                    <div className="flex justify-end pt-2">
+                                      <button
+                                        onClick={(e) => handleDelete(inquiry.id, e)}
+                                        className="eyebrow flex items-center gap-2 border border-destructive/40 text-destructive px-4 py-2.5 text-[0.65rem] transition-all hover:bg-destructive hover:text-background"
+                                      >
+                                        <Trash2 size={12} /> Delete Lead
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
                           )}
-                        </td>
-                        <td className="p-4 text-xs font-light whitespace-nowrap">
-                          {formatDate(inquiry.date)}
-                        </td>
-                        <td className="p-4 text-xs font-light whitespace-nowrap">
-                          {inquiry.location || "—"}
-                        </td>
-                        <td className="p-4 text-xs font-light">
-                          {inquiry.guests || "—"}
-                        </td>
-                        <td className="p-4 text-right whitespace-nowrap">
-                          <div className="flex items-center justify-end gap-2">
-                            <button
-                              onClick={(e) => handleDelete(inquiry.id, e)}
-                              className="opacity-0 group-hover:opacity-100 p-1.5 text-muted-foreground hover:text-destructive transition-all"
-                              title="Delete record"
-                            >
-                              <Trash2 size={14} />
-                            </button>
-                            <ChevronRight size={16} className="text-muted-foreground/60" />
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                        </React.Fragment>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
             )}
           </div>
-
-          {/* Details Sidebar */}
-          {selectedInquiry && (
-            <div className="lg:col-span-5 border border-border bg-secondary/10 p-6 flex flex-col h-fit sticky top-[90px] animate-fadeIn">
-              <div className="flex items-center justify-between border-b border-border pb-4">
-                <span className="eyebrow text-accent font-semibold">Inquiry Details</span>
-                <button
-                  onClick={() => setSelectedInquiry(null)}
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  <X size={18} />
-                </button>
-              </div>
-
-              <div className="mt-6 space-y-6">
-                <div>
-                  <h3 className="font-serif text-2xl font-normal leading-tight text-foreground">{selectedInquiry.name}</h3>
-                  <div className="flex items-center gap-2 mt-2 text-sm text-muted-foreground">
-                    <Mail size={12} />
-                    <a href={`mailto:${selectedInquiry.email}`} className="hover:underline">{selectedInquiry.email}</a>
-                  </div>
-                  {selectedInquiry.company && (
-                    <div className="mt-3 text-xs bg-foreground text-background py-1 px-2.5 inline-block tracking-wider uppercase font-semibold">
-                      {selectedInquiry.company}
-                    </div>
-                  )}
-                </div>
-
-                <div className="hairline"></div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <span className="eyebrow text-[0.6rem] text-muted-foreground flex items-center gap-1.5">
-                      <Calendar size={10} /> Date
-                    </span>
-                    <span className="text-sm font-light text-foreground">{formatDate(selectedInquiry.date)}</span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="eyebrow text-[0.6rem] text-muted-foreground flex items-center gap-1.5">
-                      <MapPin size={10} /> Location
-                    </span>
-                    <span className="text-sm font-light text-foreground">{selectedInquiry.location || "—"}</span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="eyebrow text-[0.6rem] text-muted-foreground flex items-center gap-1.5">
-                      <Users size={10} /> Guests
-                    </span>
-                    <span className="text-sm font-light text-foreground">{selectedInquiry.guests || "—"}</span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="eyebrow text-[0.6rem] text-muted-foreground flex items-center gap-1.5">
-                      <FileText size={10} /> Submitted
-                    </span>
-                    <span className="text-xs font-light text-muted-foreground">{formatDateTime(selectedInquiry.created_at)}</span>
-                  </div>
-                </div>
-
-                <div className="hairline"></div>
-
-                <div className="space-y-2">
-                  <span className="eyebrow text-[0.6rem] text-muted-foreground">Vision & Message</span>
-                  <div className="bg-background/60 p-4 border border-border text-sm font-light leading-relaxed text-foreground/90 whitespace-pre-wrap font-sans">
-                    {selectedInquiry.vision || <span className="italic text-muted-foreground">No custom vision provided.</span>}
-                  </div>
-                </div>
-
-                <div className="pt-4">
-                  <button
-                    onClick={(e) => handleDelete(selectedInquiry.id, e)}
-                    className="eyebrow flex items-center gap-2 border border-destructive/40 text-destructive px-4 py-2.5 text-[0.65rem] transition-all hover:bg-destructive hover:text-background w-full justify-center"
-                  >
-                    <Trash2 size={12} /> Delete Lead
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </main>
     </div>
