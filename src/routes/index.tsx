@@ -20,6 +20,7 @@ import img6608 from "@/assets/IMG_6608.jpg";
 import img7088 from "@/assets/IMG_7088.jpg";
 import img7145 from "@/assets/IMG_7145.jpg";
 import img8396 from "@/assets/IMG_8396.jpg";
+import logoSeiva from "@/assets/logo seiva.png";
 
 import { copy, type Lang } from "@/lib/i18n";
 import { Logo, TriadIcon } from "@/components/Logo";
@@ -120,6 +121,9 @@ function Hero({ lang }: { lang: Lang }) {
         <h1 className="editorial-display mt-10 whitespace-pre-line text-[14vw] md:text-[9.5rem] leading-tight">
           {t(customHeadline, lang)}
         </h1>
+        <div className="mt-4">
+          <img src={logoSeiva} alt="SEIVA Logo" className="h-16 w-auto" />
+        </div>
         <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-12">
           <div className="md:col-span-5 md:col-start-7">
             <p className="text-base font-light leading-relaxed text-muted-foreground md:text-lg">
