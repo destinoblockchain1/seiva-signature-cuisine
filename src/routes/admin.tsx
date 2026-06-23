@@ -15,7 +15,12 @@ import {
   Trash2, 
   ChevronRight, 
   FileText,
-  RefreshCw
+  RefreshCw,
+  LayoutGrid,
+  TableProperties,
+  ArrowRight,
+  Copy,
+  Check
 } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
@@ -157,11 +162,164 @@ function LoginView() {
   );
 }
 
+const COLUMNS = [
+  { id: "new", label: "New Leads", actionLabel: "Send Email", color: "border-t-accent" },
+  { id: "contacted", label: "Contacted", actionLabel: "Invite to Call", color: "border-t-amber-700/60" },
+  { id: "scheduled", label: "Scheduled", actionLabel: "Send Proposal", color: "border-t-blue-700/60" },
+  { id: "proposal", label: "Proposal", actionLabel: "Confirm Booking", color: "border-t-purple-700/60" },
+  { id: "confirmed", label: "Confirmed", actionLabel: "Archive Lead", color: "border-t-emerald-700/60" },
+];
+
 function DashboardView({ session }: { session: Session }) {
   const [inquiries, setInquiries] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  
+  const [viewMode, setViewMode] = useState<"table" | "kanban">(() => {
+    if (typeof window !== "undefined") {
+      return (localStorage.getItem("seiva_admin_view_mode") as "table" | "kanban") || "table";
+    }
+    return "table";
+  });
+
+  const [draggedId, setDraggedId] = useState<string | null>(null);
+  const [draggedOverColumn, setDraggedOverColumn] = useState<string | null>(null);
+  const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem("seiva_admin_view_mode", viewMode);
+  }, [viewMode]);
+
+  const updateStatus = async (id: string, newStatus: string) => {
+    // Optimistic UI update
+    setInquiries(prev => prev.map(item => item.id === id ? { ...item, status: newStatus } : item));
+    
+    try {
+      const { error } = await supabase
+        .from("inquiries")
+        .update({ status: newStatus })
+        .eq("id", id);
+
+      if (error) {
+        toast.error(`Failed to update inquiry status to ${newStatus}`);
+        fetchInquiries(); // rollback/refetch on failure
+      } else {
+        const col = COLUMNS.find(c => c.id === newStatus);
+        toast.success(`Updated status to: ${col ? col.label : newStatus}`);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("An error occurred while updating status.");
+      fetchInquiries();
+    }
+  };
+
+  const handleDragStart = (e: React.DragEvent, id: string) => {
+    e.dataTransfer.setData("text/plain", id);
+    setDraggedId(id);
+  };
+
+  const handleDragOver = (e: React.DragEvent, columnId: string) => {
+    e.preventDefault();
+    setDraggedOverColumn(columnId);
+  };
+
+  const handleDragLeave = () => {
+    setDraggedOverColumn(null);
+  };
+
+  const handleDrop = async (e: React.DragEvent, columnId: string) => {
+    e.preventDefault();
+    const id = e.dataTransfer.getData("text/plain") || draggedId;
+    setDraggedOverColumn(null);
+    setDraggedId(null);
+    if (!id) return;
+    
+    const targetInquiry = inquiries.find(item => item.id === id);
+    if (targetInquiry && (targetInquiry.status || "new") !== columnId) {
+      await updateStatus(id, columnId);
+    }
+  };
+
+  const triggerMailto = (email: string, subject: string, body: string) => {
+    const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const link = document.createElement("a");
+    link.href = mailtoUrl;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleCopyEmail = async (e: React.MouseEvent, email: string, id: string) => {
+    e.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(email);
+      setCopiedId(id);
+      toast.success("Email copied to clipboard!");
+      setTimeout(() => {
+        setCopiedId(null);
+      }, 2000);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to copy email.");
+    }
+  };
+
+  const handleAction = async (inquiry: any, currentStatus: string) => {
+    if (currentStatus === "new") {
+      const subject = "SEIVA Signature Cuisine - Culinary Inquiry";
+      const body = `Dear ${inquiry.name},\n\nThank you for reaching out to SEIVA. We received your culinary inquiry for your event on ${formatDate(inquiry.date)} with ${inquiry.guests} guests.\n\nWe would love to schedule a consultation call to discuss your menu vision in detail.\n\nWarm regards,\nSEIVA Culinary Team`;
+      triggerMailto(inquiry.email, subject, body);
+      setTimeout(() => {
+        updateStatus(inquiry.id, "contacted");
+      }, 500);
+    } else if (currentStatus === "contacted") {
+      const subject = "Meeting Invitation - SEIVA Signature Cuisine";
+      const body = `Dear ${inquiry.name},\n\nFollowing up on our initial contact, let's schedule our menu consultation. Please let us know your preferred times.\n\nWarm regards,\nSEIVA Culinary Team`;
+      triggerMailto(inquiry.email, subject, body);
+      setTimeout(() => {
+        updateStatus(inquiry.id, "scheduled");
+      }, 500);
+    } else if (currentStatus === "scheduled") {
+      const subject = "Custom Menu Proposal - SEIVA Signature Cuisine";
+      const body = `Dear ${inquiry.name},\n\nWe have drafted a custom menu proposal for your event. Let us know if you would like to review it together.\n\nWarm regards,\nSEIVA Culinary Team`;
+      triggerMailto(inquiry.email, subject, body);
+      setTimeout(() => {
+        updateStatus(inquiry.id, "proposal");
+      }, 500);
+    } else if (currentStatus === "proposal") {
+      if (confirm(`Confirm booking for ${inquiry.name}?`)) {
+        await updateStatus(inquiry.id, "confirmed");
+      }
+    } else if (currentStatus === "confirmed") {
+      if (confirm(`Archive lead for ${inquiry.name}? (This will remove the lead from the active inquiries board)`)) {
+        try {
+          const { error } = await supabase
+            .from("inquiries")
+            .delete()
+            .eq("id", inquiry.id);
+
+          if (error) {
+            toast.error("Failed to archive inquiry.");
+          } else {
+            toast.success("Lead archived and deleted successfully.");
+            setInquiries(prev => prev.filter(item => item.id !== inquiry.id));
+            if (expandedId === inquiry.id) {
+              setExpandedId(null);
+            }
+            if (expandedCardId === inquiry.id) {
+              setExpandedCardId(null);
+            }
+          }
+        } catch (err) {
+          console.error(err);
+          toast.error("An error occurred during archiving.");
+        }
+      }
+    }
+  };
 
   const fetchInquiries = async () => {
     setLoading(true);
@@ -294,6 +452,32 @@ function DashboardView({ session }: { session: Session }) {
 
           {/* Controls */}
           <div className="flex flex-wrap items-center gap-3">
+            {/* View Mode Toggle */}
+            <div className="flex border border-border bg-background">
+              <button
+                onClick={() => setViewMode("table")}
+                className={`flex h-10 w-10 items-center justify-center transition-colors ${
+                  viewMode === "table"
+                    ? "bg-foreground text-background"
+                    : "text-muted-foreground hover:bg-secondary/20 hover:text-foreground"
+                }`}
+                title="Table View"
+              >
+                <TableProperties size={16} />
+              </button>
+              <button
+                onClick={() => setViewMode("kanban")}
+                className={`flex h-10 w-10 items-center justify-center transition-colors ${
+                  viewMode === "kanban"
+                    ? "bg-foreground text-background"
+                    : "text-muted-foreground hover:bg-secondary/20 hover:text-foreground"
+                }`}
+                title="Kanban Board"
+              >
+                <LayoutGrid size={16} />
+              </button>
+            </div>
+
             <div className="relative flex-grow md:flex-grow-0">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/60" />
               <input
@@ -328,6 +512,149 @@ function DashboardView({ session }: { session: Session }) {
                 <p className="mt-2 text-sm text-muted-foreground/80 font-light">
                   Submit a form on the homepage or adjust search parameters.
                 </p>
+              </div>
+            ) : viewMode === "kanban" ? (
+              <div className="flex gap-6 overflow-x-auto pb-6 -mx-6 px-6 md:-mx-12 md:px-12 scrollbar-thin select-none">
+                {COLUMNS.map((column) => {
+                  const columnInquiries = filteredInquiries.filter(
+                    (item) => (item.status || "new") === column.id
+                  );
+                  const isOver = draggedOverColumn === column.id;
+                  return (
+                    <div
+                      key={column.id}
+                      onDragOver={(e) => handleDragOver(e, column.id)}
+                      onDragLeave={handleDragLeave}
+                      onDrop={(e) => handleDrop(e, column.id)}
+                      className={`flex flex-col flex-1 min-w-[230px] max-w-[270px] border-t-2 ${column.color} border border-border bg-secondary/5 p-3 transition-all duration-200 min-h-[550px] ${
+                        isOver ? "bg-secondary/20 border-dashed border-foreground/40" : ""
+                      }`}
+                    >
+                      {/* Column Header */}
+                      <div className="flex items-center justify-between mb-4 pb-2 border-b border-border/60">
+                        <h3 className="eyebrow text-xs text-foreground font-semibold">
+                          {column.label}
+                        </h3>
+                        <span className="text-[0.65rem] font-sans font-light bg-secondary/40 text-foreground px-2 py-0.5 border border-border/50">
+                          {columnInquiries.length}
+                        </span>
+                      </div>
+
+                      {/* Card List */}
+                      <div className="flex flex-col gap-3 flex-grow overflow-y-auto">
+                        {columnInquiries.length === 0 ? (
+                          <div className="flex flex-col items-center justify-center py-12 text-center border border-dashed border-border/30 bg-secondary/5">
+                            <span className="font-serif italic text-xs text-muted-foreground/80">Empty stage</span>
+                          </div>
+                        ) : (
+                          columnInquiries.map((inquiry) => {
+                            const isExpanded = expandedCardId === inquiry.id;
+                            return (
+                              <div
+                                key={inquiry.id}
+                                draggable
+                                onDragStart={(e) => handleDragStart(e, inquiry.id)}
+                                onDragEnd={() => setDraggedId(null)}
+                                onClick={() => setExpandedCardId(isExpanded ? null : inquiry.id)}
+                                className={`group/card relative border border-border bg-background p-4 transition-all duration-200 hover:border-foreground/50 hover:shadow-sm cursor-grab active:cursor-grabbing select-none ${
+                                  draggedId === inquiry.id ? "opacity-35 scale-95" : ""
+                                }`}
+                              >
+                                <div className="flex justify-between items-start gap-2">
+                                  <div>
+                                    <h4 className="font-serif text-base text-foreground font-medium leading-tight group-hover/card:text-primary transition-colors">
+                                      {inquiry.name}
+                                    </h4>
+                                    <div className="flex items-center gap-1 mt-0.5">
+                                      <p className="text-[0.7rem] text-muted-foreground font-light truncate max-w-[110px]" title={inquiry.email}>
+                                        {inquiry.email}
+                                      </p>
+                                      <button
+                                        onClick={(e) => handleCopyEmail(e, inquiry.email, inquiry.id)}
+                                        className="text-muted-foreground/50 hover:text-foreground transition-colors p-0.5"
+                                        title="Copy email"
+                                      >
+                                        {copiedId === inquiry.id ? (
+                                          <Check size={10} className="text-emerald-600" />
+                                        ) : (
+                                          <Copy size={10} />
+                                        )}
+                                      </button>
+                                    </div>
+                                  </div>
+                                  {inquiry.guests && (
+                                    <span className="text-[0.65rem] bg-secondary/20 border border-border/40 px-1.5 py-0.5 text-muted-foreground font-light flex items-center gap-0.5 whitespace-nowrap">
+                                      <Users size={8} /> {inquiry.guests}
+                                    </span>
+                                  )}
+                                </div>
+
+                                <div className="mt-3 space-y-1 text-[0.7rem] text-muted-foreground font-light">
+                                  {inquiry.company && (
+                                    <div className="text-[0.65rem] uppercase tracking-wider text-accent font-semibold mb-1">
+                                      {inquiry.company}
+                                    </div>
+                                  )}
+                                  {inquiry.date && (
+                                    <div className="flex items-center gap-1.5">
+                                      <Calendar size={10} className="text-muted-foreground/80" />
+                                      <span>{formatDate(inquiry.date)}</span>
+                                    </div>
+                                  )}
+                                  {inquiry.location && (
+                                    <div className="flex items-center gap-1.5">
+                                      <MapPin size={10} className="text-muted-foreground/80" />
+                                      <span className="truncate max-w-[180px]">{inquiry.location}</span>
+                                    </div>
+                                  )}
+                                </div>
+
+                                {isExpanded && (
+                                  <div className="mt-3 pt-3 border-t border-border/60 space-y-2 text-[0.75rem] transition-all duration-300">
+                                    {inquiry.vision && (
+                                      <div>
+                                        <div className="eyebrow text-[0.55rem] text-muted-foreground">Vision & Message</div>
+                                        <p className="mt-1 bg-secondary/15 p-2 border border-border/40 text-foreground font-sans font-light whitespace-pre-wrap max-h-32 overflow-y-auto">
+                                          {inquiry.vision}
+                                        </p>
+                                      </div>
+                                    )}
+                                    <div className="flex justify-between items-center text-[0.65rem] text-muted-foreground font-light pt-1">
+                                      <span>Submitted: {formatDateTime(inquiry.created_at)}</span>
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleDelete(inquiry.id, e);
+                                        }}
+                                        className="text-muted-foreground hover:text-destructive p-1 transition-colors"
+                                        title="Delete Lead"
+                                      >
+                                        <Trash2 size={12} />
+                                      </button>
+                                    </div>
+                                  </div>
+                                )}
+
+                                <div className="mt-4 pt-3 border-t border-border/40 flex justify-end">
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleAction(inquiry, column.id);
+                                    }}
+                                    className="eyebrow w-full flex items-center justify-center gap-2 border border-foreground/30 py-2 text-[0.6rem] tracking-wider transition-all hover:bg-foreground hover:text-background active:scale-[0.98]"
+                                  >
+                                    {column.actionLabel}
+                                    <ArrowRight size={10} />
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             ) : (
               <div className="overflow-x-auto border border-border">
@@ -393,77 +720,10 @@ function DashboardView({ session }: { session: Session }) {
                           {isExpanded && (
                             <tr className="bg-secondary/10 border-b border-border/80">
                               <td colSpan={6} className="p-6">
-                                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 text-sm">
-                                  {/* Info Columns */}
-                                  <div className="md:col-span-4 space-y-4">
-                                    <div>
-                                      <div className="eyebrow text-[0.55rem] text-muted-foreground">Full Name</div>
-                                      <div className="font-serif text-xl font-medium mt-1">{inquiry.name}</div>
-                                    </div>
-                                    <div>
-                                      <div className="eyebrow text-[0.55rem] text-muted-foreground">Email</div>
-                                      <div className="font-light mt-1">
-                                        <a href={`mailto:${inquiry.email}`} className="hover:underline text-accent font-medium">
-                                          {inquiry.email}
-                                        </a>
-                                      </div>
-                                    </div>
-                                    {inquiry.company && (
-                                      <div>
-                                        <div className="eyebrow text-[0.55rem] text-muted-foreground">Company / Host</div>
-                                        <div className="mt-1">
-                                          <span className="inline-block text-[0.65rem] uppercase tracking-wider text-background bg-foreground py-1 px-2.5 font-semibold">
-                                            {inquiry.company}
-                                          </span>
-                                        </div>
-                                      </div>
-                                    )}
-                                  </div>
-
-                                  {/* Details */}
-                                  <div className="md:col-span-3 grid grid-cols-2 gap-4">
-                                    <div className="space-y-1">
-                                      <span className="eyebrow text-[0.55rem] text-muted-foreground flex items-center gap-1.5">
-                                        <Calendar size={10} /> Event Date
-                                      </span>
-                                      <span className="text-sm font-light text-foreground">{formatDate(inquiry.date)}</span>
-                                    </div>
-                                    <div className="space-y-1">
-                                      <span className="eyebrow text-[0.55rem] text-muted-foreground flex items-center gap-1.5">
-                                        <MapPin size={10} /> Location
-                                      </span>
-                                      <span className="text-sm font-light text-foreground">{inquiry.location || "—"}</span>
-                                    </div>
-                                    <div className="space-y-1">
-                                      <span className="eyebrow text-[0.55rem] text-muted-foreground flex items-center gap-1.5">
-                                        <Users size={10} /> Guests
-                                      </span>
-                                      <span className="text-sm font-light text-foreground">{inquiry.guests || "—"}</span>
-                                    </div>
-                                    <div className="space-y-1">
-                                      <span className="eyebrow text-[0.55rem] text-muted-foreground flex items-center gap-1.5">
-                                        <FileText size={10} /> Submitted At
-                                      </span>
-                                      <span className="text-xs font-light text-muted-foreground">{formatDateTime(inquiry.created_at)}</span>
-                                    </div>
-                                  </div>
-
-                                  {/* Vision & Actions */}
-                                  <div className="md:col-span-5 space-y-4">
-                                    <div>
-                                      <div className="eyebrow text-[0.55rem] text-muted-foreground mb-2">Vision & Message</div>
-                                      <div className="bg-background/60 p-4 border border-border text-sm font-light leading-relaxed text-foreground/90 whitespace-pre-wrap font-sans">
-                                        {inquiry.vision || <span className="italic text-muted-foreground">No custom vision provided.</span>}
-                                      </div>
-                                    </div>
-                                    <div className="flex justify-end pt-2">
-                                      <button
-                                        onClick={(e) => handleDelete(inquiry.id, e)}
-                                        className="eyebrow flex items-center gap-2 border border-destructive/40 text-destructive px-4 py-2.5 text-[0.65rem] transition-all hover:bg-destructive hover:text-background"
-                                      >
-                                        <Trash2 size={12} /> Delete Lead
-                                      </button>
-                                    </div>
+                                <div className="space-y-2">
+                                  <div className="eyebrow text-[0.55rem] text-muted-foreground">Vision & Message</div>
+                                  <div className="bg-background/60 p-4 border border-border text-sm font-light leading-relaxed text-foreground/90 whitespace-pre-wrap font-sans">
+                                    {inquiry.vision || <span className="italic text-muted-foreground">No custom vision provided.</span>}
                                   </div>
                                 </div>
                               </td>
