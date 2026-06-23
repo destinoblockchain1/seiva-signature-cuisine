@@ -874,10 +874,10 @@ function ProposalBuilder({ session }: { session: Session }) {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="flex h-screen flex-col overflow-hidden bg-background text-foreground">
       <header
         data-print-hidden="true"
-        className="sticky top-0 z-40 border-b border-border/60 bg-background/90 backdrop-blur-md"
+        className="z-40 shrink-0 border-b border-border/60 bg-background/90 backdrop-blur-md"
       >
         <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-4 px-6 py-4 md:px-12">
           <div className="flex items-center gap-5">
@@ -920,10 +920,10 @@ function ProposalBuilder({ session }: { session: Session }) {
         </div>
       </header>
 
-      <div className="proposal-workspace flex min-h-[calc(100vh-73px)] flex-col lg:flex-row">
+      <div className="proposal-workspace flex min-h-0 flex-1 flex-col overflow-hidden lg:flex-row">
         <aside
           data-print-hidden="true"
-          className="flex w-full shrink-0 flex-col overflow-y-auto border-r border-foreground/10 bg-[#1C2B22] text-background lg:h-[calc(100vh-73px)] lg:w-[440px]"
+          className="flex max-h-[45vh] min-h-0 w-full shrink-0 flex-col overflow-y-auto border-r border-foreground/10 bg-[#1C2B22] text-background lg:h-full lg:max-h-none lg:w-[440px]"
         >
           <div className="sticky top-0 z-10 flex items-center justify-between border-b border-background/10 bg-[#1C2B22] px-6 py-5">
             <div>
@@ -1112,7 +1112,7 @@ function ProposalBuilder({ session }: { session: Session }) {
           </div>
         </aside>
 
-        <main className="proposal-preview-shell flex-1 overflow-y-auto bg-[#E2E0D9] px-4 py-8 md:px-12 md:py-12">
+        <main className="proposal-preview-shell min-h-0 flex-1 overflow-y-auto bg-[#E2E0D9] px-4 py-8 md:px-12 md:py-12">
           <ProposalDocument
             draft={draft}
             labels={labels}
