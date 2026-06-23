@@ -30,27 +30,38 @@ export const Route = createFileRoute("/")({
   component: Landing,
   head: () => ({
     meta: [
-      { title: "SEIVA | Luxury Private Chef & Bespoke Catering | Miami to West Palm Beach & Brazil" },
-      { name: "description", content: "An international culinary collective of three chefs crafting bespoke private dining, brand activations, and executive retreats across South Florida and Southern Brazil." },
+      { title: "SEIVA | Luxury Private Chef & Bespoke Catering | South Florida & Brazil" },
+      { name: "description", content: "SEIVA is an international culinary collective offering luxury catering, bespoke dining, and private chef services for private dining, brand activation catering, and luxury weddings." },
+      { property: "og:title", content: "SEIVA | Signature Cuisine, Tailor-Made" },
+      { property: "og:description", content: "Ultra-luxury catering and private chef services. Specializing in bespoke dining, brand activation catering, and luxury weddings." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://seivaculinary.com" },
+      { property: "og:image", content: "https://seivaculinary.com/chefs-collective.jpg" }
     ],
-    // Injeção segura de Schema JSON-LD no <head>
+    // Injeção segura de Schema JSON-LD no <head> com SEO Local e MML otimizado
     scripts: [
       {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "LocalBusiness",
+          "@type": ["LocalBusiness", "FoodService"],
           "name": "SEIVA Culinary Collective",
-          "description": "Bespoke high-gastronomy private dining and luxury brand activation catering tailored by an international collective of three chefs.",
+          "image": "https://seivaculinary.com/chefs-collective.jpg",
+          "description": "SEIVA offers high-end luxury catering, bespoke dining, and private chef services. We specialize in exclusive private dining, luxury weddings, and brand activation catering.",
           "url": "https://seivaculinary.com",
+          "priceRange": "$$$$",
+          "servesCuisine": "Signature Cuisine, Tailor-Made",
           "areaServed": [
-            { "@type": "AdministrativeArea", "name": "Miami, FL, US" },
-            { "@type": "AdministrativeArea", "name": "Rio de Janeiro, RJ, BR" },
-            { "@type": "AdministrativeArea", "name": "Itajaí, SC, BR" }
-
-            // ... adicione as outras cidades aqui
-          ],
-          "priceRange": "$$$$"
+            { "@type": "City", "name": "Miami", "addressRegion": "FL", "addressCountry": "US" },
+            { "@type": "City", "name": "Boca Raton", "addressRegion": "FL", "addressCountry": "US" },
+            { "@type": "City", "name": "Delray Beach", "addressRegion": "FL", "addressCountry": "US" },
+            { "@type": "City", "name": "West Palm Beach", "addressRegion": "FL", "addressCountry": "US" },
+            { "@type": "City", "name": "Coral Springs", "addressRegion": "FL", "addressCountry": "US" },
+            { "@type": "City", "name": "Rio de Janeiro", "addressRegion": "RJ", "addressCountry": "BR" },
+            { "@type": "City", "name": "Florianópolis", "addressRegion": "SC", "addressCountry": "BR" },
+            { "@type": "City", "name": "Balneário Camboriú", "addressRegion": "SC", "addressCountry": "BR" },
+            { "@type": "City", "name": "Itajaí", "addressRegion": "SC", "addressCountry": "BR" }
+          ]
         })
       }
     ]
@@ -85,9 +96,8 @@ function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
   return (
     <header className="fixed top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-5 md:px-12">
-        <a href="#top" className="flex items-center gap-3 text-foreground">
-          <TriadIcon size={20} />
-          <span className="font-serif text-xl tracking-[0.5em] leading-none">SEIVA</span>
+        <a href="#top" className="flex items-center gap-3 text-foreground transition-opacity hover:opacity-80">
+          <img src={logoSeiva} alt="SEIVA Logo" className="h-8 md:h-10 w-auto" />
         </a>
         <nav className="hidden items-center gap-10 md:flex">
           {link("#manifesto", t(c.manifesto, lang))}
@@ -122,9 +132,9 @@ function Hero({ lang }: { lang: Lang }) {
         <h1 className="editorial-display mt-10 whitespace-pre-line text-[14vw] md:text-[9.5rem] leading-tight">
           {t(customHeadline, lang)}
         </h1>
-        <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-12 items-center">
+        <div className="mt-4 md:mt-8 grid grid-cols-1 gap-8 md:grid-cols-12 items-center">
           <div className="md:col-span-5">
-            <img src={logoSeiva} alt="SEIVA Logo" className="h-[30rem] opacity-60 w-auto max-w-full object-contain object-left" />
+            <img src={logoSeiva} alt="SEIVA Logo" className="h-72 md:h-[24rem] max-h-[35vh] opacity-40 w-auto max-w-full object-contain object-left" />
           </div>
           <div className="md:col-span-5 md:col-start-7">
             <p className="text-base font-light leading-relaxed text-muted-foreground md:text-lg">
