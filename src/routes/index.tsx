@@ -38,7 +38,12 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: "https://seivaculinary.com" },
       { property: "og:image", content: "https://seivaculinary.com/chefs-collective.jpg" }
     ],
-    // Injeção segura de Schema JSON-LD no <head> com SEO Local e MML otimizado
+    links: [
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "anonymous" },
+      { rel: "dns-prefetch", href: "https://fonts.googleapis.com" },
+      { rel: "dns-prefetch", href: "https://fonts.gstatic.com" }
+    ],
     scripts: [
       {
         type: "application/ld+json",
@@ -75,7 +80,6 @@ function Landing() {
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-foreground selection:text-background">
-      {/* O Schema JSON-LD foi movido com segurança para a definição da 'Route' no topo do arquivo */}
       <Nav lang={lang} setLang={setLang} />
       <Hero lang={lang} />
       <Manifesto lang={lang} />
@@ -134,7 +138,13 @@ function Hero({ lang }: { lang: Lang }) {
         </h1>
         <div className="mt-4 md:mt-8 grid grid-cols-1 gap-8 md:grid-cols-12 items-center">
           <div className="md:col-span-5">
-            <img src={logoSeiva} alt="SEIVA Logo" className="h-72 md:h-[24rem] max-h-[35vh] opacity-40 w-auto max-w-full object-contain object-left" />
+            <img 
+                src={logoSeiva} 
+                alt="SEIVA Logo" 
+                fetchPriority="high"
+                decoding="sync"
+                className="h-72 md:h-[24rem] max-h-[35vh] opacity-40 w-auto max-w-full object-contain object-left" 
+            />
           </div>
           <div className="md:col-span-5 md:col-start-7">
             <p className="text-base font-light leading-relaxed text-muted-foreground md:text-lg">
