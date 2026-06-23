@@ -97,7 +97,7 @@ function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
     <header className="fixed top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-5 md:px-12">
         <a href="#top" className="flex items-center gap-3 text-foreground transition-opacity hover:opacity-80">
-          <img src={logoSeiva} alt="SEIVA Logo" className="h-8 md:h-10 w-auto" />
+          <img src={logoSeiva} alt="SEIVA Logo" className="h-16 md:h-20 w-auto" />
         </a>
         <nav className="hidden items-center gap-10 md:flex">
           {link("#manifesto", t(c.manifesto, lang))}
