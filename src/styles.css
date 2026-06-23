@@ -92,9 +92,13 @@
 }
 
 @media print {
+  html,
   body {
     background: #f7f5f0 !important;
     color: #0f0f0f !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
   }
@@ -104,9 +108,19 @@
     display: none !important;
   }
 
+  .quotes-page {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    background: #f7f5f0 !important;
+  }
+
   .proposal-workspace {
     display: block !important;
     min-height: 0 !important;
+    overflow: visible !important;
+    background: #f7f5f0 !important;
   }
 
   .proposal-preview-shell {
@@ -117,11 +131,15 @@
   }
 
   .proposal-print-container {
+    display: block !important;
     box-shadow: none !important;
     margin: 0 !important;
     max-width: 100% !important;
+    width: 100% !important;
     min-height: 0 !important;
-    padding: 0 !important;
+    overflow: visible !important;
+    padding: 20mm !important;
+    background: #f7f5f0 !important;
   }
 
   .break-inside-avoid,
@@ -134,6 +152,6 @@
 
   @page {
     size: letter portrait;
-    margin: 25mm;
+    margin: 0;
   }
 }

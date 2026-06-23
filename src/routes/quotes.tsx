@@ -874,7 +874,7 @@ function ProposalBuilder({ session }: { session: Session }) {
   }
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-background text-foreground">
+    <div className="quotes-page flex h-screen flex-col overflow-hidden bg-background text-foreground">
       <header
         data-print-hidden="true"
         className="z-40 shrink-0 border-b border-border/60 bg-background/90 backdrop-blur-md"
