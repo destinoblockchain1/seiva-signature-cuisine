@@ -121,10 +121,10 @@ function Hero({ lang }: { lang: Lang }) {
         <h1 className="editorial-display mt-10 whitespace-pre-line text-[14vw] md:text-[9.5rem] leading-tight">
           {t(customHeadline, lang)}
         </h1>
-        <div className="mt-4">
-          <img src={logoSeiva} alt="SEIVA Logo" className="h-80 w-auto" />
-        </div>
-        <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-12">
+        <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-12 items-center">
+          <div className="md:col-span-5">
+            <img src={logoSeiva} alt="SEIVA Logo" className="h-80 w-auto max-w-full object-contain object-left" />
+          </div>
           <div className="md:col-span-5 md:col-start-7">
             <p className="text-base font-light leading-relaxed text-muted-foreground md:text-lg">
               {t(c.sub, lang)}
