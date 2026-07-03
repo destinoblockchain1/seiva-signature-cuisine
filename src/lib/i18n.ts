@@ -137,6 +137,13 @@ pt: [
       locationOptions: { en: ["Brazil", "United States", "Other"], pt: ["Brasil", "Estados Unidos", "Outro"] },
       guests: { en: "Guest count", pt: "Número de convidados" },
       vision: { en: "Your vision for the event", pt: "Sua visão para o evento" },
+      cellphone: { en: "Cellphone #", pt: "Celular" },
+      smsCheckbox: {
+        en: "Do you authorize Seiva to send text messages related to the services requested?",
+        pt: "Você autoriza a Seiva a enviar mensagens de texto relacionadas aos serviços solicitados?"
+      },
+      officePhone: { en: "Office #", pt: "Telefone do escritório" },
+      extension: { en: "Extension (optional info)", pt: "Ramal (informação opcional)" },
     },
     submit: { en: "Submit the Brief", pt: "Enviar o Briefing" },
     success: { en: "Thank you. A Chef from our team will respond within forty-eight hours.", pt: "Obrigado. Um Chef da nossa equipe responderá em até quarenta e oito horas." },

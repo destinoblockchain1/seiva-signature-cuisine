@@ -498,6 +498,10 @@ const sendInquiryEmail = createServerFn({ method: "POST" })
     location: string;
     guests: string;
     vision: string;
+    cellphone?: string;
+    sms_authorized?: boolean;
+    office_phone?: string;
+    extension?: string;
   }) => data)
   .handler(async ({ data }) => {
     const resendApiKey = process.env.RESEND || process.env.RESEND_API_KEY;
@@ -517,6 +521,8 @@ const sendInquiryEmail = createServerFn({ method: "POST" })
       <p><strong>Data do Evento:</strong> ${data.date || "Não informada"}</p>
       <p><strong>Localização:</strong> ${data.location || "Não informada"}</p>
       <p><strong>Número de Convidados:</strong> ${data.guests || "Não informado"}</p>
+      ${data.cellphone ? `<p><strong>Celular:</strong> ${data.cellphone} (Autoriza mensagens: ${data.sms_authorized ? "Sim" : "Não"})</p>` : ""}
+      ${data.office_phone ? `<p><strong>Telefone Escritório:</strong> ${data.office_phone} ${data.extension ? `(Ramal: ${data.extension})` : ""}</p>` : ""}
       <br />
       <p><strong>Visão / Mensagem:</strong></p>
       <p style="white-space: pre-wrap; font-family: sans-serif; background-color: #f9f9f9; padding: 15px; border-radius: 4px; border-left: 4px solid #ccc;">${data.vision || "Não informada"}</p>
@@ -544,6 +550,7 @@ function Inquire({ lang }: { lang: Lang }) {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [cellphone, setCellphone] = useState("");
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -559,6 +566,10 @@ function Inquire({ lang }: { lang: Lang }) {
       location: formData.get("location") as string,
       guests: formData.get("guests") as string,
       vision: formData.get("vision") as string,
+      cellphone: formData.get("cellphone") as string,
+      sms_authorized: formData.get("sms_authorized") === "on",
+      office_phone: formData.get("office_phone") as string,
+      extension: formData.get("extension") as string,
     };
 
     if (!data.name || !data.email) {
@@ -579,6 +590,10 @@ function Inquire({ lang }: { lang: Lang }) {
         location: data.location || null,
         guests: isNaN(guestsNum as number) ? null : guestsNum,
         vision: data.vision || null,
+        cellphone: data.cellphone || null,
+        sms_authorized: data.sms_authorized,
+        office_phone: data.office_phone || null,
+        extension: data.extension || null,
       });
 
       if (dbError) {
@@ -643,6 +658,51 @@ function Inquire({ lang }: { lang: Lang }) {
                   </select>
                 </Field>
                 <Field label={t(c.fields.guests, lang)}><input name="guests" type="number" min={1} className={inputCls} /></Field>
+                
+                <div className="flex flex-col">
+                  <Field label={t(c.fields.cellphone, lang)}>
+                    <input
+                      name="cellphone"
+                      type="tel"
+                      className={inputCls}
+                      value={cellphone}
+                      onChange={(e) => setCellphone(e.target.value)}
+                      placeholder="+1 (555) 000-0000"
+                    />
+                  </Field>
+                  <div className="flex items-start gap-3 mt-4">
+                    <input
+                      id="sms_authorized"
+                      name="sms_authorized"
+                      type="checkbox"
+                      className="mt-1 h-4 w-4 accent-foreground bg-transparent border border-border focus:ring-0 cursor-pointer"
+                      required={cellphone.trim() !== ""}
+                    />
+                    <label htmlFor="sms_authorized" className="text-xs font-light text-muted-foreground select-none cursor-pointer leading-relaxed">
+                      {t(c.fields.smsCheckbox, lang)} {cellphone.trim() !== "" && <span className="text-red-500 font-bold">*</span>}
+                    </label>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <Field label={t(c.fields.officePhone, lang)}>
+                    <input
+                      name="office_phone"
+                      type="tel"
+                      className={inputCls}
+                      placeholder="+1 (555) 000-0000"
+                    />
+                  </Field>
+                  <Field label={t(c.fields.extension, lang)}>
+                    <input
+                      name="extension"
+                      type="text"
+                      className={inputCls}
+                      placeholder="123"
+                    />
+                  </Field>
+                </div>
+
                 <div className="md:col-span-2">
                   <Field label={t(c.fields.vision, lang)}>
                     <textarea name="vision" rows={5} className={inputCls + " resize-none"} />

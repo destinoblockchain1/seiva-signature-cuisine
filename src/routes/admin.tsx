@@ -653,6 +653,28 @@ function DashboardView({ session }: { session: Session }) {
 
                                 {isExpanded && (
                                   <div className="mt-3 pt-3 border-t border-border/60 space-y-2 text-[0.75rem] transition-all duration-300">
+                                    {(inquiry.cellphone || inquiry.office_phone) && (
+                                      <div className="grid grid-cols-2 gap-2 text-[0.7rem] bg-secondary/10 p-2 border border-border/30 rounded-sm">
+                                        {inquiry.cellphone && (
+                                          <div>
+                                            <span className="eyebrow text-[0.5rem] block text-muted-foreground">Cellphone</span>
+                                            <span className="font-medium text-foreground">{inquiry.cellphone}</span>
+                                            <span className="block text-[0.6rem] text-muted-foreground">
+                                              SMS: {inquiry.sms_authorized ? "Yes" : "No"}
+                                            </span>
+                                          </div>
+                                        )}
+                                        {inquiry.office_phone && (
+                                          <div>
+                                            <span className="eyebrow text-[0.5rem] block text-muted-foreground">Office</span>
+                                            <span className="font-medium text-foreground">{inquiry.office_phone}</span>
+                                            {inquiry.extension && (
+                                              <span className="block text-[0.6rem] text-muted-foreground">Ext: {inquiry.extension}</span>
+                                            )}
+                                          </div>
+                                        )}
+                                      </div>
+                                    )}
                                     {inquiry.vision && (
                                       <div>
                                         <div className="eyebrow text-[0.55rem] text-muted-foreground">Vision & Message</div>
@@ -777,10 +799,36 @@ function DashboardView({ session }: { session: Session }) {
                           {isExpanded && (
                             <tr className="bg-secondary/10 border-b border-border/80">
                               <td colSpan={6} className="p-6">
-                                <div className="space-y-2">
-                                  <div className="eyebrow text-[0.55rem] text-muted-foreground">Vision & Message</div>
-                                  <div className="bg-background/60 p-4 border border-border text-sm font-light leading-relaxed text-foreground/90 whitespace-pre-wrap font-sans">
-                                    {inquiry.vision || <span className="italic text-muted-foreground">No custom vision provided.</span>}
+                                <div className="space-y-4">
+                                  {(inquiry.cellphone || inquiry.office_phone) && (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-lg bg-background/40 p-3 border border-border/60">
+                                      {inquiry.cellphone && (
+                                        <div>
+                                          <span className="eyebrow text-[0.55rem] text-muted-foreground block">Cellphone</span>
+                                          <span className="text-sm font-light text-foreground">{inquiry.cellphone}</span>
+                                          <span className="block text-[0.7rem] text-muted-foreground font-light mt-0.5">
+                                            Authorized SMS: {inquiry.sms_authorized ? "Yes" : "No"}
+                                          </span>
+                                        </div>
+                                      )}
+                                      {inquiry.office_phone && (
+                                        <div>
+                                          <span className="eyebrow text-[0.55rem] text-muted-foreground block">Office Phone</span>
+                                          <span className="text-sm font-light text-foreground">{inquiry.office_phone}</span>
+                                          {inquiry.extension && (
+                                            <span className="block text-[0.7rem] text-muted-foreground font-light mt-0.5">
+                                              Extension: {inquiry.extension}
+                                            </span>
+                                          )}
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+                                  <div className="space-y-2">
+                                    <div className="eyebrow text-[0.55rem] text-muted-foreground">Vision & Message</div>
+                                    <div className="bg-background/60 p-4 border border-border text-sm font-light leading-relaxed text-foreground/90 whitespace-pre-wrap font-sans">
+                                      {inquiry.vision || <span className="italic text-muted-foreground">No custom vision provided.</span>}
+                                    </div>
                                   </div>
                                 </div>
                               </td>
