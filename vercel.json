@@ -1,6 +1,12 @@
 {
   "version": 2,
   "outputDirectory": "dist/client",
+  "crons": [
+    {
+      "path": "/api/cron/supabase-keepalive",
+      "schedule": "0 12 * * *"
+    }
+  ],
   "rewrites": [
     {
       "source": "/assets/:path*",

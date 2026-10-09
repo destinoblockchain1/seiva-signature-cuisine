@@ -34,4 +34,6 @@ dist-ssr
 .env
 .env.local
 .env.*
+/supabase/.temp/
 *.pull
+.env*
