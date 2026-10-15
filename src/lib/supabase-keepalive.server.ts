@@ -4,6 +4,8 @@ export const SUPABASE_KEEPALIVE_PATH = "/api/cron/supabase-keepalive";
 const SUPABASE_ORIGIN = "https://fkuoqilgxtxujxjhccqb.supabase.co";
 const UPSTREAM_TIMEOUT_MS = 10_000;
 const MAX_RESPONSE_BYTES = 16_384;
+// An operational choice, not a guaranteed Supabase inactivity threshold.
+const REQUESTS_PER_INVOCATION = 3;
 
 type KeepaliveEnvironment = {
   CRON_SECRET?: string;
@@ -18,7 +20,15 @@ type KeepaliveResult = {
   next_due_at: string;
 };
 
-type KeepaliveLog = {
+type KeepaliveProgress = {
+  requests_attempted: number;
+  requests_completed: number;
+  write_cycles_completed: number;
+  health_checks_completed: number;
+};
+
+type KeepaliveLog = KeepaliveProgress & {
+  requests_target: number;
   event: "supabase_keepalive";
   status: string;
   code: string;
@@ -157,6 +167,13 @@ export async function handleSupabaseKeepalive(
   dependencies: KeepaliveDependencies = {},
 ): Promise<Response> {
   const startedAt = Date.now();
+  const progress: KeepaliveProgress = {
+    requests_attempted: 0,
+    requests_completed: 0,
+    write_cycles_completed: 0,
+    health_checks_completed: 0,
+  };
+  let latestResult: KeepaliveResult | undefined;
   const env = dependencies.env ?? process.env;
   const log = dependencies.log ?? ((entry: KeepaliveLog) => console.info(JSON.stringify(entry)));
   const finish = (
@@ -171,14 +188,22 @@ export async function handleSupabaseKeepalive(
         status: payload.status,
         code,
         duration_ms: Math.max(0, Date.now() - startedAt),
+        requests_target: REQUESTS_PER_INVOCATION,
+        ...progress,
       });
     } catch {
       // A logging failure must not change the transaction's reported outcome.
     }
-    return Response.json(payload, {
-      status: httpStatus,
-      headers: { "cache-control": "no-store", "x-seiva-keepalive-version": "1", ...headers },
-    });
+    const timestamps = latestResult
+      ? { last_success_at: latestResult.last_success_at, next_due_at: latestResult.next_due_at }
+      : {};
+    return Response.json(
+      { ...timestamps, ...payload, requests_target: REQUESTS_PER_INVOCATION, ...progress },
+      {
+        status: httpStatus,
+        headers: { "cache-control": "no-store", "x-seiva-keepalive-version": "2", ...headers },
+      },
+    );
   };
 
   if (request.method !== "GET") {
@@ -203,25 +228,53 @@ export async function handleSupabaseKeepalive(
   const controller = new AbortController();
   let timer: ReturnType<typeof setTimeout> | undefined;
   const deadline = new Promise<never>((_, reject) => {
-    timer = setTimeout(() => {
-      reject(new UpstreamTimeoutError());
-      controller.abort();
-    }, UPSTREAM_TIMEOUT_MS);
+    timer = setTimeout(
+      () => {
+        reject(new UpstreamTimeoutError());
+        controller.abort();
+      },
+      Math.max(0, UPSTREAM_TIMEOUT_MS - (Date.now() - startedAt)),
+    );
   });
   try {
-    const upstream = fetchUpstream(`${SUPABASE_ORIGIN}/rest/v1/rpc/run_app_keepalive`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        accept: "application/json",
-        apikey: env.SUPABASE_SERVICE_ROLE_KEY,
-        authorization: `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`,
-      },
-      body: "{}",
-      signal: controller.signal,
-      cache: "no-store",
-    }).then((response) => readResult(response, controller.signal));
-    const result = await Promise.race([upstream, deadline]);
+    const runRequests = async (): Promise<KeepaliveResult> => {
+      for (let index = 0; index < REQUESTS_PER_INVOCATION; index += 1) {
+        if (controller.signal.aborted || Date.now() - startedAt >= UPSTREAM_TIMEOUT_MS) {
+          throw new UpstreamTimeoutError();
+        }
+        progress.requests_attempted += 1;
+        const response = await fetchUpstream(SUPABASE_ORIGIN + "/rest/v1/rpc/run_app_keepalive", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            accept: "application/json",
+            apikey: env.SUPABASE_SERVICE_ROLE_KEY,
+            authorization: "Bearer " + env.SUPABASE_SERVICE_ROLE_KEY,
+          },
+          body: "{}",
+          signal: controller.signal,
+          cache: "no-store",
+        });
+        const result = await readResult(response, controller.signal);
+        if (controller.signal.aborted || Date.now() - startedAt >= UPSTREAM_TIMEOUT_MS) {
+          throw new UpstreamTimeoutError();
+        }
+        latestResult = result;
+        progress.requests_completed += 1;
+        if (result.status === "executed") {
+          progress.write_cycles_completed += 1;
+        } else {
+          // A skipped write cycle still completed a real Data API health request.
+          progress.health_checks_completed += 1;
+        }
+      }
+      if (!latestResult) throw new InvalidUpstreamResponseError();
+      return {
+        ...latestResult,
+        status: progress.write_cycles_completed > 0 ? "executed" : "skipped",
+      };
+    };
+    const result = await Promise.race([runRequests(), deadline]);
     return finish(200, result, result.status === "executed" ? "ok" : "not_due");
   } catch (error) {
     if (error instanceof UpstreamTimeoutError) {
